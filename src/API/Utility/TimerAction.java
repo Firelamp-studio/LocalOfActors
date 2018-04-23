@@ -9,10 +9,10 @@ public class TimerAction implements Runnable {
     private Thread timerThread;
     private Actor actorToCall;
     private String actionName;
-    Method methodToCall;
+    private Method methodToCall;
     private long delay;
     private boolean loop;
-    Object[] args;
+    private Object[] args;
 
     public TimerAction(boolean loop, long delay, Actor actorToCall, String actionName, Object... args) {
         this.delay = delay;
