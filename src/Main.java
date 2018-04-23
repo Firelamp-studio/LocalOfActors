@@ -39,10 +39,12 @@ public class Main {
         */
 
 
+    	/*
         Map bar = new BarMap(new Vector(1000, 900));
         ViewFrame viewFrame = new ViewFrame(bar);
         // Owner owner = new Owner();
         // bar.addSpawnPoint(new Vector(), 0);
         // bar.spawnActor(owner, 0);
+         */
     }
 }
