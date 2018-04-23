@@ -2,7 +2,7 @@ package Game.Actors;
 
 import API.Annotations.*;
 
-public class Barman extends SceneCharacter {
+public class Barman extends Person {
     double vino;
 
     public Barman() {

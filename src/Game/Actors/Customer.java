@@ -1,6 +1,6 @@
 package Game.Actors;
 
-public class Customer extends SceneCharacter {
+public class Customer extends Person {
 
     @Override
     protected void tick() {
