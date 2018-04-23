@@ -13,6 +13,7 @@ public class ViewFrame extends JFrame {
 
         add(map.getMapView());
         pack();
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 }
