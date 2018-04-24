@@ -9,9 +9,9 @@ import API.Utility.TimerAction;
 
 public abstract class Tail extends Actor {
 	private ArrayList<Customer> waitingCustomer;
-	private TimerAction timerAction;
+	TimerAction timerEntry;
 	
     public Tail(){
-        
     }
+    
 }
