@@ -7,6 +7,8 @@ import API.Utility.Rotator;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 public abstract class Actor implements Runnable {
@@ -128,8 +130,11 @@ public abstract class Actor implements Runnable {
         Action[] tempActionCalls;
         ArrayList<Action> actionsToRemove = new ArrayList<>();
 
+        
+        Instant currentTime, previousTime = null;
+        long tickDuration;
         while (actionsEnabled || tickEnabled) {
-
+        	
             if (!actionsStopped && actionsEnabled){
 
                 if (actionCalls != null && !actionCalls.isEmpty()) {
@@ -163,9 +168,12 @@ public abstract class Actor implements Runnable {
             }
 
 
-            if (!tickStopped && tickEnabled){
-                tick();
+            currentTime = Instant.now();
+            if (!tickStopped && tickEnabled && previousTime != null){
+            	tickDuration = Duration.between(previousTime, currentTime).toNanos();
+                tick(tickDuration);
             }
+            previousTime = currentTime;
         }
 
     }
@@ -264,7 +272,7 @@ public abstract class Actor implements Runnable {
         }
     }
 
-    protected void tick(){
+    protected void tick(long deltaTime){
 
     }
 

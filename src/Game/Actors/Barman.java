@@ -33,7 +33,7 @@ public class Barman extends Person {
 
 
     @Override
-    protected void tick() {
+    protected void tick(long deltaTime) {
 
     }
 }

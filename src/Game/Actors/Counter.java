@@ -5,7 +5,7 @@ import API.Actor;
 public class Counter extends Actor {
 
     @Override
-    protected void tick() {
+    protected void tick(long deltaTime) {
 
     }
 }

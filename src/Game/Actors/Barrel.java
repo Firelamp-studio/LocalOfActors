@@ -44,7 +44,7 @@ public class Barrel extends Actor {
 
 
     @Override
-    protected void tick() {
+    protected void tick(long deltaTime) {
 
     }
 }
