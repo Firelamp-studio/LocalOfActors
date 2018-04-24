@@ -9,10 +9,12 @@ public class ViewFrame extends JFrame {
     public ViewFrame(Map map){
         this.map = map;
 
-        setLayout(new FlowLayout());
+        //setLayout();
 
         add(map.getMapView());
+        
         pack();
+        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }

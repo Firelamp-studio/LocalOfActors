@@ -15,7 +15,7 @@ public abstract class Map extends Actor{
         this.mapSize = mapSize;
         spawnPoints = new HashMap<>();
 
-        mapView = new JPanel(new FlowLayout());
+        mapView = new JPanel();
         mapView.setBackground(new Color(34567));
         this.mapSize = mapSize;
         mapView.setSize(mapSize.x, mapSize.y);
