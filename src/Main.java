@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+
 import API.Map;
 import API.Utility.Vector;
 import API.Window;
@@ -38,7 +40,7 @@ public class Main {
         System.out.println(rotator.getRotation());
         */
 
-        Map bar = new BarMap(new Vector(1000, 900));
+        Map bar = new BarMap(new Dimension(1500, 900));
         Window viewFrame = new Window(bar);
         //Owner owner = new Owner();
         //bar.addSpawnPoint(new Vector(), 0);

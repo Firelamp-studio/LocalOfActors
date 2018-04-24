@@ -280,8 +280,13 @@ public abstract class Actor implements Runnable {
     public JPanel getViewArea() {
         return viewArea;
     }
+    
+    
+    public void setViewArea(JPanel viewArea) {
+		this.viewArea = viewArea;
+	}
 
-    // View methods
+	// View methods
     public void setActorLocation(Vector location){
         this.location = location;
         this.viewArea.setLocation(location.x, location.y);

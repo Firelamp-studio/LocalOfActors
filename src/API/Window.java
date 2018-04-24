@@ -1,6 +1,9 @@
 package API;
 
 import javax.swing.*;
+
+import API.Layouts.CenterGridLayout;
+
 import java.awt.*;
 
 public class Window {
@@ -11,13 +14,16 @@ public class Window {
         this.map = map;
 
         frame = new JFrame();
-        frame.setLayout(new BorderLayout());
-
-        frame.add(map.getMapView());
+        frame.getContentPane().setLayout(new CenterGridLayout());
+        
+        frame.getContentPane().add(map.getViewArea());
+        frame.getContentPane().setBackground(Color.BLACK);
+        frame.setSize(map.getMapSize());
+        
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         
         frame.pack();
-        
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }
