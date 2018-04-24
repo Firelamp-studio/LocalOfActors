@@ -1,6 +1,7 @@
 package API.Layouts;
 
 public class GridConstraints {
+	
     public boolean isResizing;
     public float resizeScale;
 
@@ -20,4 +21,5 @@ public class GridConstraints {
     public GridConstraints(){
         this(1.f, true);
     }
+    
 }
