@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*
+        
         Barrel barrel = new Barrel();
 
         Barman barman1 = new Barman();
@@ -28,7 +28,7 @@ public class Main {
         barman3.consumaDaBarile(barrel, 250);
         barman4.consumaDaBarile(barrel, 450);
         barman1.consumaDaBarile(barrel, 100);
-        */
+        
 
         /*
         Tail doorTail = new EntryDoor();
@@ -40,10 +40,14 @@ public class Main {
         System.out.println(rotator.getRotation());
         */
 
-        Map bar = new BarMap(new Dimension(1500, 900));
+        /*
+        Map bar = new BarMap(new Vector(1500, 900));
         Window viewFrame = new Window(bar);
-        //Owner owner = new Owner();
-        //bar.addSpawnPoint(new Vector(), 0);
-        //bar.spawnActor(owner, 0);
+        TestPawn testActor = new TestPawn();
+        bar.addSpawnPoint(new Vector(), 0);
+        bar.spawnPawn(testActor, 0);
+        
+        testActor.getViewArea().repaint();
+        */
     }
 }

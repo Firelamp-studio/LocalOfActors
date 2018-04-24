@@ -7,21 +7,20 @@ import java.awt.*;
 import java.util.HashMap;
 
 public abstract class Map extends Actor{
-    private Dimension mapSize;
+    private Vector mapSize;
     private HashMap<Integer, Vector> spawnPoints;
 
-    public Map(Dimension mapSize){
-        this.mapSize = mapSize;
+    public Map(Vector mapSize){
         spawnPoints = new HashMap<>();
-        getViewArea().setPreferredSize(mapSize);
-        
-        this.mapSize = mapSize;
+    	this.mapSize = mapSize;
+    	getViewArea().setSize(mapSize.toDimension());
+        getViewArea().setPreferredSize(mapSize.toDimension());
     }
     
     
 
     public Dimension getMapSize() {
-		return mapSize;
+		return getViewArea().getSize();
 	}
 
 
@@ -29,14 +28,29 @@ public abstract class Map extends Actor{
 	public void addSpawnPoint(Vector spawnPoint, int index){
         spawnPoints.put(index, spawnPoint);
     }
+	
+	public void addElement(Element element, Vector location){
+        element.getViewArea().setLocation(location.x, location.y);
 
-    public void spawnPawn(Actor actor, int spawnIndex){
-        Vector spawnPoint = spawnPoints.get(spawnIndex);
-        actor.getViewArea().setLocation(spawnPoint.x, spawnPoint.y);
+        getViewArea().add(element.getViewArea());
+    }
+	
+	public void addActor(Actor actor, Vector location){
+		actor.getViewArea().setLocation(location.x, location.y);
 
         bindActorForEvents(actor);
         actionCall(actor, "actor-spawned");
 
         getViewArea().add(actor.getViewArea());
+    }
+
+    public void spawnPawn(Pawn pawn, int spawnIndex){
+        Vector spawnPoint = spawnPoints.get(spawnIndex);
+        pawn.getViewArea().setLocation(spawnPoint.x, spawnPoint.y);
+
+        bindActorForEvents(pawn);
+        actionCall(pawn, "actor-spawned");
+
+        getViewArea().add(pawn.getViewArea());
     }
 }

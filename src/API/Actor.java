@@ -40,17 +40,7 @@ public abstract class Actor extends Element implements Runnable {
     private Set<Actor> eventActors;
     private List<Action> actionCalls;
     private Thread actorThread;
-
-    // View properties
-    private JPanel viewArea;
-    private Vector location;
-    private Rotator rotator;
-
-    // Binded Map
-    private Map map;
-
-
-
+    
 
     // Constructor
     public Actor() {
@@ -69,7 +59,6 @@ public abstract class Actor extends Element implements Runnable {
         eventActors = Collections.synchronizedSet(new HashSet<Actor>());
         actionCalls = Collections.synchronizedList(new LinkedList<Action>());
 
-        viewArea = new JPanel();
 
         for (Method method : getClass().getMethods()) {
 
@@ -168,14 +157,20 @@ public abstract class Actor extends Element implements Runnable {
             }
 
 
-            currentTime = Instant.now();
-            if (!tickStopped && tickEnabled && previousTime != null){
-            	tickDuration = Duration.between(previousTime, currentTime).toNanos();
-                tick(tickDuration);
+            
+            if (!tickStopped && tickEnabled){
+            	
+            	if(previousTime != null) {
+            	
+            		currentTime = Instant.now();
+            		
+            		tickDuration = Duration.between(previousTime, currentTime).toNanos();
+                    tick(tickDuration);
+                    
+                    previousTime = currentTime;
+                }
             }
-            previousTime = currentTime;
         }
-
     }
 
     final public void setTickStopped(boolean stop){
@@ -274,35 +269,5 @@ public abstract class Actor extends Element implements Runnable {
 
     protected void tick(long deltaTime){
 
-    }
-
-
-    public JPanel getViewArea() {
-        return viewArea;
-    }
-    
-    
-    public void setViewArea(JPanel viewArea) {
-		this.viewArea = viewArea;
-	}
-
-	// View methods
-    public void setActorLocation(Vector location){
-        this.location = location;
-        this.viewArea.setLocation(location.x, location.y);
-    }
-
-    public Vector getActorLocation(){
-        return this.location;
-    }
-
-    // View methods
-    public void setActorRotation(Rotator rotator){
-        this.rotator = rotator;
-
-    }
-
-    public Vector getActorRotation(){
-        return new Vector();
     }
 }

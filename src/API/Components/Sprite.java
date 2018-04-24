@@ -3,51 +3,30 @@ package API.Components;
 import API.Utility.Vector;
 import API.Utility.Rotator;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class Sprite {
-    private Vector location;
-    private Rotator rotator;
-    private int width;
-    private int height;
-    private Image image;
-
-    public Sprite(String imageFile, Vector location) {
-        this.location = location;
-
-        loadImage(imageFile);
-    }
+public class Sprite extends JPanel {
+	private BufferedImage image;
 
     public Sprite(String imageFile) {
-        this(imageFile, new Vector());
+        try {                
+            image = ImageIO.read(new File("src/Game/Assets/" + imageFile));
+         } catch (IOException ex) {
+              // handle exception...
+         }
+        
+        
     }
-
-    private void loadImage(String file) {
-
-        ImageIcon ii = new ImageIcon("Game/Assets/" + file);
-        image = ii.getImage();
-
-        width = image.getWidth(null);
-        height = image.getHeight(null);
-    }
-
-    public Vector getLocation() {
-        return location;
-    }
-
-    public int getWidth() {
-
-        return width;
-    }
-
-    public int getHeight() {
-
-        return height;
-    }
-
-    public Image getImage() {
-
-        return image;
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+    	super.paintComponent(g);
+    	
+    	g.drawImage(image, 0, 0, this);
     }
 }

@@ -7,7 +7,7 @@ import API.Map;
 import API.Utility.Vector;
 
 public class BarMap extends Map {
-    public BarMap(Dimension mapSize) {
+    public BarMap(Vector mapSize) {
         super(mapSize);
         
         getViewArea().setBackground(Color.DARK_GRAY);
