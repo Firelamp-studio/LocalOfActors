@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
-public abstract class Actor implements Runnable {
+public abstract class Actor extends Element implements Runnable {
 
     // Action class for concurrency
     public static class Action {
