@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import API.Map;
 import API.Utility.Vector;
@@ -7,10 +8,10 @@ import Game.Actors.*;
 import Game.Maps.BarMap;
 
 public class Main {
-
+	
     public static void main(String[] args) {
 
-        
+        /*
         Barrel barrel = new Barrel();
 
         Barman barman1 = new Barman();
@@ -28,11 +29,11 @@ public class Main {
         barman3.consumaDaBarile(barrel, 250);
         barman4.consumaDaBarile(barrel, 450);
         barman1.consumaDaBarile(barrel, 100);
-        
+        */
 
         /*
-        Tail doorTail = new EntryDoor();
-        doorTail.faiEntrareQualcunoOgniTanto(1500);
+    	EntryDoor entryDoor = new EntryDoor();
+        entryDoor.faiEntrareQualcunoOgniTanto(5000);
         */
 
         /*
