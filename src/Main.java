@@ -1,10 +1,4 @@
-import java.awt.Dimension;
-
-import API.Map;
-import API.Utility.Vector;
-import API.Window;
 import Game.Actors.*;
-import Game.Maps.BarMap;
 
 public class Main {
 
