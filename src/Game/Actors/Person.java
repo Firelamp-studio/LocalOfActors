@@ -1,9 +1,9 @@
 package Game.Actors;
 
-import API.Actor;
+import API.Pawn;
 import API.Annotations.*;
 
-public abstract class Person extends Actor {
+public abstract class Person extends Pawn {
 
     public void saluta(Person sceneCharacter){
         System.out.println("Saluti!");
