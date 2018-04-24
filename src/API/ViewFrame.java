@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ViewFrame extends JFrame {
-    Map map;
+    private Map map;
+    private JFrame frame;
 
     public ViewFrame(Map map){
         this.map = map;
