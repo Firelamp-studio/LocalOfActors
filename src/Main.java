@@ -1,10 +1,10 @@
 import Game.Actors.*;
 
 public class Main {
-
+	
     public static void main(String[] args) {
 
-        
+        /*
         Barrel barrel = new Barrel();
 
         Barman barman1 = new Barman();
@@ -22,11 +22,11 @@ public class Main {
         barman3.consumaDaBarile(barrel, 250);
         barman4.consumaDaBarile(barrel, 450);
         barman1.consumaDaBarile(barrel, 100);
-        
+        */
 
         /*
-        Tail doorTail = new EntryDoor();
-        doorTail.faiEntrareQualcunoOgniTanto(1500);
+    	EntryDoor entryDoor = new EntryDoor();
+        entryDoor.faiEntrareQualcunoOgniTanto(5000);
         */
 
         /*
@@ -43,5 +43,7 @@ public class Main {
         
         testActor.getViewArea().repaint();
         */
+    }
+}
     }
 }
