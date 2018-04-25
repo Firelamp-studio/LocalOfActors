@@ -4,6 +4,7 @@ import API.Utility.Vector;
 import java.util.ArrayList;
 
 import Game.Actors.*;
+import Game.Maps.BarMap;
 
 public class Main {
 	
