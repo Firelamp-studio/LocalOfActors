@@ -6,6 +6,7 @@ import java.util.Random;
 import API.Actor;
 import API.Annotations.ActionCallable;
 import API.Utility.TimerAction;
+import API.Utility.Vector;
 
 public class Tail extends Actor {
 	private ArrayList<Customer> waitingCustomer;
@@ -36,6 +37,11 @@ public class Tail extends Actor {
     
     protected int getTailSize() {
     	return waitingCustomer.size();
+    }
+    
+    public Vector getLastFreePlace() {
+    	//TODO ritornare il posto dove si deve mettere l'ultimo
+    	return new Vector();
     }
     
 }

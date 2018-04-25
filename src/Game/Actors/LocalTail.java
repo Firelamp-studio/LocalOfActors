@@ -3,7 +3,9 @@ package Game.Actors;
 import java.util.Random;
 
 import API.Annotations.ActionCallable;
+import API.Annotations.ActionResponse;
 import API.Utility.TimerAction;
+import API.Utility.Vector;
 
 public class LocalTail extends Tail {
 	TimerAction timerSpawn;
@@ -21,13 +23,12 @@ public class LocalTail extends Tail {
 	    timerSpawn.execute();
 	}
 	
-	@ActionCallable(name = "new-person-in-queue")
-	public void entraDopoRitardo(long delay){
-		//TODO
-		/*if(numPersoneEntrate >= 5){
-			timerAction.kill();
-		}*/
+	@ActionCallable(name = "get-in-line-for-entry")
+	public Vector newPersonInQueue(Customer customer){
+		addToTail(customer);
+		return getLastFreePlace();
 	}
+	
 	 /*
 	    public void faiEntrareQualcunoOgniTanto(int maxWaitTimeMS){
 	    	long delay = new Random().nextInt(maxWaitTimeMS) + 1;
