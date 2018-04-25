@@ -21,7 +21,7 @@ public class Customer extends Person {
 	protected void beginPlay() {
 		super.beginPlay();
 		
-		moveTo(new Vector());
+		moveTo(new Vector(500));
 	}
 
     @Override

@@ -35,8 +35,8 @@ public class Vector {
     public Vector difference(Vector v) {
     	int dx, dy;
     	
-    	dx = Math.abs(x - v.x);
-    	dy = Math.abs(y - v.y);
+    	dx = x - v.x;
+    	dy = y - v.y;
     	
     	return new Vector(dx, dy);
     }

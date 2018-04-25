@@ -21,7 +21,7 @@ public class BarMap extends Map {
         	addActor(new Customer(), new Vector( (int)(Math.random() * 1500), (int)(Math.random() * 750) )  );
         }*/
         
-        addActor(new Customer(), new Vector( 400, 200 ) );
-        addActor(new Owner(), new Vector( 1000, 700 ) );
+        addActor(new Customer(), new Vector( 1000, 750 ) );
+        addActor(new Owner(), new Vector( 500 ) );
     }
 }

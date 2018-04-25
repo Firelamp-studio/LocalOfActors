@@ -5,14 +5,43 @@ import API.Utility.TimerAction;
 import API.Utility.Vector;
 
 public class Pawn extends Actor {
-	TimerAction walkTimer;
-	private int walkSteps;
+	private TimerAction moveTimer;
+	private int moveSteps;
 	
 	public final void moveTo(Vector location, String actionCaller) {
-		walkSteps = 0;
+		moveSteps = 0;
 		
-		walkTimer = new TimerAction(true, 10, this, "pawn-walking-loop", actionCaller, location);
-		walkTimer.execute();
+		Vector diff = getLocation().difference(location);
+		Vector dist = getLocation().distance(location);
+		
+		if(diff.equals(new Vector())) {
+			return;
+		}
+		
+		int xIncr = diff.x > 0 ? -1 : 1;
+		int yIncr = diff.y > 0 ? -1 : 1;
+		
+		char longAxis;
+		int longLength, shortLength, moveModule;
+		if(dist.x > dist.y) {
+			longAxis = 'x';
+			longLength = dist.x;
+			shortLength = dist.y;
+		} else {
+			longAxis = 'y';
+			longLength = dist.y;
+			shortLength = dist.x;
+		}
+		
+		if(shortLength != 0)
+			moveModule = longLength / shortLength;
+		else
+	
+			moveModule = -1;
+		
+		
+		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop", actionCaller, location, longAxis, longLength, moveModule, xIncr, yIncr);
+		moveTimer.execute();
 	}
 	
 	public final void moveTo(Element element, String actionCaller) {
@@ -28,58 +57,42 @@ public class Pawn extends Actor {
 	}
 	
 	@ActionCallable(name = "pawn-walking-loop")
-	public void pawnWalkingLoop(String actionCaller, Vector location) {
+	public void pawnWalkingLoop(String actionCaller, Vector location, char longAxis, int longLength, int moveModule, int xIncr, int yIncr) {
 		
-		walkSteps++;
+		moveSteps++;
 		
 		
 		Vector pawnLoc = getLocation();
 		
 		float degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));
-		setRotation(degrees+180);
+		setRotation(degrees);
 		
 		
-		Vector diff = getLocation().difference(location);
-		
-		if(diff.equals(new Vector())) {
-			walkTimer.kill();
-			return;
+		if(moveSteps >= longLength) {
+			moveTimer.kill();
+			
+			if(actionCaller != null)
+				actionCall(actionCaller);
 		}
 		
-		
-		int xIncr, yIncr;
-		xIncr = diff.x > 0 ? 1 : -1;
-		yIncr = diff.y > 0 ? 1 : -1;
-		
-		int trasl, walkModul;
-		
-		if(diff.x > diff.y) {
+		if(longAxis == 'x') {
+			int shortShift;
+			if(moveModule > 0)
+				shortShift = (pawnLoc.x % moveModule) == 0 ? yIncr : 0;
+			else
+				shortShift = 0;
 			
-			walkModul = diff.x / diff.y;
-			
-			trasl = pawnLoc.x % walkModul == 0 ? yIncr : 0;
-			
-			setLocation(pawnLoc.x+xIncr, pawnLoc.y + trasl);
-			
-			if(walkSteps >= diff.x) {
-				walkTimer.kill();
-				actionCall(actionCaller);
-			}
+			setLocation(pawnLoc.x + xIncr, pawnLoc.y + shortShift);
 			
 		} else {
+			int shortShift;
 			
-			walkModul = diff.y / diff.x;
+			if(moveModule > 0)
+				shortShift = (pawnLoc.y % moveModule) == 0 ? xIncr : 0;
+			else
+				shortShift = 0;
 			
-			trasl = pawnLoc.y % walkModul == 0 ? xIncr : 0;
-			
-			setLocation(pawnLoc.x + trasl, pawnLoc.y+yIncr);
-			
-			if(walkSteps >= diff.y) {
-				walkTimer.kill();
-				
-				if(actionCaller != null)
-					actionCall(actionCaller);
-			}
+			setLocation(pawnLoc.x + shortShift, pawnLoc.y + yIncr);
 			
 		}
 	}
