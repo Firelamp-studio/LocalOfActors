@@ -1,12 +1,27 @@
 import API.Map;
 import API.Window;
 import API.Utility.Vector;
+import java.util.ArrayList;
+
 import Game.Actors.*;
-import Game.Maps.BarMap;
 
 public class Main {
 	
     public static void main(String[] args) {
+    	
+    	/*Tail lista = new Tail();
+    	lista.addToTail(new Customer());
+    	lista.addToTail(new Customer());
+    	lista.addToTail(new Customer());
+    	System.out.println(lista.toString());
+    	lista.removeFirst();
+    	System.out.println(lista.toString());
+    	lista.removeFirst();
+    	System.out.println(lista.toString());
+    	lista.removeFirst();
+    	System.out.println(lista.toString());
+    	lista.removeFirst();
+    	System.out.println(lista.toString());*/
 
     	/*
         Barrel barrel = new Barrel();
