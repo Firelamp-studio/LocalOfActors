@@ -1,3 +1,6 @@
+import API.Map;
+import API.Window;
+import API.Utility.Vector;
 import java.util.ArrayList;
 
 import Game.Actors.*;
@@ -20,7 +23,7 @@ public class Main {
     	lista.removeFirst();
     	System.out.println(lista.toString());*/
 
-        /*
+    	/*
         Barrel barrel = new Barrel();
 
         Barman barman1 = new Barman();
@@ -50,14 +53,8 @@ public class Main {
         System.out.println(rotator.getRotation());
         */
 
-        /*
         Map bar = new BarMap(new Vector(1500, 900));
         Window viewFrame = new Window(bar);
-        TestPawn testActor = new TestPawn();
-        bar.addSpawnPoint(new Vector(), 0);
-        bar.spawnPawn(testActor, 0);
-        
-        testActor.getViewArea().repaint();
-        */
     }
 }
+
