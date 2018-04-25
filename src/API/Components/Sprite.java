@@ -19,7 +19,7 @@ public class Sprite extends JPanel {
     	rotator = new Rotator();
     	
 	    try {                
-	        image = ImageIO.read(new File("src/Game/Assets/" + imageFile));
+	        image = ImageIO.read(new File("assets/textures/" + imageFile));
 	     } catch (IOException ex) {
 	          // handle exception...
 	     }
