@@ -6,51 +6,48 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public abstract class Map extends Actor{
+public abstract class Map {
+	private JPanel viewArea;
     private Vector mapSize;
-    private HashMap<Integer, Vector> spawnPoints;
 
     public Map(Vector mapSize){
-        spawnPoints = new HashMap<>();
     	this.mapSize = mapSize;
-    	getViewArea().setSize(mapSize.toDimension());
-        getViewArea().setPreferredSize(mapSize.toDimension());
+    	viewArea = new JPanel(null);
+    	
+    	viewArea.setOpaque(true);
+    	viewArea.setSize(mapSize.toDimension());
+    	viewArea.setPreferredSize(mapSize.toDimension());
     }
     
     
 
-    public Dimension getMapSize() {
-		return getViewArea().getSize();
+    public JPanel getViewArea() {
+		return viewArea;
 	}
 
 
 
-	public void addSpawnPoint(Vector spawnPoint, int index){
-        spawnPoints.put(index, spawnPoint);
+	public Dimension getMapSize() {
+		return viewArea.getSize();
+	}
+    
+    public void updateActorLocation(Vector location) {
+    	
     }
 	
 	public void addElement(Element element, Vector location){
-        element.getViewArea().setLocation(location.x, location.y);
-
-        getViewArea().add(element.getViewArea());
+		if(element.getSprite() != null) {
+			Dimension preferredSize =  element.getSprite().getPreferredSize();
+	        element.getSprite().setBounds(location.x - preferredSize.width/2, location.y - preferredSize.height/2, preferredSize.width, preferredSize.height);
+	        element.setLocation(location);
+	        viewArea.add(element.getSprite());
+		}
     }
 	
 	public void addActor(Actor actor, Vector location){
-		actor.getViewArea().setLocation(location.x, location.y);
-
-        bindActorForEvents(actor);
-        actionCall(actor, "actor-spawned");
-
-        getViewArea().add(actor.getViewArea());
+        addElement(actor, location);
+        actor.beginPlay();
     }
-
-    public void spawnPawn(Pawn pawn, int spawnIndex){
-        Vector spawnPoint = spawnPoints.get(spawnIndex);
-        pawn.getViewArea().setLocation(spawnPoint.x, spawnPoint.y);
-
-        bindActorForEvents(pawn);
-        actionCall(pawn, "actor-spawned");
-
-        getViewArea().add(pawn.getViewArea());
-    }
+	
+	
 }

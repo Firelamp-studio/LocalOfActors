@@ -2,6 +2,10 @@ package API.Utility;
 
 public class Rotator {
     float rotation;
+    
+    public Rotator(){
+        setRotation(0);
+    }
 
     public Rotator(float rotation){
         setRotation(rotation);

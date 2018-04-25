@@ -1,33 +1,36 @@
 package API;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
 
+import API.Components.Sprite;
 import API.Utility.Rotator;
 import API.Utility.Vector;
 
 public class Element {
-	private JPanel viewArea;
     private Vector location;
-    private Rotator rotator;
+    private Sprite sprite;
     private Map map;
 	
 	public Element() {
-		viewArea = new JPanel();
-	}
-
-	public JPanel getViewArea() {
-        return viewArea;
-    }
-    
-    
-    public void setViewArea(JPanel viewArea) {
-		this.viewArea = viewArea;
+		sprite = null;
+		location = new Vector();
 	}
 
 	// View methods
-    public void setActorLocation(Vector location){
-        this.location = location;
-        this.viewArea.setLocation(location.x, location.y);
+    public void setLocation(Vector location){
+    	setLocation(location.x, location.y);
+    }
+    
+    public void setLocation(int x, int y){
+    	
+    	this.location.x = x;
+    	this.location.y = y;
+        
+        if(sprite != null)
+        	sprite.setLocation(location.x - sprite.getWidth()/2, location.y - sprite.getHeight()/2);
     }
 
     public Vector getLocation(){
@@ -35,12 +38,21 @@ public class Element {
     }
 
     // View methods
-    public void setRotation(Rotator rotator){
-        this.rotator = rotator;
-
+    public void setRotation(float degrees){
+        sprite.rotate(degrees);
     }
 
     public Vector getActorRotation(){
         return new Vector();
     }
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+    
+    
 }

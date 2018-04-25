@@ -1,17 +1,16 @@
 package API;
 
 import API.Annotations.*;
-import API.Utility.Vector;
-import API.Utility.Rotator;
+import API.Managers.EventManager;
+import API.Managers.EventManagerTool;
 
-import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
-public abstract class Actor extends Element implements Runnable {
+public abstract class Actor extends Element implements Runnable, EventManager {
 
     // Action class for concurrency
     public static class Action {
@@ -29,7 +28,6 @@ public abstract class Actor extends Element implements Runnable {
     }
 
     // Concurrency properties
-    private final List<Method> bindableMethods;
     private final List<Method> asyncMethods;
     private final List<Method> actionCallableMethods;
     private final List<Method> actionResponseMethods;
@@ -37,9 +35,10 @@ public abstract class Actor extends Element implements Runnable {
     protected final boolean tickEnabled;
     private boolean actionsStopped;
     private boolean tickStopped;
-    private Set<Actor> eventActors;
     private List<Action> actionCalls;
     private Thread actorThread;
+    
+    private EventManagerTool eventManagerTool;
     
 
     // Constructor
@@ -52,12 +51,12 @@ public abstract class Actor extends Element implements Runnable {
         actorThread = new Thread(this);
         actorThread.start();
 
-        bindableMethods = new ArrayList<>();
         asyncMethods = new ArrayList<>();
         actionCallableMethods = new ArrayList<>();
         actionResponseMethods = new ArrayList<>();
-        eventActors = Collections.synchronizedSet(new HashSet<Actor>());
         actionCalls = Collections.synchronizedList(new LinkedList<Action>());
+        
+        eventManagerTool = new EventManagerTool(this);
 
 
         for (Method method : getClass().getMethods()) {
@@ -73,15 +72,12 @@ public abstract class Actor extends Element implements Runnable {
             else if (actionsEnabled && method.isAnnotationPresent(ActionResponse.class)) {
                 actionResponseMethods.add(method);
             }
-
-            else if (method.isAnnotationPresent(BindableEvent.class)) {
-                bindableMethods.add(method);
-            }
         }
     }
 
+    @Override
     public List<Method> getBindableMethods() {
-        return bindableMethods;
+        return eventManagerTool.getBindableMethods();
     }
 
     public List<Method> getAsyncMethods() {
@@ -181,37 +177,24 @@ public abstract class Actor extends Element implements Runnable {
         this.actionsStopped = stop;
     }
 
-    final public void bindActorForEvents(Actor actor) {
-        eventActors.add(actor);
+    @Override
+    final public void bindActorForEvents(EventManager eventManager) {
+    	eventManagerTool.bindActorForEvents(eventManager);
     }
 
-    final public void unbindActor(Actor actor) {
-        eventActors.remove(actor);
+    @Override
+    final public void unbindActor(EventManager eventManager) {
+    	eventManagerTool.unbindActor(eventManager);
     }
 
+    @Override
     final public void unbindAll() {
-        eventActors.clear();
+    	eventManagerTool.unbindAll();
     }
 
+    @Override
     final public void dispatchEvent(String eventName, Object... args) {
-
-        for (Actor bindedActor : eventActors) {
-
-            for (Method method : bindedActor.bindableMethods) {
-
-                BindableEvent bindableEvent = method.getAnnotation(BindableEvent.class);
-
-                if (eventName.equals(bindableEvent.name()) && method.getParameterCount() == args.length) {
-                    try {
-                        method.invoke(bindedActor, args);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
+    	eventManagerTool.dispatchEvent(eventName, args);
     }
 
     final protected void actionCallResponse(Actor actorToCall, String actionName, Object... args) {
@@ -270,4 +253,13 @@ public abstract class Actor extends Element implements Runnable {
     protected void tick(long deltaTime){
 
     }
+    
+    protected void beginPlay(){
+
+    }
+    
+    protected void endPlay(){
+
+    }
 }
+

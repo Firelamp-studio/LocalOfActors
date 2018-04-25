@@ -1,13 +1,19 @@
 package Game.Actors;
 
 import API.Pawn;
+import API.Annotations.ActionCallable;
 import API.Components.Sprite;
+import API.Utility.TimerAction;
+import API.Utility.Vector;
 
 public class TestPawn extends Pawn {
-	private Sprite sprite;
 	
 	public TestPawn() {
-		sprite = new Sprite("test.png");
-		getViewArea().add(sprite);
+		setSprite(new Sprite("test.png"));
+	}
+	
+	@Override
+	protected void beginPlay() {
+		moveTo(new Vector(500, 200), "");
 	}
 }
