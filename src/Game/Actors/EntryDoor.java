@@ -8,10 +8,10 @@ import API.Utility.TimerAction;
 
 public class EntryDoor extends Actor {
     /*private TimerAction timerAction;*/
-    private int numPersoneEntrate;
+    private int numPeopleInside;
     
     public EntryDoor(){
-        numPersoneEntrate = 0;
+    	numPeopleInside = 0;
     }
 
     @Override
