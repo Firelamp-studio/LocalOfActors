@@ -7,22 +7,21 @@ import API.Map;
 import API.Annotations.ActionCallable;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
-import Game.Actors.TestPawn;
+import Game.Actors.Customer;
+import Game.Actors.Owner;
 
 public class BarMap extends Map {
-	TestPawn testActor;
-	//TestPawn aActor;
 	
     public BarMap(Vector mapSize) {
         super(mapSize);
         
         getViewArea().setBackground(Color.DARK_GRAY);
         
-        testActor = new TestPawn();
-        //aActor = new TestPawn();
+        /*for(int i = 0; i < 1; i++) {
+        	addActor(new Customer(), new Vector( (int)(Math.random() * 1500), (int)(Math.random() * 750) )  );
+        }*/
         
-        addActor(testActor, new Vector(1000, 500));
-        testActor.setLocation(100, 100);
-        
+        addActor(new Customer(), new Vector( 400, 200 ) );
+        addActor(new Owner(), new Vector( 1000, 700 ) );
     }
 }

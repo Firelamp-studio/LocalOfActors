@@ -40,4 +40,19 @@ public class Vector {
     	
     	return new Vector(dx, dy);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(obj instanceof Vector) {
+    		
+    		Vector vect = (Vector)obj;
+    		
+    		if(vect.x == x && vect.y == y) {
+    			return true;
+    		}
+    		
+    		return false;
+    	}
+    	return false;
+    }
 }

@@ -19,6 +19,14 @@ public class Pawn extends Actor {
 		moveTo(element.getLocation(), actionCaller);
 	}
 	
+	public final void moveTo(Vector location) {
+		moveTo(location, null);
+	}
+	
+	public final void moveTo(Element element) {
+		moveTo(element, null);
+	}
+	
 	@ActionCallable(name = "pawn-walking-loop")
 	public void pawnWalkingLoop(String actionCaller, Vector location) {
 		
@@ -27,11 +35,17 @@ public class Pawn extends Actor {
 		
 		Vector pawnLoc = getLocation();
 		
-		float angle = (float) (Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2);
-		setRotation(angle);
+		float degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));
+		setRotation(degrees+180);
 		
 		
 		Vector diff = getLocation().difference(location);
+		
+		if(diff.equals(new Vector())) {
+			walkTimer.kill();
+			return;
+		}
+		
 		
 		int xIncr, yIncr;
 		xIncr = diff.x > 0 ? 1 : -1;
@@ -62,7 +76,9 @@ public class Pawn extends Actor {
 			
 			if(walkSteps >= diff.y) {
 				walkTimer.kill();
-				actionCall(actionCaller);
+				
+				if(actionCaller != null)
+					actionCall(actionCaller);
 			}
 			
 		}

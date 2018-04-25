@@ -39,20 +39,33 @@ public class Element {
 
     // View methods
     public void setRotation(float degrees){
-        sprite.rotate(degrees);
+    	if(sprite != null)
+    		sprite.rotate(degrees);
     }
 
-    public Vector getActorRotation(){
-        return new Vector();
+    public float getRotation(){
+    	if(sprite != null)
+    		return sprite.getRotation();
+    	
+    	return 0;
     }
 
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setSprite(String filename) {
+		this.sprite = new Sprite(filename);
 	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+	
     
     
 }

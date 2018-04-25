@@ -2,6 +2,7 @@ package Game.Actors;
 
 import API.Annotations.ActionCallable;
 import API.Annotations.ActionResponse;
+import API.Utility.Vector;
 import Game.DrinkCard;
 
 public class Customer extends Person {
@@ -9,7 +10,18 @@ public class Customer extends Person {
 	private CashDesk cashDesk;
 	
 	public Customer() {
+		if(Math.random() > 0.5) {
+			setSprite("man.png");
+		} else {
+			setSprite("woman.png");
+		}
+	}
+	
+	@Override
+	protected void beginPlay() {
+		super.beginPlay();
 		
+		moveTo(new Vector());
 	}
 
     @Override

@@ -166,6 +166,13 @@ public abstract class Actor extends Element implements Runnable, EventManager {
                     previousTime = currentTime;
                 }
             }
+            
+            try {
+				actorThread.sleep(0, 1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 

@@ -42,6 +42,7 @@ public abstract class Map {
 	        element.setLocation(location);
 	        viewArea.add(element.getSprite());
 		}
+		element.setMap(this);
     }
 	
 	public void addActor(Actor actor, Vector location){
