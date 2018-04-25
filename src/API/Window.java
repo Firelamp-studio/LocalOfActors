@@ -6,24 +6,23 @@ import API.Layouts.CenterGridLayout;
 
 import java.awt.*;
 
-public class Window {
+public class Window extends JFrame{
     private Map map;
-    private JFrame frame;
 
     public Window(Map map){
         this.map = map;
 
-        frame = new JFrame();
-        frame.getContentPane().setLayout(new CenterGridLayout());
+
+        getContentPane().setLayout(new CenterGridLayout());
         
-        frame.getContentPane().add(map.getViewArea());
-        frame.getContentPane().setBackground(Color.BLACK);
-        frame.setSize(map.getMapSize());
+        getContentPane().add(map.getViewArea());
+        getContentPane().setBackground(Color.BLACK);
+        setSize(map.getMapSize());
         
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        frame.pack();
-        frame.setVisible(true);
+        pack();
+        setVisible(true);
     }
 }
