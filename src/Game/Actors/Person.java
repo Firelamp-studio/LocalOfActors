@@ -4,6 +4,10 @@ import API.Pawn;
 import API.Annotations.*;
 
 public abstract class Person extends Pawn {
+	
+	public Person() {
+		
+	}
 
     public void saluta(Person sceneCharacter){
         System.out.println("Saluti!");

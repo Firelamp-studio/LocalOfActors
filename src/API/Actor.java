@@ -100,17 +100,18 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     @Override
     final public void run() {
         // Execute AsyncMethods
-        for (Method method : asyncMethods) {
-            try {
-                method.invoke(this);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+    	if(asyncMethods != null && !asyncMethods.isEmpty()) {
+    		for (Method method : asyncMethods) {
+                try {
+                    method.invoke(this);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-
+    	}
 
         Action[] tempActionCalls;
         ArrayList<Action> actionsToRemove = new ArrayList<>();

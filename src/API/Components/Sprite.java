@@ -1,6 +1,5 @@
 package API.Components;
 
-import API.Utility.Vector;
 import API.Utility.Rotator;
 
 import javax.imageio.ImageIO;
@@ -12,20 +11,27 @@ import java.io.IOException;
 
 public class Sprite extends JPanel {
 	private BufferedImage image;
-	Rotator rotator;
-	int viewSize;
+	private double scale;
+	private Rotator rotator;
+	private int viewSize;
 	
-    public Sprite(String imageFile) {
+    public Sprite(String imageFile, double scale) {
     	rotator = new Rotator();
+    	this.scale = scale;
     	
 	    try {                
 	        image = ImageIO.read(new File("assets/textures/" + imageFile));
 	     } catch (IOException ex) {
 	          // handle exception...
 	     }
-	    viewSize = image.getWidth() > image.getHeight() ? image.getWidth() : image.getHeight();
+	    viewSize = image.getWidth() > image.getHeight() ? (int)(image.getWidth()*scale) : (int)(image.getHeight()*scale);
+	    setSize(viewSize, viewSize);
 	    setPreferredSize(new Dimension(viewSize, viewSize));
 	    setOpaque(false);
+    }
+    
+    public Sprite(String imageFile) {
+    	this(imageFile, 1);
     }
     
     @Override
@@ -43,10 +49,11 @@ public class Sprite extends JPanel {
     	//g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
     	g2d.rotate(Math.toRadians(rotator.getRotation()), viewSize/2, viewSize/2);
+    	g2d.scale(scale, scale);
     	if(image.getWidth() > image.getHeight()) {
-    		g2d.drawImage(image, 0, viewSize/2 - image.getHeight()/2, this);
+    		g2d.drawImage(image, 0, (int) (viewSize/2 - (image.getHeight()*scale)/2), this);
     	} else {
-    		g2d.drawImage(image, viewSize/2 - image.getWidth()/2, 0, this);
+    		g2d.drawImage(image, (int) (viewSize/2 - (image.getWidth()*scale)/2), 0, this);
     	}
     }
     
@@ -58,4 +65,13 @@ public class Sprite extends JPanel {
     public float getRotation() {
     	return rotator.getRotation();
     }
+
+	public double getScale() {
+		return scale;
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
+		repaint();
+	}
 }

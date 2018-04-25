@@ -54,6 +54,10 @@ public class Element {
 		return sprite;
 	}
 
+	public void setSprite(String filename, double scale) {
+		this.sprite = new Sprite(filename, scale);
+	}
+	
 	public void setSprite(String filename) {
 		this.sprite = new Sprite(filename);
 	}
@@ -65,7 +69,5 @@ public class Element {
 	public void setMap(Map map) {
 		this.map = map;
 	}
-	
-    
     
 }

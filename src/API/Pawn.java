@@ -61,7 +61,6 @@ public class Pawn extends Actor {
 		
 		moveSteps++;
 		
-		
 		Vector pawnLoc = getLocation();
 		
 		float degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));

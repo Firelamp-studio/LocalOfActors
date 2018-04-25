@@ -11,9 +11,9 @@ public class Customer extends Person {
 	
 	public Customer() {
 		if(Math.random() > 0.5) {
-			setSprite("man.png");
+			setSprite("man.png", 0.75);
 		} else {
-			setSprite("woman.png");
+			setSprite("woman.png", 0.75);
 		}
 	}
 	
