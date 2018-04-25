@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
     	//Non modificare!!! Lavorare dirattemante nella BarMap
     	
-        Map bar = new BarMap(new Vector(1500, 900));
+        Map bar = new BarMap(new Vector(1500, 1029));
         Window viewFrame = new Window(bar);
         
     }
