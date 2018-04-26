@@ -9,6 +9,7 @@ import API.Annotations.ActionCallable;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.Actors.Customer;
+import Game.Actors.LocalTail;
 import Game.Actors.Owner;
 
 public class BarMap extends Map {
@@ -23,7 +24,10 @@ public class BarMap extends Map {
         background.setSprite("local.jpg");
         addElement(background, new Vector(mapSize.x/2, mapSize.y/2), -10);
         
+        LocalTail localTail = new LocalTail(30, 40, 50000, 240000);
+        
         addActor(new Customer(), new Vector( 1000, 750 ) );
         addActor(new Owner(), new Vector( 500 ) );
+        addActor(localTail, new Vector( 1000, 750 ) );
     }
 }

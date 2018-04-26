@@ -10,29 +10,23 @@ import Game.DrinkCard;
 
 public class Customer extends Person {
 	private TimerAction timerChooseAction;
-	private LocalTail localTail;
 	private DrinkCard drinkCard;
 	private CashDesk cashDesk;
 	
 	public Customer() {
-		this(new LocalTail(30, 10, 10000, 60000));
-	}
-	
-	public Customer(LocalTail localTail) {
-		if(Math.random() > 0.5) {
+		/*if(Math.random() > 0.5) {
 			setSprite("man.png", 0.75);
 		} else {
 			setSprite("woman.png", 0.75);
-		}
+		}*/
 		
-		this.localTail = localTail;
 	}
 	
 	@Override
 	protected void beginPlay() {
 		super.beginPlay();
 		
-		actionCallResponse(localTail, "get-in-line-for-entry", this);
+		//actionCallResponse(/*TODO get localTail from map*/, "get-in-line-for-entry", this);
 	}
 
     @Override

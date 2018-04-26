@@ -18,7 +18,7 @@ public class LocalTail extends Tail {
 			addToTail(new Customer());
 		}
 		
-		long delay = new Random().nextInt((maxSpawnTime - minSpawnTime) + 1) + minSpawnTime;
+		long delay = new Random().nextInt(maxSpawnTime - minSpawnTime) + minSpawnTime + 1;
 	    timerSpawn = new TimerAction(false, delay, this, "new-person-in-queue", delay);
 	    timerSpawn.execute();
 	}
