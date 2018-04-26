@@ -14,11 +14,11 @@ public class Customer extends Person {
 	private CashDesk cashDesk;
 	
 	public Customer() {
-		/*if(Math.random() > 0.5) {
-			setSprite("man.png", 0.75);
+		if(Math.random() > 0.5) {
+			setSprite("man.png", 0.3);
 		} else {
-			setSprite("woman.png", 0.75);
-		}*/
+			setSprite("woman.png", 0.3);
+		}
 		
 	}
 	
