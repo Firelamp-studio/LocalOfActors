@@ -15,13 +15,7 @@ public class Customer extends Person {
 	private CashDesk cashDesk;
 	
 	public Customer() {
-		if(Math.random() > 0.5) {
-			setSprite("man.png", 0.75);
-		} else {
-			setSprite("woman.png", 0.75);
-		}
-		
-		localTail = new LocalTail(30, 10, 10000, 60000);
+		this(new LocalTail(30, 10, 10000, 60000));
 	}
 	
 	public Customer(LocalTail localTail) {
