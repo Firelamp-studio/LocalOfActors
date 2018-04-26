@@ -7,9 +7,11 @@ import API.Utility.Vector;
 public class Pawn extends Actor {
 	private TimerAction moveTimer;
 	private int moveSteps;
+	private int addSteps;
 	
 	public final void moveTo(Vector location, String actionCaller) {
 		moveSteps = 0;
+		addSteps = 0;
 		
 		Vector diff = getLocation().difference(location);
 		Vector dist = getLocation().distance(location);
@@ -33,13 +35,15 @@ public class Pawn extends Actor {
 			shortLength = dist.x;
 		}
 		
-		if(shortLength != 0)
+		if(shortLength != 0) {
+			
 			moveModule = longLength / shortLength;
-		else
-	
+			addSteps = longLength % shortLength;
+			
+		} else {
 			moveModule = -1;
-		
-		
+		}
+	
 		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop", actionCaller, location, longAxis, longLength, moveModule, xIncr, yIncr);
 		moveTimer.execute();
 	}
@@ -76,20 +80,32 @@ public class Pawn extends Actor {
 		
 		if(longAxis == 'x') {
 			int shortShift;
-			if(moveModule > 0)
+			if(moveModule > 0) {
 				shortShift = (pawnLoc.x % moveModule) == 0 ? yIncr : 0;
-			else
+
+				if(addSteps > 0) {
+					addSteps--;
+					shortShift += yIncr;
+					System.out.println(addSteps);
+				}
+			} else {
 				shortShift = 0;
-			
+			}
+				
 			setLocation(pawnLoc.x + xIncr, pawnLoc.y + shortShift);
 			
 		} else {
 			int shortShift;
 			
-			if(moveModule > 0)
+			if(moveModule > 0) {
 				shortShift = (pawnLoc.y % moveModule) == 0 ? xIncr : 0;
-			else
+				if(addSteps > 0) {
+					addSteps--;
+					shortShift += xIncr;
+				}
+			} else {
 				shortShift = 0;
+			}
 			
 			setLocation(pawnLoc.x + shortShift, pawnLoc.y + yIncr);
 			
