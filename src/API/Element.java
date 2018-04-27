@@ -18,6 +18,16 @@ public class Element {
 		sprite = null;
 		location = new Vector();
 	}
+	
+	public void Element(String filename, double scale) {
+		setSprite(filename, scale);
+		location = new Vector();
+	}
+	
+	public void Element(String filename) {
+		setSprite(filename);
+		location = new Vector();
+	}
 
 	// View methods
     public void setLocation(Vector location){
