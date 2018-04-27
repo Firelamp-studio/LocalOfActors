@@ -5,15 +5,14 @@ import java.util.ArrayList;
 
 import Game.Actors.*;
 import Game.Maps.BarMap;
+import Game.gui.MenuMap;
 
 public class Main {
 	
-    public static void main(String[] args) {
-    	//Non modificare!!! Lavorare dirattemante nella BarMap
-    	
-        Map bar = new BarMap(new Vector(1500, 1029));
-        Window viewFrame = new Window(bar);
-        
+	public static void main(String[] args) {
+        MenuMap menu = new MenuMap();
+        Window menuWindow = new Window(menu);
+        menuWindow.setResizable(false);
     }
 }
 

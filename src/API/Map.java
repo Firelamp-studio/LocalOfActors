@@ -10,23 +10,26 @@ public abstract class Map {
 	private JLayeredPane viewArea;
     private Vector mapSize;
 
-    public Map(Vector mapSize){
-    	this.mapSize = mapSize;
+    public Map(){
+    	this.mapSize = new Vector();
     	viewArea = new JLayeredPane();
     	viewArea.setLayout(null);
     	
     	viewArea.setOpaque(true);
-    	viewArea.setSize(mapSize.toDimension());
-    	viewArea.setPreferredSize(mapSize.toDimension());
     }
     
-    
+    public void setMapSize(Dimension size) {
+    	viewArea.setPreferredSize(size);
+    	viewArea.setSize(size);
+    }
 
     public JLayeredPane getViewArea() {
 		return viewArea;
 	}
 
-
+    public Vector getMapCenter() {
+    	return new Vector(getMapSize().width / 2, getMapSize().height /2);
+    }
 
 	public Dimension getMapSize() {
 		return viewArea.getSize();

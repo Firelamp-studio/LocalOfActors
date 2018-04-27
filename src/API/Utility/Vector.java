@@ -1,6 +1,7 @@
 package API.Utility;
 
 import java.awt.Dimension;
+import java.awt.Point;
 
 public class Vector {
     public int x;
@@ -21,6 +22,10 @@ public class Vector {
     
     public Dimension toDimension() {
     	return new Dimension(x, y);
+    }
+    
+    public Point toPoint() {
+    	return new Point(x, y);
     }
     
     public Vector distance(Vector v) {
