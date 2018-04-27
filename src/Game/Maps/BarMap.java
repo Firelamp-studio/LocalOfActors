@@ -23,9 +23,9 @@ public class BarMap extends Map {
         //addActor(new Customer(), new Vector( 1000, 750 ) );
         Element lamp = new Element();
         lamp.setSprite("test.png", 0.5);
-        addElement(lamp, new Vector( 379, 800 ));
+        addElement(lamp, new Vector( 734, 112 ));
         
-        addActor(new Owner(lamp), new Vector( 100, 100 ) );
+        addActor(new Owner(lamp), new Vector( 165, 556 ) );
         
         //addActor(localTail, new Vector( 1000, 750 ) );
     }
