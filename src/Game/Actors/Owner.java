@@ -1,18 +1,21 @@
 package Game.Actors;
 
+import API.Element;
 import API.Utility.Vector;
 
 public class Owner extends Person {
+	Element lamp;
 	
-	public Owner() {
+	public Owner(Element lamp) {
 		setSprite("man.png", 0.5);
+		this.lamp = lamp;
 	}
 	
 	@Override
 	protected void beginPlay() {
 		super.beginPlay();
 		
-		moveTo(new Vector(100, 200));
+		moveTo(lamp);
 	}
 
     @Override

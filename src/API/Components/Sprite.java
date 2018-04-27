@@ -9,11 +9,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Sprite extends JPanel {
+public class Sprite extends JLabel {
 	private BufferedImage image;
 	private double scale;
 	private Rotator rotator;
 	private int viewSize;
+	
 	
     public Sprite(String imageFile, double scale) {
     	rotator = new Rotator();

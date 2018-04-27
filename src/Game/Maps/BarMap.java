@@ -1,15 +1,9 @@
 package Game.Maps;
 
-import java.awt.Color;
-import java.awt.Dimension;
-
 import API.Element;
 import API.Map;
-import API.Annotations.ActionCallable;
-import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.Actors.Customer;
-import Game.Actors.LocalTail;
 import Game.Actors.Owner;
 
 public class BarMap extends Map {
@@ -27,8 +21,12 @@ public class BarMap extends Map {
         //LocalTail localTail = new LocalTail(30, 40, 50000, 240000);
         
         //addActor(new Customer(), new Vector( 1000, 750 ) );
-        addActor(new Owner(), new Vector( 500 ) );
-        addActor(new Customer(), new Vector(100, 200) );
+        Element lamp = new Element();
+        lamp.setSprite("test.png", 0.5);
+        addElement(lamp, new Vector( 379, 800 ));
+        
+        addActor(new Owner(lamp), new Vector( 100, 100 ) );
+        
         //addActor(localTail, new Vector( 1000, 750 ) );
     }
 }
