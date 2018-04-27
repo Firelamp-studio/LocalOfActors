@@ -92,6 +92,14 @@ public class Pawn extends Actor {
 			return;
 		}
 		
+		/*
+		if(xSteps > 0 && ySteps > 0){
+			degrees = 90 + (float)Math.toDegrees((Math.atan2(yModule, xModule) - Math.PI / 2));
+		} else {
+			degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));
+		}
+		*/
+		
 		float degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));
 		setRotation(degrees);
 	
