@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import Game.Actors.*;
 import Game.Maps.BarMap;
-import Game.gui.MenuMap;
+import Game.Maps.MenuMap;
 
 public class Main {
 	

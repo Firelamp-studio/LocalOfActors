@@ -7,6 +7,7 @@ import API.Annotations.ActionResponse;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.DrinkCard;
+import Game.gui.CustomerInfo;
 
 public class Customer extends Person {
 	private TimerAction timerChooseAction;
@@ -19,7 +20,6 @@ public class Customer extends Person {
 		} else {
 			setSprite("woman.png", 0.3);
 		}
-		
 	}
 	
 	@Override

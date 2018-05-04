@@ -6,6 +6,14 @@ import java.awt.Point;
 public class Vector {
     public int x;
     public int y;
+    
+    public static Vector PointToVector(Point point) {
+    	return new Vector(point.x, point.y);
+    }
+    
+    public static Vector DimensionToVector(Dimension dimension) {
+    	return new Vector((int)dimension.getWidth(), (int)dimension.getHeight());
+    }
 
     public Vector(int x, int y) {
         this.x = x;
@@ -46,6 +54,26 @@ public class Vector {
     	return new Vector(dx, dy);
     }
     
+    public Vector add(Vector v) {
+    	int ax, ay;
+    	
+    	ax = x + v.x;
+    	ay = y + v.y;
+    	
+    	return new Vector(ax, ay);
+    }
+    
+    public boolean isInsideArea(Vector start, Vector end) {
+    	boolean isInsideX = x > start.x && x < end.x;
+    	boolean isInsideY = y > start.y && y < end.y;
+    	
+    	if(isInsideX && isInsideY) {
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
     @Override
     public boolean equals(Object obj) {
     	if(obj instanceof Vector) {
@@ -63,6 +91,6 @@ public class Vector {
     
     @Override
     public String toString() {
-    	return "| x: " + x + " | y:" + y + " |";
+    	return "[x=" + x + ", y=" + y + "]";
     }
 }

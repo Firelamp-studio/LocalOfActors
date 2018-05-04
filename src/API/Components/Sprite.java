@@ -1,20 +1,25 @@
 package API.Components;
 
+import API.Element;
 import API.Utility.Rotator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import org.w3c.dom.events.MouseEvent;
+
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Sprite extends JLabel {
+public class Sprite extends JLabel{
 	private BufferedImage image;
 	private double scale;
 	private Rotator rotator;
 	private int viewSize;
-	
+	private Element owner;
 	
     public Sprite(String imageFile, double scale) {
     	rotator = new Rotator();
@@ -29,6 +34,7 @@ public class Sprite extends JLabel {
 	    setSize(viewSize, viewSize);
 	    setPreferredSize(new Dimension(viewSize, viewSize));
 	    setOpaque(false);
+	    addMouseListener(owner);
     }
     
     public Sprite(String imageFile) {

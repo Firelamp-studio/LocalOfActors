@@ -1,16 +1,29 @@
 package Game.Actors;
 
+import java.awt.event.MouseEvent;
+
 import API.Actor;
 import API.Annotations.ActionCallable;
 import API.Annotations.AsyncMethod;
+import API.Utility.Vector;
+import Game.gui.BarrelInfo;
 
 public class Barrel extends Actor {
     double vino;
-
+    BarrelInfo barrel;
+    
     public Barrel(){
         vino = 1000;
+        setSprite("white_barrel.png");
     }
 
+    @Override
+    protected void beginPlay() {
+    	super.beginPlay();
+    	barrel = new BarrelInfo(new Vector(100, 30));
+    	addRelativeComponent(barrel, new Vector(0, 30));
+    }
+    
     @AsyncMethod
     public void allAvvio(){
         System.out.println("AVVIATO IL THREAD ID BARREL");
@@ -46,5 +59,14 @@ public class Barrel extends Actor {
     @Override
     protected void tick(long deltaTime) {
 
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    	if(barrel.isVisible()){
+    		barrel.setVisible(false);
+    	} else {
+    		barrel.setVisible(true);
+    	}
     }
 }

@@ -38,14 +38,20 @@ public abstract class Map {
     public void updateActorLocation(Vector location) {
     	
     }
+    
+    public void addComponent(JComponent component, Vector location, int zindex){
+		if(component != null) {
+			Dimension preferredSize =  component.getPreferredSize();
+			component.setBounds(location.x - preferredSize.width/2, location.y - preferredSize.height/2, preferredSize.width, preferredSize.height);
+	        viewArea.add(component);
+	        viewArea.setLayer(component, zindex);
+		}
+    }
 	
 	public void addElement(Element element, Vector location, int zindex){
 		if(element.getSprite() != null) {
-			Dimension preferredSize =  element.getSprite().getPreferredSize();
-	        element.getSprite().setBounds(location.x - preferredSize.width/2, location.y - preferredSize.height/2, preferredSize.width, preferredSize.height);
+			addComponent(element.getSprite(), location, zindex);
 	        element.setLocation(location);
-	        viewArea.add(element.getSprite());
-	        viewArea.setLayer(element.getSprite(), zindex);
 		}
 		element.setMap(this);
     }
@@ -55,7 +61,7 @@ public abstract class Map {
 	}
 	
 	public void addActor(Actor actor, Vector location){
-        addElement(actor, location, 10);
+        addElement(actor, location, 1);
         actor.beginPlay();
     }
 	

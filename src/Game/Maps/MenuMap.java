@@ -1,4 +1,4 @@
-package Game.gui;
+package Game.Maps;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -31,7 +31,6 @@ import API.Window;
 import API.Components.Sprite;
 import API.Layouts.CenterGridLayout;
 import API.Utility.Vector;
-import Game.Maps.BarMap;
 
 public class MenuMap extends Map {
 	
@@ -49,17 +48,6 @@ public class MenuMap extends Map {
 		startGame.setBounds(mapCenter.x - 100, 350, 200, 30);
 		startGame.setFont(new Font("Arial", Font.BOLD, 20));
 		getViewArea().add(startGame, 10);
-		
-		startGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
-				new Window(new BarMap());
-				currentFrame.dispose();
-			}
-		});
-		
-		
 		
 		JPanel bottomMenu = new JPanel();
 		bottomMenu.setLayout(new GridBagLayout());
@@ -101,5 +89,16 @@ public class MenuMap extends Map {
 		
 		Dimension prefSize = bottomMenu.getPreferredSize();
 		bottomMenu.setBounds(mapCenter.x - (int)prefSize.getWidth()/2, 500, (int)prefSize.getWidth(), (int)prefSize.getHeight());
+		
+		
+		
+		startGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
+				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue()));
+				currentFrame.dispose();
+			}
+		});
 	}
 }

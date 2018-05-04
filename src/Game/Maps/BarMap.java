@@ -13,14 +13,22 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import API.Element;
 import API.Map;
 import API.Utility.Vector;
+import Game.Actors.Barrel;
 import Game.Actors.Customer;
 import Game.Actors.Owner;
+import Game.gui.BarrelInfo;
+import Game.gui.CustomerInfo;
 
 public class BarMap extends Map {
+	private int totalPeople;
+	private int maxLocalPeople;
 	
-    public BarMap() {
+    public BarMap(int totalPeople, int maxLocalPeople) {
         setMapSize(new Dimension(1500, 1029));
     	
+        this.totalPeople = totalPeople;
+        this.maxLocalPeople = maxLocalPeople;
+        
         /*
         try {
         	File soundtrack = new File("assets/sounds/bar_soundtrack.mp3");
@@ -58,6 +66,26 @@ public class BarMap extends Map {
         
         addActor(new Owner(lamp), new Vector( 165, 556 ) );
         
+        addActor(new Barrel(), new Vector(500) );
+        
         //addActor(localTail, new Vector( 1000, 750 ) );
+        
+        //addComponent(new CustomerInfo(new Vector(100)), new Vector(100), 10);
+        
+        CustomerInfo ci = new CustomerInfo(new Vector(300));
+        addComponent(ci, getMapCenter(), 100);
+        ci.setVisible(true);
+        ci.setRedWineValue(totalPeople);
+        ci.setWhiteWineValue(maxLocalPeople);
     }
+
+	public int getTotalPeople() {
+		return totalPeople;
+	}
+
+	public int getMaxLocalPeople() {
+		return maxLocalPeople;
+	}
+    
+    
 }
