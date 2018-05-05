@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import API.Utility.Vector;
 
 public class CustomerInfo extends JPanel{
-	JPanel container;
 	JLabel customerNum, whiteWineLabel, redWineLabel;
 	
 	public CustomerInfo(Vector size) {
