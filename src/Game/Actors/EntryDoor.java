@@ -40,8 +40,12 @@ public class EntryDoor extends Actor {
 
     @Override
     protected void tick(long deltaTime) {
-        if (numPeopleInside < 30) {
-            actionCall(localTail, "let-person-entry");
+        System.out.println("palla");
+        if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
+            System.out.println("dovrebbe entrare gente");
+            Customer customer = localTail.letPersonEntry();
+            numPeopleInside++;
+            customer.moveTo(map.getMapCenter());
         }
     }
 
@@ -57,7 +61,7 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer")
     public void spawnCustomer() {
-        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail), new Vector( 1600, 750 ) );
+        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail), new Vector( 600, 750 ) );
     }
     /*
     public void faiEntrareQualcunoOgniTanto(int maxWaitTimeMS){

@@ -186,12 +186,12 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     }
 
     @Override
-    final public void bindActorForEvents(EventManager eventManager) {
+    final public void bindManagerForEvents(EventManager eventManager) {
     	eventManagerTool.bindActorForEvents(eventManager);
     }
 
     @Override
-    final public void unbindActor(EventManager eventManager) {
+    final public void unbindBindedManager(EventManager eventManager) {
     	eventManagerTool.unbindActor(eventManager);
     }
 

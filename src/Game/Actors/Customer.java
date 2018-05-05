@@ -52,24 +52,20 @@ public class Customer extends Person {
 
     @ActionResponse(name = "get-in-line-for-entry")
     public void getInLineForEntry(Vector vector) {
-        moveTo(vector, "turn-left");
+        moveTo(vector, "entry-line-end-movement");
     }
 
-    @ActionCallable(name = "turn-left")
-    public void turnLeft() {
+    @ActionCallable(name = "entry-line-end-movement")
+    public void entryLineEndMovement() {
+        actionCall(localTail, "customer-arrived-to-position");
         setRotation(-90);
     }
 
-    @BindableEvent(name = "customer-in-queue-step-forward")
-    public void queueStepForward(boolean b) {
-        if (b) {
-            //TODO muoviti nella fila fuori
-        } else {
-            //TODO muoviti nella fila al bancone
-        }
+    @BindableEvent(name = "update-queue-position")
+    public void queueStepForward() {
+
     }
 
-    @ActionCallable(name = "entry-into-local")
     public void moveToCashdesk() {
         moveTo(cashDesk, "arrived-to-cashdesk");
     }

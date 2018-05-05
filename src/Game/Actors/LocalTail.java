@@ -14,9 +14,19 @@ public class LocalTail extends Tail {
         return newPersonInQueue(customer);
     }
 
-    @ActionCallable(name = "let-person-entry")
-    public void letPersonEntry() {
-        customerLeaveQueue("entry-into-local");
+    @ActionCallable(name = "get-queue-position")
+    public Vector getQueuePosition(Customer customer) {
+        return getPersonPositionInQueue(customer);
     }
 
+    public Customer letPersonEntry() {
+        return customerLeaveQueue();
+    }
+
+    @ActionCallable(name = "customer-arrived-to-position")
+    public void customerArrivedToPosition(Customer customer) {
+        if (getWaitingCustomer().getFirst() == customer) {
+            setModifyEnabled(true);
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package Game.Actors;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import API.Actor;
@@ -10,18 +9,20 @@ public class Tail extends Actor {
 
     private LinkedList<Customer> waitingCustomer;
     private int maxPeopleInQueue;
+    private boolean modifyEnabled;
 
     public Tail(int maxPeopleInQueue) {
         waitingCustomer = new LinkedList();
         this.maxPeopleInQueue = maxPeopleInQueue;
+        modifyEnabled = false;
     }
 
-    protected Customer get(int index) {
+    protected Customer get() {
         return waitingCustomer.get(0);
     }
 
     protected void addToTail(Customer customer) {
-        customer.bindActorForEvents(this);
+        customer.bindManagerForEvents(this);
         waitingCustomer.add(customer);
     }
 
@@ -35,15 +36,20 @@ public class Tail extends Actor {
         return getLocation().add(new Vector(relativeX * 40,0));
     }
 
-    protected void customerLeaveQueue(String actionName) {
-        Customer customer = waitingCustomer.get(0);
-        if (customer != null) {
-            waitingCustomer.remove(0);
-            actionCall(customer, actionName);
-            boolean b = actionName.equals("entry-into-local");
-            dispatchEvent("customer-in-queue-step-forward", b);
+    protected Vector getPersonPositionInQueue(Customer customer) {
+        for (int i = 0; i < waitingCustomer.size(); i++) {
+            if (waitingCustomer.get(i) == customer) {
+                return getLocation().add(new Vector(i * 40,0));
+            }
         }
+        return null;
+    }
 
+    protected Customer customerLeaveQueue() {
+        Customer customer = waitingCustomer.pop();
+        unbindBindedManager(customer);
+        dispatchEvent("update-queue-position");
+        return customer;
     }
 
     protected boolean removeFirst() {
@@ -55,6 +61,18 @@ public class Tail extends Actor {
 
         return true;
 
+    }
+
+    public void setModifyEnabled(boolean modifyEnabled) {
+        this.modifyEnabled = modifyEnabled;
+    }
+
+    public boolean isModifyEnabled() {
+        return modifyEnabled;
+    }
+
+    public LinkedList<Customer> getWaitingCustomer() {
+        return waitingCustomer;
     }
 
     protected int getTailSize() {

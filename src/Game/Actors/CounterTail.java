@@ -16,7 +16,7 @@ public class CounterTail extends Tail {
 
     @ActionCallable(name = "let-person-order")
     public void letPersonEntry() {
-        customerLeaveQueue("go-to-barman");
+        customerLeaveQueue();
     }
 
 }
