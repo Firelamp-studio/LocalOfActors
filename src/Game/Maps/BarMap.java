@@ -42,18 +42,17 @@ public class BarMap extends Map {
         addElement(background, getMapCenter(), -10);
 
         LocalTail localTail = new LocalTail(200);
-        EntryDoor entryDoor = new EntryDoor();
         CashDesk cashDesk = new CashDesk();
         CounterTail counterTail = new CounterTail(10);
         Counter counter = new Counter(counterTail);
-        localTail.setSprite("test.png");
-        addActor(localTail, new Vector(250, 750));
-        entryDoor.setSprite("door.png");
+        EntryDoor entryDoor = new EntryDoor(localTail, cashDesk, counter, counterTail);
+        localTail.setSprite("test.png", 0);
+        addActor(localTail, new Vector(200, 750));
         addActor(entryDoor, new Vector(200, 700));
+        addActor(cashDesk, new Vector(200, 300));
         
         counter.setSprite("counter.png");
         addActor(counter, new Vector(1000, 225));
-        addActor(new Customer(localTail, entryDoor, cashDesk, counter, counterTail), new Vector( 1000, 750 ) );
         Element lamp = new Element();
         lamp.setSprite("test.png", 0.5);
         addElement(lamp, new Vector(734, 112));

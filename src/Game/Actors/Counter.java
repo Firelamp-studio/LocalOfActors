@@ -9,6 +9,7 @@ public class Counter extends Actor {
 	
 	public Counter(CounterTail counterTail) {
 		this.counterTail = counterTail;
+		setSprite("counter.png");
 	}
 
     @Override

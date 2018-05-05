@@ -5,9 +5,8 @@ import API.Utility.Vector;
 
 public class LocalTail extends Tail {
 
-    public LocalTail(int maxPeopleInQueue, String filename) {
+    public LocalTail(int maxPeopleInQueue) {
         super(maxPeopleInQueue);
-        setSprite(filename);
     }
 
     @ActionCallable(name = "get-in-line-for-entry")

@@ -52,7 +52,12 @@ public class Customer extends Person {
 
     @ActionResponse(name = "get-in-line-for-entry")
     public void getInLineForEntry(Vector vector) {
-        moveTo(vector);
+        moveTo(vector, "turn-left");
+    }
+
+    @ActionCallable(name = "turn-left")
+    public void turnLeft() {
+        setRotation(-90);
     }
 
     @BindableEvent(name = "customer-in-queue-step-forward")

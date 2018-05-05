@@ -1,17 +1,18 @@
 package Game.Actors;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import API.Actor;
 import API.Utility.Vector;
 
 public class Tail extends Actor {
 
-    private ArrayList<Customer> waitingCustomer;
+    private LinkedList<Customer> waitingCustomer;
     private int maxPeopleInQueue;
 
     public Tail(int maxPeopleInQueue) {
-        waitingCustomer = new ArrayList();
+        waitingCustomer = new LinkedList();
         this.maxPeopleInQueue = maxPeopleInQueue;
     }
 
@@ -30,7 +31,8 @@ public class Tail extends Actor {
 
     protected Vector newPersonInQueue(Customer customer) {
         addToTail(customer);
-        return getLastFreePlace();
+        int relativeX = waitingCustomer.size() - 1;
+        return getLocation().add(new Vector(relativeX * 40,0));
     }
 
     protected void customerLeaveQueue(String actionName) {
@@ -57,11 +59,6 @@ public class Tail extends Actor {
 
     protected int getTailSize() {
         return waitingCustomer.size();
-    }
-
-    public Vector getLastFreePlace() {
-        //TODO ritornare il posto dove si deve mettere l'ultimo
-        return new Vector();
     }
 
 }

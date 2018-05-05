@@ -10,6 +10,7 @@ public class CashDesk extends Actor {
 
     public CashDesk() {
         receipts = 0;
+        setSprite("cashdesk.png");
     }
 
     @Override
