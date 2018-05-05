@@ -7,38 +7,37 @@ import API.Utility.Vector;
 
 public class Tail extends Actor {
 
-    private LinkedList<Customer> waitingCustomer;
+    private LinkedList<Customer> waitingCustomers;
     private int maxPeopleInQueue;
     private boolean modifyEnabled;
 
     public Tail(int maxPeopleInQueue) {
-        waitingCustomer = new LinkedList();
+        waitingCustomers = new LinkedList();
         this.maxPeopleInQueue = maxPeopleInQueue;
         modifyEnabled = false;
     }
 
     protected Customer get() {
-        return waitingCustomer.get(0);
+        return waitingCustomers.get(0);
     }
 
     protected void addToTail(Customer customer) {
-        customer.bindManagerForEvents(this);
-        waitingCustomer.add(customer);
+        waitingCustomers.add(customer);
     }
 
     protected boolean removeCustomer(Customer customer) {
-        return waitingCustomer.remove(customer);
+        return waitingCustomers.remove(customer);
     }
 
     protected Vector newPersonInQueue(Customer customer) {
         addToTail(customer);
-        int relativeX = waitingCustomer.size() - 1;
+        int relativeX = waitingCustomers.size() - 1;
         return getLocation().add(new Vector(relativeX * 40,0));
     }
 
     protected Vector getPersonPositionInQueue(Customer customer) {
-        for (int i = 0; i < waitingCustomer.size(); i++) {
-            if (waitingCustomer.get(i) == customer) {
+        for (int i = 0; i < waitingCustomers.size(); i++) {
+            if (waitingCustomers.get(i) == customer) {
                 return getLocation().add(new Vector(i * 40,0));
             }
         }
@@ -46,15 +45,16 @@ public class Tail extends Actor {
     }
 
     protected Customer customerLeaveQueue() {
-        Customer customer = waitingCustomer.pop();
-        unbindBindedManager(customer);
-        dispatchEvent("update-queue-position");
+        Customer customer = waitingCustomers.pop();
+        waitingCustomers.forEach((c)->{
+            c.moveTo(getPersonPositionInQueue(c), "entry-line-end-movement");
+        });
         return customer;
     }
 
     protected boolean removeFirst() {
         try {
-            waitingCustomer.remove(0);
+            waitingCustomers.remove(0);
         } catch (IndexOutOfBoundsException e) {
             return false;
         }
@@ -71,12 +71,12 @@ public class Tail extends Actor {
         return modifyEnabled;
     }
 
-    public LinkedList<Customer> getWaitingCustomer() {
-        return waitingCustomer;
+    public LinkedList<Customer> getWaitingCustomers() {
+        return waitingCustomers;
     }
 
     protected int getTailSize() {
-        return waitingCustomer.size();
+        return waitingCustomers.size();
     }
 
 }

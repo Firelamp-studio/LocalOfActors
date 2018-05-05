@@ -14,18 +14,15 @@ public class LocalTail extends Tail {
         return newPersonInQueue(customer);
     }
 
-    @ActionCallable(name = "get-queue-position")
-    public Vector getQueuePosition(Customer customer) {
-        return getPersonPositionInQueue(customer);
-    }
-
     public Customer letPersonEntry() {
         return customerLeaveQueue();
     }
 
     @ActionCallable(name = "customer-arrived-to-position")
     public void customerArrivedToPosition(Customer customer) {
-        if (getWaitingCustomer().getFirst() == customer) {
+        System.out.println("arrivato");
+        if (getWaitingCustomers().getFirst() == customer) {
+            System.out.println("primo");
             setModifyEnabled(true);
         }
     }

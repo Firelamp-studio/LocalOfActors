@@ -57,7 +57,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "entry-line-end-movement")
     public void entryLineEndMovement() {
-        actionCall(localTail, "customer-arrived-to-position");
+        actionCall(localTail, "customer-arrived-to-position", this);
         setRotation(-90);
     }
 
