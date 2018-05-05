@@ -7,18 +7,22 @@ import API.Annotations.ActionCallable;
 import API.Utility.TimerAction;
 
 public class EntryDoor extends Actor {
+
     /*private TimerAction timerAction;*/
     private int numPeopleInside;
-    
-    public EntryDoor(){
-    	numPeopleInside = 0;
+    private LocalTail localTail;
+
+    public EntryDoor() {
+        numPeopleInside = 0;
     }
 
     @Override
     protected void tick(long deltaTime) {
-
+        if (numPeopleInside < 30) {
+            actionCall(localTail, "let-person-entry");
+        }
     }
-/*
+    /*
     public void faiEntrareQualcunoOgniTanto(int maxWaitTimeMS){
     	long delay = new Random().nextInt(maxWaitTimeMS) + 1;
         timerAction = new TimerAction(true, delay, this, "entra-dopo-ritardo", delay);

@@ -1,22 +1,39 @@
 package Game.Actors;
 
 import API.Annotations.*;
+import Game.DrinkCard;
 
 public class Barman extends Person {
-    double vino;
 
-    public Barman() {
-        vino = 0;
+    private Barrel redWineBarrel;
+    private Barrel witheWineBarrel;
+
+    public Barman(Barrel redWineBarrel, Barrel witheWineBarrel) {
+        this.redWineBarrel = redWineBarrel;
+        this.witheWineBarrel = witheWineBarrel;
     }
 
-    public void consumaDaBarile(Barrel barrel, double litri) {
-        System.out.println("Barman: Attuelmente ho " + vino + " litri di vino");
-        System.out.println("Barman: Inizio procedura consumazione...");
-        actionCallResponse(barrel, "consuma_vino", litri);
+    @Override
+    protected void tick(long deltaTime) {
+
     }
 
+    @ActionResponse(name = "order-wine")
+    public void consumaVino(boolean bIsRedWine, DrinkCard drinkCard) {
+        try {
+            if (bIsRedWine) {
+                actionCall(redWineBarrel, "take-wine");
+            } else {
+                actionCall(witheWineBarrel, "take-wine");
+            }
+            drinkCard.useComsumation(bIsRedWine);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
-    @ActionResponse(name = "consuma_vino")
+    }
+
+    /*@ActionResponse(name = "consuma_vino")
     public void consumaVino(double quantita) {
 
         vino += quantita;
@@ -30,10 +47,5 @@ public class Barman extends Person {
         System.out.println("Barman: Ci è stato appena detto che è finito il vino");
     }
 
-
-
-    @Override
-    protected void tick(long deltaTime) {
-
-    }
+     */
 }
