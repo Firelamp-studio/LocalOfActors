@@ -156,16 +156,12 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
             
             if (!tickStopped && tickEnabled){
-            	
+                currentTime = Instant.now();
             	if(previousTime != null) {
-            	
-            		currentTime = Instant.now();
-            		
             		tickDuration = Duration.between(previousTime, currentTime).toNanos();
                     tick(tickDuration);
-                    
-                    previousTime = currentTime;
                 }
+                previousTime = currentTime;
             }
             
             try {
