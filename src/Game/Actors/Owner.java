@@ -3,6 +3,8 @@ package Game.Actors;
 import java.awt.event.MouseEvent;
 
 import API.Element;
+import API.Annotations.ActionCallable;
+import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.gui.CustomerInfo;
 
@@ -13,6 +15,13 @@ public class Owner extends Person {
 	public Owner(Element lamp) {
 		setSprite("man.png", 0.5);
 		this.lamp = lamp;
+		
+		new TimerAction(3000, this, "detach-info").execute();
+	}
+	
+	@ActionCallable(name = "detach-info")
+	public void detachInfoBox() {
+		detachRelativeComponent(customer);
 	}
 	
 	@Override

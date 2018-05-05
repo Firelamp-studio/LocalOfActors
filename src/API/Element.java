@@ -1,27 +1,24 @@
 package API;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import API.Components.Sprite;
-import API.Utility.Rotator;
 import API.Utility.Vector;
 
 public class Element implements MouseListener {
     private Vector location;
     private Sprite sprite;
     private HashMap<JComponent, Vector> syncedComps;
+    private HashMap<Element, Vector> syncedElements;
     private Map map;
 	
 	public Element() {
 		syncedComps = new HashMap<>();
+		syncedElements = new HashMap<>();
 		sprite = null;
 		location = new Vector();
 	}
@@ -40,10 +37,6 @@ public class Element implements MouseListener {
     	setLocation(location.x, location.y);
     }
     
-    public void updateSyncedComponentsLocation(Vector location){
-    	updateSyncedComponentsLocation(location.x, location.y);
-    }
-    
     private void updateSyncedComponentsLocation(int x, int y) {
     	syncedComps.forEach((comp, loc) -> {
     		comp.setLocation(loc.toPoint());
@@ -51,8 +44,15 @@ public class Element implements MouseListener {
     	});
     }
     
+    private void updateSyncedElementLocation(int x, int y) {
+    	syncedElements.forEach((elem, loc) -> {
+    		elem.setLocation(location.x + loc.x, location.y + loc.y);
+    	});
+    }
+    
     public void setLocation(int x, int y){
     	updateSyncedComponentsLocation(x, y);
+    	updateSyncedElementLocation(x, y);
     	
     	this.location.x = x;
     	this.location.y = y;
@@ -65,7 +65,6 @@ public class Element implements MouseListener {
         return this.location;
     }
 
-    // View methods
     public void setRotation(float degrees){
     	if(sprite != null)
     		sprite.rotate(degrees);
@@ -101,8 +100,7 @@ public class Element implements MouseListener {
 	}
     
 	public void addRelativeComponent(JComponent component, Vector relative, int zindex) {
-		relative.y *= -1;
-		syncedComps.put(component, relative);
+		attachRelativeComponent(component, relative);
 		map.addComponent(component, location.add(relative), zindex);
 	}
 	
@@ -116,6 +114,28 @@ public class Element implements MouseListener {
 	
 	public void addRelativeComponent(JComponent component) {
 		addRelativeComponent(component, new Vector(), 10);
+	}
+	
+	public void attachRelativeComponent(JComponent component, Vector relative) {
+		relative.y *= -1;
+		syncedComps.put(component, relative);
+	}
+	
+	public void attachRelativeComponent(JComponent component) {
+		attachRelativeComponent(component, new Vector());
+	}
+	
+	public void detachRelativeComponent(JComponent component) {
+		syncedComps.remove(component);
+	}
+	
+	public void attachElement(Element element, Vector relative) {
+		relative.y *= -1;
+		syncedElements.put(element, relative);
+	}
+	
+	public void detachElement(Element element) {
+		syncedElements.remove(element);
 	}
 
 	@Override
