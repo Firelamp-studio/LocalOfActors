@@ -61,7 +61,6 @@ public abstract class Tail extends Actor {
     public void customerArrivedToPosition(Customer customer) {
         if (!waitingCustomers.isEmpty() && waitingCustomers.getFirst() == customer) {
             setModifyEnabled(true);
-            System.out.println("Il cliente può uscire dalla coda");
         }
     }
 
