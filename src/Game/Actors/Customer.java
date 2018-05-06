@@ -105,10 +105,10 @@ public class Customer extends Person {
     }
 
     @ActionResponse(name = "get-in-line-for-order")
-    public void getInLineForEOrder(Vector vector) {
+    public void getInLineForOrder(Vector vector) {
         if (vector != null) {
+            //System.out.println( id + " Parte entry-counter-line-and-movement");
             moveTo(vector, "entry-counter-line-and-movement");
-            System.out.println( id + " Parte entry-counter-line-and-movement");
         }
         else {
             doSomething();
@@ -145,11 +145,7 @@ public class Customer extends Person {
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
-    @ActionResponse(name = "get-in-line-for-order")
-    public void getInLineForOrder(Vector vector) {
-        moveTo(vector);
-    }
-
+/*
     @ActionCallable(name = "go-to-barman")
     public void getFreeBarman() {
         actionCallResponse(counter, "get-free-barman");
@@ -160,7 +156,7 @@ public class Customer extends Person {
         barman = freeBarman;
         moveTo(barman, "go-to-order-wine");
     }
-
+*/
     @ActionCallable(name = "go-to-order-wine")
     public void orderWine() {
         if (Math.random() > 0.5) {
