@@ -31,8 +31,8 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     private final List<Method> asyncMethods;
     private final List<Method> actionCallableMethods;
     private final List<Method> actionResponseMethods;
-    protected final boolean actionsEnabled;
-    protected final boolean tickEnabled;
+    protected boolean actionsEnabled;
+    protected boolean tickEnabled;
     private boolean actionsStopped;
     private boolean tickStopped;
     private List<Action> actionCalls;
