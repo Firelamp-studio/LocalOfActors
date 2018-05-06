@@ -5,7 +5,6 @@ import java.util.Random;
 
 import API.Annotations.ActionCallable;
 import API.Annotations.ActionResponse;
-import API.Annotations.BindableEvent;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.DrinkCard;
@@ -25,7 +24,7 @@ public class Customer extends Person {
     private int armchairIndex;
     private static int generateId = 0;
     private int id;
-    CustomerInfo customer;
+    CustomerInfo customerInfo;
 
     public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         if (Math.random() > 0.5) {
@@ -47,7 +46,7 @@ public class Customer extends Person {
         armchairIndex = -1;
         generateId++;
         id = generateId;
-        customer = new CustomerInfo(new Vector(100));
+        customerInfo = new CustomerInfo(new Vector(100));
     }
 
     @Override
@@ -56,7 +55,7 @@ public class Customer extends Person {
 
         //moveTo(sitGroup.getArmchairLocation(sitGroup.getFreeSitIndex()));
         actionCallResponse(localTail, "get-in-line-for-entry", this);
-        addRelativeComponent(customer, new Vector(0, 80));
+        addRelativeComponent(customerInfo, new Vector(0, 80));
     }
 
     @Override
@@ -95,16 +94,15 @@ public class Customer extends Person {
 
     @ActionCallable(name = "do-something")
     public void doSomething() {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
         double random = Math.random();
-        if (random > 0.4) {
+        /*if (random > 0.4) {
             actionCallResponse(counterTail, "get-in-line-for-order", this);
-        } else /*if (random > 0.1) */{
-            for (int i = 0; i < 4; i++){
-                actionCallResponse(sitGroup, "sit-on-sit" );
-            }
-        } /*else {
+        } else if (random > 0.1) {
+            actionCallResponse(sitGroup, "sit-on-sit" );
+        } else {*/
             exit();
-        }*/
+        //}
     }
 
     @ActionResponse(name = "get-in-line-for-order")
@@ -120,7 +118,7 @@ public class Customer extends Person {
 
     @ActionResponse(name = "sit-on-sit")
     public void goToSit(int index) {
-        customer.setIntention("Sto andando a sedermi");
+        customerInfo.setIntention("Sto andando a sedermi");
         armchairIndex = index;
         if (index < 0) {
             actionCall(this, "do-something");
@@ -173,8 +171,13 @@ public class Customer extends Person {
     }
 
     private void exit() {
-        System.out.println("sto uscendo");
-        moveTo(new Vector(0, 0));
+        customerInfo.setIntention("Sto uscendo");
+        moveTo(entryDoor.getLocation().add(new Vector(-30, -50)), "open-door-and-exit");
+    }
+
+    @ActionCallable(name = "open-door-and-exit")
+    public void opernDoorAndEntry(){
+        actionCall(entryDoor, "customer-exit", this);
     }
 
     public Vector getWaitingAreaVector() {
@@ -185,11 +188,11 @@ public class Customer extends Person {
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
 
-        if(customer.isVisible()) {
-            customer.setVisible(false);
+        if(customerInfo.isVisible()) {
+            customerInfo.setVisible(false);
         }
         else {
-            customer.setVisible(true);
+            customerInfo.setVisible(true);
         }
     }
 }
