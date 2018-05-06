@@ -1,7 +1,5 @@
 package Game.Actors;
 
-import java.util.Random;
-
 import API.Actor;
 import API.Annotations.ActionCallable;
 import API.Utility.TimerAction;
@@ -27,7 +25,6 @@ public class EntryDoor extends Actor {
         this.sitGroup = sitGroup;
         numPeopleInside = 0;
         setSprite("door.png");
-        timerSpawnCustomer = new TimerAction(true, 2750 , this, "spawn-customer-iterator" );
         tickEnabled = true;
     }
 
@@ -38,6 +35,7 @@ public class EntryDoor extends Actor {
             map = (BarMap) getMap();
             i = map.getTotalPeople();
         }
+        timerSpawnCustomer = new TimerAction(true, 250 *  map.getGameSpeed() , this, "spawn-customer-iterator" );
         timerSpawnCustomer.execute();
     }
 
@@ -50,7 +48,7 @@ public class EntryDoor extends Actor {
             System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
             customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
             setRotation(90);
-            new TimerAction(1200, this, "close-door").execute();
+            new TimerAction(map.getGameSpeed() * 140, this, "close-door").execute();
         }
     }
 
@@ -63,7 +61,7 @@ public class EntryDoor extends Actor {
     public void spawnCustomerIterator() {
         if (i > 0) {
             i--;
-            new TimerAction((long)(Math.random() * 1500), this, "spawn-customer").execute();
+            new TimerAction((long)(Math.random() * 150 * map.getGameSpeed()), this, "spawn-customer").execute();
         } else {
             timerSpawnCustomer.kill();
         }
@@ -71,12 +69,12 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer")
     public void spawnCustomer() {
-        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 600, 750 ), 10 );
+        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 1600, 750 ), 10 );
     }
 
     @ActionCallable(name = "customer-exit")
     public void customerExit(Customer customer) {
-        customer.moveTo(new Vector(165, 1200), "destroy-customer-on-exit");
+        customer.moveTo(new Vector(165, 120 *  map.getGameSpeed()), "destroy-customer-on-exit");
         numPeopleInside--;
         System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
         setRotation(90);

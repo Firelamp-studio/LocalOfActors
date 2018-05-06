@@ -4,6 +4,7 @@ import API.Annotations.ActionCallable;
 import API.Utility.Rotator;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
+import Game.Maps.BarMap;
 
 public class Pawn extends Actor {
 	private TimerAction moveTimer;
@@ -12,8 +13,15 @@ public class Pawn extends Actor {
 	private int walkingSteps;
 	private Object[] argsAfterMoveTo;
 
-	public Pawn(){
-		moveTimer = new TimerAction(true, 2, this, "pawn-walking-loop");
+	@Override
+	protected void beginPlay() {
+		super.beginPlay();
+
+		long delay = 4;
+		if(getMap() instanceof BarMap)
+			delay = ((BarMap)getMap()).getGameSpeed();
+
+		moveTimer = new TimerAction(true, delay, this, "pawn-walking-loop");
 	}
 
 	public final void moveTo(Vector location, String actionCaller, Object... args) {

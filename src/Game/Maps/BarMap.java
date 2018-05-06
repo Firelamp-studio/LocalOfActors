@@ -1,35 +1,24 @@
 package Game.Maps;
 
 import java.awt.Dimension;
-import java.io.File;
-import java.io.IOException;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import API.Components.Sprite;
-import API.Element;
 import API.Map;
-import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.Actors.*;
-import Game.gui.BarrelInfo;
-import Game.gui.CustomerInfo;
 
 public class BarMap extends Map {
 
     private int totalPeople;
     private int maxLocalPeople;
-    private TimerAction timerSpawnCustomer;
+    private int gameSpeed;
 
-    public BarMap(int totalPeople, int maxLocalPeople) {
+    public BarMap(int totalPeople, int maxLocalPeople, int gameSpeed) {
         setMapSize(new Dimension(1500, 1029));
 
         this.totalPeople = totalPeople;
         this.maxLocalPeople = maxLocalPeople;
+        this.gameSpeed = gameSpeed;
 
         Sprite background = new Sprite("local.jpg");
         addComponent(background, getMapCenter(), -10);
@@ -61,13 +50,6 @@ public class BarMap extends Map {
         addActor(entryDoor, new Vector(200, 700));
         addActor(counter, new Vector(1000, 240));
         addActor(sitGroup, new Vector(300, 650));
-        //addActor(localTail, new Vector( 1000, 750 ) );
-        //addComponent(new CustomerInfo(new Vector(100)), new Vector(100), 10);
-        /*CustomerInfo ci = new CustomerInfo(new Vector(300));
-        addComponent(ci, getMapCenter(), 100);
-        ci.setVisible(true);
-        ci.setRedWineValue(totalPeople);
-        ci.setWhiteWineValue(maxLocalPeople);*/
     }
 
     public int getTotalPeople() {
@@ -78,4 +60,7 @@ public class BarMap extends Map {
         return maxLocalPeople;
     }
 
+    public int getGameSpeed() {
+        return gameSpeed;
+    }
 }

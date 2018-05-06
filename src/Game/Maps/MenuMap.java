@@ -71,19 +71,32 @@ public class MenuMap extends Map {
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.EAST;
 		bottomMenu.add(custumersTot, gbc);
-		
+
 		JLabel text2 = new JLabel("Massimo numero di persone che possono stare dentro al locale:");
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.WEST;
 		bottomMenu.add(text2, gbc);
-		
+
 		JSpinner maxLocalCustumers = new JSpinner();
 		maxLocalCustumers.setValue(20);
 		gbc.gridx = 2;
 		gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.EAST;
 		bottomMenu.add(maxLocalCustumers, gbc);
+
+		JLabel text3 = new JLabel("Incremento rallentamento velocità serata:");
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.anchor = GridBagConstraints.WEST;
+		bottomMenu.add(text3, gbc);
+
+		JSpinner gameSpeed = new JSpinner();
+		gameSpeed.setValue(4);
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		gbc.anchor = GridBagConstraints.EAST;
+		bottomMenu.add(gameSpeed, gbc);
 		
 		
 		Dimension prefSize = bottomMenu.getPreferredSize();
@@ -95,7 +108,8 @@ public class MenuMap extends Map {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
-				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue()));
+				int speed = (int)gameSpeed.getValue();
+				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue(), speed > 0 ? speed : 1));
 				currentFrame.dispose();
 			}
 		});
