@@ -12,27 +12,23 @@ import API.Utility.Vector;
 public class Element implements MouseListener {
     private Vector location;
     private Sprite sprite;
-    private HashMap<JComponent, Vector> syncedComps;
-    private HashMap<Element, Vector> syncedElements;
+    private HashMap<JComponent, Vector> attachedComps;
     private Map map;
 
 	public Element(String filename, double scale) {
-		syncedComps = new HashMap<>();
-		syncedElements = new HashMap<>();
+		attachedComps = new HashMap<>();
 		sprite = new Sprite(filename, scale);
 		location = new Vector();
 	}
 
 	public void Element(String filename) {
-		syncedComps = new HashMap<>();
-		syncedElements = new HashMap<>();
+		attachedComps = new HashMap<>();
 		sprite = new Sprite(filename);
 		location = new Vector();
 	}
 
 	public Element() {
-		syncedComps = new HashMap<>();
-		syncedElements = new HashMap<>();
+		attachedComps = new HashMap<>();
 		sprite = new Sprite(null);
 		location = new Vector();
 	}
@@ -42,21 +38,14 @@ public class Element implements MouseListener {
     }
     
     private void updateSyncedComponentsLocation(int x, int y) {
-    	syncedComps.forEach((comp, loc) -> {
+    	attachedComps.forEach((comp, loc) -> {
     		comp.setLocation(loc.toPoint());
     		comp.setLocation(location.x - comp.getWidth()/2 + comp.getX(), location.y - comp.getHeight()/2 + comp.getY());
     	});
     }
     
-    private void updateSyncedElementLocation(int x, int y) {
-    	syncedElements.forEach((elem, loc) -> {
-    		elem.setLocation(location.x + loc.x, location.y + loc.y);
-    	});
-    }
-    
     public void setLocation(int x, int y){
     	updateSyncedComponentsLocation(x, y);
-    	updateSyncedElementLocation(x, y);
     	
     	this.location.x = x;
     	this.location.y = y;
@@ -122,7 +111,7 @@ public class Element implements MouseListener {
 	
 	public void attachRelativeComponent(JComponent component, Vector relative) {
 		relative.y *= -1;
-		syncedComps.put(component, relative);
+		attachedComps.put(component, relative);
 	}
 	
 	public void attachRelativeComponent(JComponent component) {
@@ -130,16 +119,12 @@ public class Element implements MouseListener {
 	}
 	
 	public void detachRelativeComponent(JComponent component) {
-		syncedComps.remove(component);
+		attachedComps.remove(component);
 	}
-	
-	public void attachElement(Element element, Vector relative) {
-		relative.y *= -1;
-		syncedElements.put(element, relative);
-	}
-	
-	public void detachElement(Element element) {
-		syncedElements.remove(element);
+
+	public JComponent[] getAttachedComps() {
+		JComponent[] tempAttachedComps = new JComponent[attachedComps.size()];
+		return attachedComps.keySet().toArray(tempAttachedComps);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import API.Annotations.*;
 import API.Managers.EventManager;
 import API.Managers.EventManagerTool;
 
+import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -264,6 +265,17 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     
     protected void endPlay(){
 
+    }
+
+    public void disposeActor(){
+        setActionsStopped(true);
+        setTickStopped(true);
+        getMap().getViewArea().remove(getSprite());
+
+        for(JComponent comp : getAttachedComps()){
+            getMap().getViewArea().remove(comp);
+            comp = null;
+        }
     }
 }
 
