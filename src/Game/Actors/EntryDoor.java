@@ -78,7 +78,7 @@ public class EntryDoor extends Actor {
     @ActionCallable(name = "customer-exit")
     public void customerExit(Customer customer) {
         System.out.println("Porta: sto facendo uscire un cliente");
-        customer.moveTo(new Vector(165, 900), "destroy-customer-on-exit");
+        customer.moveTo(new Vector(165, 1200), "destroy-customer-on-exit");
         numPeopleInside--;
         System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
         setRotation(90);

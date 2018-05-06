@@ -95,18 +95,21 @@ public class Customer extends Person {
     @ActionCallable(name = "do-something")
     public void doSomething() {
         double random = Math.random();
-        /*if (random > 0.4) {
+        //if (random > 0.4) {
             actionCallResponse(counterTail, "get-in-line-for-order", this);
-        } else if (random > 0.1) {
+        /*} else if (random > 0.1) {
             actionCallResponse(sitGroup, "sit-on-sit" );
-        } else {*/
+        } else {
             exit();
-        //}
+        }*/
     }
 
     @ActionResponse(name = "get-in-line-for-order")
     public void getInLineForEOrder(Vector vector) {
-        moveTo(vector, "entry-counter-line-and-movement");
+        if (vector != null)
+            moveTo(vector, "entry-counter-line-and-movement");
+        else
+            doSomething();
     }
 
     @ActionCallable(name = "entry-order-line-and-movement")
@@ -120,7 +123,7 @@ public class Customer extends Person {
         customerInfo.setIntention("Sto andando a sedermi");
         armchairIndex = index;
         if (index < 0) {
-            actionCall(this, "do-something");
+            doSomething();
         } else {
             System.out.println(sitGroup.getArmchairLocation(index));
             moveTo(sitGroup.getArmchairLocation(index), "on-arrived-on-sit");
