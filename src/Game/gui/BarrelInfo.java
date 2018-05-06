@@ -15,7 +15,7 @@ public class BarrelInfo extends JPanel {
 		add(wineLabel);
 	}
 	
-	public void setWineValue(int litres) {
+	public void setWineValue(float litres) {
 		wineLabel.setText("Litri vino: " + litres);
 	}
 }

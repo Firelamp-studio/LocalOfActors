@@ -7,6 +7,7 @@ import API.Utility.Vector;
 
 public class Barman extends Person {
     private Vector startPosition;
+    private Customer customer;
     private boolean free;
     private boolean fillRedWhine;
     private Barrel redWineBarrel;
@@ -30,6 +31,7 @@ public class Barman extends Person {
     }
 
     public void orderWine(boolean bIsRedWine, Customer customer) {
+        this.customer = customer;
         if (customer.getDrinkCard().hasComsumation()) {
             fillRedWhine = bIsRedWine;
             if (bIsRedWine){
@@ -54,6 +56,7 @@ public class Barman extends Person {
 
     @ActionCallable(name = "arrived-on-barrel")
     public void arrivedOnBarrel(Barrel barrel) {
+        setRotation(0);
         new TimerAction(1500,this,"spill").execute(barrel);
     }
 
@@ -64,8 +67,14 @@ public class Barman extends Person {
 
     @ActionResponse(name = "get-wine-glass")
     public void getWineGlass(int wineGlass) {
-        System.out.println("MOVE TO START: " + startPosition);
-        moveTo(startPosition);
+        moveTo(startPosition, "give-wine-glass", wineGlass);
+    }
+
+    @ActionCallable(name = "give-wine-glass")
+    public void giveWineGlass(int wineGlass) {
+        setRotation(180);
+        actionCall(customer, "recive-wine-glass", wineGlass);
+        free = true;
     }
 
     public boolean isFree() {

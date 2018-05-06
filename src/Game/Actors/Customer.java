@@ -99,7 +99,7 @@ public class Customer extends Person {
     @ActionCallable(name = "do-something")
     public void doSomething() {
         double random = Math.random();
-        if (random > 0.4) {
+        if (random > 0.3) {
             if (wineGlass > 0){
                 wineGlass -= 50;
                 chooseWahtToDo();
@@ -142,8 +142,9 @@ public class Customer extends Person {
         }
     }
 
-    @ActionCallable(name = "get-wine")
-    public void getWineAndWait() {
+    @ActionCallable(name = "recive-wine-glass")
+    public void getWineAndWait(int wineGlass) {
+        this.wineGlass = wineGlass;
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 

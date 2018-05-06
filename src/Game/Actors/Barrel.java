@@ -1,7 +1,6 @@
 package Game.Actors;
 
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import API.Actor;
@@ -14,7 +13,7 @@ public class Barrel extends Actor {
     private boolean bIsRedWhine;
     private boolean spilling;
     private int wineMl;
-    private BarrelInfo barrel;
+    private BarrelInfo barrelInfo;
     private LinkedList<Barman> requests;
     
     public Barrel(boolean bIsRedWhine){
@@ -33,8 +32,9 @@ public class Barrel extends Actor {
     @Override
     protected void beginPlay() {
     	super.beginPlay();
-    	barrel = new BarrelInfo(new Vector(100, 30));
-    	addRelativeComponent(barrel, new Vector(0, 30));
+    	barrelInfo = new BarrelInfo(new Vector(100, 30));
+    	addRelativeComponent(barrelInfo, new Vector(0, 30));
+        barrelInfo.setWineValue(wineMl/1000.f);
     }
 
     @Override
@@ -62,6 +62,7 @@ public class Barrel extends Actor {
         if (wineMl > 0) {
             wineMl -= 250;
             spilling = false;
+            barrelInfo.setWineValue(wineMl/1000.f);
             return 250;
         }
         return 0;
@@ -74,10 +75,10 @@ public class Barrel extends Actor {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-    	if(barrel.isVisible()){
-    		barrel.setVisible(false);
+    	if(barrelInfo.isVisible()){
+    		barrelInfo.setVisible(false);
     	} else {
-    		barrel.setVisible(true);
+    		barrelInfo.setVisible(true);
     	}
     }
 }
