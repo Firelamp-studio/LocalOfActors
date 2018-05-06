@@ -44,6 +44,7 @@ public class EntryDoor extends Actor {
     @Override
     protected void tick(long deltaTime) {
         if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
+            System.out.println("CCC");
             localTail.setModifyEnabled(false);
             Customer customer = localTail.letPersonEntry();
             numPeopleInside++;

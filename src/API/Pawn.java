@@ -15,9 +15,6 @@ public class Pawn extends Actor {
 	}
 	
 	public final void moveTo(Vector location, String actionCaller) {
-		if(moveTimer.isAlive())
-			moveTimer.kill();
-
 		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
 		Vector dist = getLocation().distance(location);
