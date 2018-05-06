@@ -14,31 +14,31 @@ public class TimerAction implements Runnable {
     private boolean loop;
     private Object[] args;
 
-    public TimerAction(boolean loop, long delay, Actor actorToCall, String actionName, Object... args) {
+    public TimerAction(boolean loop, long delay, Actor actorToCall, String actionName) {
         this.delay = delay;
         this.loop = loop;
         this.actorToCall = actorToCall;
         this.timerThread = null;
         this.actionName = actionName;
-        this.args = args;
 
         methodToCall = null;
         for(Method method : actorToCall.getActionCallableMethods()){
 
             ActionCallable actionCallable = method.getAnnotation(ActionCallable.class);
 
-            if(actionName.equals(actionCallable.name()) && method.getParameterCount() == args.length){
+            if(actionName.equals(actionCallable.name())){
                 methodToCall = method;
             }
         }
     }
 
-    public TimerAction(long delay, Actor actorToCall, String actionName, Object... args) {
-        this(false, delay, actorToCall, actionName, args);
+    public TimerAction(long delay, Actor actorToCall, String actionName) {
+        this(false, delay, actorToCall, actionName);
     }
 
 
-    public void execute() {
+    public void execute(Object... args) {
+        this.args = args;
         if (actionName != null && !actionName.isEmpty() && timerThread == null) {
             timerThread = new Thread(this);
             timerThread.start();
@@ -52,6 +52,12 @@ public class TimerAction implements Runnable {
         }
     }
 
+    public boolean isAlive() {
+        if(timerThread != null)
+            return timerThread.isAlive();
+
+        return false;
+    }
 
     @Override
     public void run() {
@@ -61,7 +67,6 @@ public class TimerAction implements Runnable {
 
                 actorToCall.addActionCall( new Actor.Action(actionName, methodToCall, args,null) );
             } catch (InterruptedException e) {
-                timerThread = null;
                 return;
             }
         } while (loop && timerThread.isAlive());

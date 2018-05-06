@@ -9,11 +9,14 @@ public class Pawn extends Actor {
 	private int xSteps;
 	private int ySteps;
 	private int walkingSteps;
+
+	public Pawn(){
+		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop");
+	}
 	
 	public final void moveTo(Vector location, String actionCaller) {
-		if(moveTimer != null){
+		if(moveTimer.isAlive())
 			moveTimer.kill();
-		}
 
 		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
@@ -36,6 +39,7 @@ public class Pawn extends Actor {
 		
 		if(shortLength != 0) {
 			shortModule = longLength / shortLength;
+
 		} else {
 			shortModule = -1;
 		}
@@ -43,8 +47,8 @@ public class Pawn extends Actor {
 		int xModule =  dist.x < dist.y ? shortModule : 1;
 		int yModule =  dist.x > dist.y ? shortModule : 1;
 		
-		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop", actionCaller, location, xModule, yModule, xIncr, yIncr);
-		moveTimer.execute();
+
+		moveTimer.execute(actionCaller, location, xModule, yModule, xIncr, yIncr);
 	}
 	
 	public final void moveTo(Element element, String actionCaller) {
@@ -61,6 +65,8 @@ public class Pawn extends Actor {
 	
 	@ActionCallable(name = "pawn-walking-loop")
 	public void pawnWalkingLoop(String actionCaller, Vector location, int xModule, int yModule, int xIncr, int yIncr) {
+		if(moveTimer == null || !moveTimer.isAlive())
+			return;
 
 		walkingSteps++;
 		
@@ -89,11 +95,11 @@ public class Pawn extends Actor {
 		setLocation(nextLoc);
 			
 		
-		if(xSteps <= 0 && ySteps <= 0) {
+		if(xSteps <= 0 && ySteps <= 0 && moveTimer.isAlive()) {
 			moveTimer.kill();
-			
-			if(actionCaller != null)
-				actionCall(actionCaller);
+
+			if(actionCaller != null && !actionCaller.isEmpty())
+				new TimerAction(10, this, actionCaller).execute();
 			
 			return;
 		}

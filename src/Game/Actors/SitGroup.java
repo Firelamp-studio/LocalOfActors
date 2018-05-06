@@ -22,7 +22,7 @@ public class SitGroup extends Actor {
     }
 
     @ActionCallable(name = "sit-on-sit")
-    public int getFreeSitVector(){
+    public int getFreeSitIndex(){
         for (int i = 0; i < armchairs.length; i++) {
             if (!armchairs[i].isOccupied()) {
                 armchairs[i].setOccupied(true);
@@ -37,7 +37,10 @@ public class SitGroup extends Actor {
     }
 
     public Vector getArmchairLocation(int index) {
-        return armchairs[index].getLocation();
+        if(index >= 0 && index < armchairs.length){
+            return armchairs[index].getLocation();
+        }
+        return null;
     }
 
 }

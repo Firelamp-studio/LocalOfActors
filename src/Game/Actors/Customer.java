@@ -49,6 +49,7 @@ public class Customer extends Person {
     protected void beginPlay() {
         super.beginPlay();
 
+        //moveTo(sitGroup.getArmchairLocation(sitGroup.getFreeSitIndex()));
         actionCallResponse(localTail, "get-in-line-for-entry", this);
         addRelativeComponent(customer, new Vector(0, 80));
     }
@@ -65,6 +66,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "entry-local-line-and-movement")
     public void entryLocalLineEndMovement() {
+        System.out.println("entry-local-line-and-movement");
         actionCall(localTail, "customer-arrived-to-position", this);
         setRotation(-90);
     }

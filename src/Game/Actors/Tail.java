@@ -59,6 +59,7 @@ public class Tail extends Actor {
 
     @ActionCallable(name = "customer-arrived-to-position")
     public void customerArrivedToPosition(Customer customer) {
+        System.out.println("customer-arrived-to-position");
         if (!waitingCustomers.isEmpty() && waitingCustomers.getFirst() == customer) {
             setModifyEnabled(true);
         }

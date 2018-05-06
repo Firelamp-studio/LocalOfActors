@@ -45,8 +45,6 @@ public class EntryDoor extends Actor {
     protected void tick(long deltaTime) {
         if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
             localTail.setModifyEnabled(false);
-            /*if (timerDoorClose != null)
-                timerDoorClose.kill();*/
             Customer customer = localTail.letPersonEntry();
             numPeopleInside++;
             customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
