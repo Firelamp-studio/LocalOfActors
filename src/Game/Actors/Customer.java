@@ -5,7 +5,9 @@ import java.util.Random;
 
 import API.Annotations.ActionCallable;
 import API.Annotations.ActionResponse;
+import API.Utility.Rotator;
 import API.Utility.TimerAction;
+import API.Utility.Transform;
 import API.Utility.Vector;
 import Game.DrinkCard;
 import Game.gui.CustomerInfo;
@@ -64,15 +66,15 @@ public class Customer extends Person {
     }
 
     @ActionResponse(name = "local-enqueue-customer")
-    public void getInLineForEntry(Vector vector) {
-        moveTo(vector, "entry-local-line-and-movement");
+    public void getInLineForEntry(Transform transform) {
+        moveTo(transform.location, "entry-local-line-and-movement", transform.rotation);
     }
 
     @ActionCallable(name = "entry-local-line-and-movement")
-    public void entryLocalLineEndMovement() {
+    public void entryLocalLineEndMovement(Rotator rotator) {
         System.out.println("Cliente " + id + ": sono in fila per entrare");
         actionCall(localTail, "customer-arrived-to-position", this);
-        setRotation(-90);
+        setRotation(rotator.getRotation());
     }
 
 
@@ -105,10 +107,10 @@ public class Customer extends Person {
     }
 
     @ActionResponse(name = "counter-enqueue-customer")
-    public void getInLineForOrder(Vector vector) {
-        if (vector != null) {
+    public void getInLineForOrder(Transform transform) {
+        if (transform!= null) {
             System.out.println( id + " Parte entry-counter-line-and-movement");
-            moveTo(vector, "entry-counter-line-and-movement");
+            moveTo(transform.location, "entry-counter-line-and-movement", transform.rotation);
         }
         else {
             doSomething();
@@ -116,10 +118,15 @@ public class Customer extends Person {
     }
 
     @ActionCallable(name = "entry-counter-line-and-movement")
-    public void entryCounterLineEndMovement() {
+    public void entryCounterLineEndMovement(Rotator rotator) {
         System.out.println( id + " Riceve entry-counter-line-and-movement");
         actionCall(counterTail, "customer-arrived-to-position", this);
-        setRotation(0);
+        setRotation(rotator.getRotation());
+    }
+
+    @ActionCallable(name = "arrived-to-barman")
+    public void arrivedToBarman() {
+
     }
 
     @ActionResponse(name = "sit-on-sit")
