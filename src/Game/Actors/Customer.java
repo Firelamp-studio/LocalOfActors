@@ -71,10 +71,6 @@ public class Customer extends Person {
         setRotation(-90);
     }
 
-    @BindableEvent(name = "update-queue-position")
-    public void queueStepForward() {
-
-    }
 
     @ActionCallable(name = "arrived-to-cashdesk")
     public void payAndGetCard() {

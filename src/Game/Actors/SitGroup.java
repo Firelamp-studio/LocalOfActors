@@ -33,7 +33,10 @@ public class SitGroup extends Actor {
     }
 
     public Armchair getArmchair(int index) {
-        return armchairs[index];
+        if (index >= 0 && index <= 4){
+            return armchairs[index];
+        }
+        return null;
     }
 
     public Vector getArmchairLocation(int index) {
