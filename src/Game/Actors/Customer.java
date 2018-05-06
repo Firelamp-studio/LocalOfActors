@@ -107,7 +107,7 @@ public class Customer extends Person {
     @ActionResponse(name = "counter-enqueue-customer")
     public void getInLineForOrder(Vector vector) {
         if (vector != null) {
-            //System.out.println( id + " Parte entry-counter-line-and-movement");
+            System.out.println( id + " Parte entry-counter-line-and-movement");
             moveTo(vector, "entry-counter-line-and-movement");
         }
         else {

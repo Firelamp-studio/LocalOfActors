@@ -19,4 +19,9 @@ public class LocalTail extends Tail {
         }
         return null;
     }
+
+    @ActionCallable(name = "local-enqueue-customer")
+    public Vector localEnqueueCustomer(Customer customer){
+        return enqueueCustomer(customer);
+    }
 }

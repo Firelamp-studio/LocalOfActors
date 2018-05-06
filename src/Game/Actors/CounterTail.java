@@ -18,6 +18,11 @@ public class CounterTail extends Tail {
         int moreUp = xOffset > 0 ? 1 : 0;
         int yOffset = alternateOffset == 0 ? tempYOffset + moreUp : 5 + moreUp - tempYOffset;
 
-        return getLocation().add(new Vector(xOffset * -50, yOffset * 50));
+        return getLocation().add(new Vector(xOffset * -70, yOffset * 40));
+    }
+
+    @ActionCallable(name = "counter-enqueue-customer")
+    public Vector counterEnqueueCustomer(Customer customer){
+        return enqueueCustomer(customer);
     }
 }
