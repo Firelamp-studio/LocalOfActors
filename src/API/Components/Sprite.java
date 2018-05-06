@@ -20,7 +20,11 @@ public class Sprite extends JLabel{
 	private Rotator rotator;
 	private int viewSize;
 	private Element owner;
-	
+
+	public Sprite(){
+		this(null);
+	}
+
     public Sprite(String imageFile, double scale) {
     	rotator = new Rotator();
     	this.scale = scale;
