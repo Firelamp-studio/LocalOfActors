@@ -10,6 +10,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import API.Components.Sprite;
 import API.Element;
 import API.Map;
 import API.Utility.TimerAction;
@@ -30,9 +31,8 @@ public class BarMap extends Map {
         this.totalPeople = totalPeople;
         this.maxLocalPeople = maxLocalPeople;
 
-        Element background = new Element();
-        background.setSprite("local.jpg");
-        addElement(background, getMapCenter(), -10);
+        Sprite background = new Sprite("local.jpg");
+        addComponent(background, getMapCenter(), -10);
 
         LocalTail localTail = new LocalTail(200);
         CashDesk cashDesk = new CashDesk();

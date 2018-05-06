@@ -38,10 +38,9 @@ public class MenuMap extends Map {
 		setMapSize(new Dimension(1500, 900));
 		
 		Vector mapCenter = getMapCenter();
-		
-		Element background = new Element();
-        background.setSprite("mainmenu.jpg");
-        addElement(background, mapCenter, -10);
+
+		Sprite background = new Sprite("mainmenu.jpg");
+        addComponent(background, mapCenter, -10);
         
         
 		JButton startGame = new JButton("New Game");

@@ -277,9 +277,6 @@ public abstract class Actor extends Element implements Runnable, EventManager {
             getMap().getViewArea().remove(comp);
             comp = null;
         }
-
-        getMap().getViewArea().invalidate();
-        getMap().getViewArea().validate();
     }
 }
 
