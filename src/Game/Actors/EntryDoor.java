@@ -16,6 +16,7 @@ public class EntryDoor extends Actor {
     private CounterTail counterTail;
     private LocalTail localTail;
     private SitGroup sitGroup;
+    private Customer customerToDestroy;
     private int numPeopleInside;
     private int i;
 
@@ -48,6 +49,7 @@ public class EntryDoor extends Actor {
             System.out.println("Porta: sto facendo entrare un cliente");
             Customer customer = localTail.letPersonEntry();
             numPeopleInside++;
+            System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
             customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
             setRotation(90);
             new TimerAction(1200, this, "close-door").execute();
@@ -73,19 +75,20 @@ public class EntryDoor extends Actor {
     public void spawnCustomer() {
         map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 600, 750 ), 10 );
     }
-    /*
-    public void faiEntrareQualcunoOgniTanto(int maxWaitTimeMS){
-    	long delay = new Random().nextInt(maxWaitTimeMS) + 1;
-        timerAction = new TimerAction(true, delay, this, "entra-dopo-ritardo", delay);
-        timerAction.execute();
+
+    @ActionCallable(name = "customer-exit")
+    public void customerExit(Customer customer) {
+        customerToDestroy = customer;
+        System.out.println("Porta: sto facendo uscire un cliente");
+        customer.moveTo(new Vector(165, 900), "destroy-customer-on-exit");
+        numPeopleInside--;
+        System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
+        setRotation(90);
+        new TimerAction(1200, this, "close-door").execute();
     }
 
-    @ActionCallable(name = "entra-dopo-ritardo")
-    public void entraDopoRitardo(long delay){
-        numPersoneEntrate++;
-        System.out.println("Sta entrando qualcuno dopo " + (delay/1000.0)*numPersoneEntrate + " secondi!!!");
-        if(numPersoneEntrate >= 5){
-            timerAction.kill();
-        }
-    }*/
+    @ActionCallable(name = "destroy-customer-on-exit")
+    public void destroy(Customer customer) {
+        //customerToDestroy.stop
+    }
 }

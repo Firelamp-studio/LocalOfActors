@@ -43,10 +43,10 @@ public class BarMap extends Map {
         Barrel redWine = new Barrel(true);
         Barrel whiteWine = new Barrel(false);
 
-        addActor(localTail, new Vector(180, 750));
+        addActor(localTail, new Vector(165, 750));
         addActor(counterTail, new Vector(1000, 340));
         addActor(entryDoor, new Vector(200, 700));
-        addActor(cashDesk, new Vector(180, 300));
+        addActor(cashDesk, new Vector(165, 300));
         addActor(counter, new Vector(1000, 240));
         addActor(redWine, new Vector(900, 50));
         addActor(whiteWine, new Vector(1100, 50));
