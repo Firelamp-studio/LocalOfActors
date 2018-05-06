@@ -40,7 +40,7 @@ public class Barrel extends Actor {
     @Override
     protected void tick(long deltaTime) {
         super.tick(deltaTime);
-        if (!spilling && !requests.isEmpty()) {
+        if (!spilling && !requests.isEmpty() && wineMl > 0) {
             actionCall(requests.pop(), "can-spill");
             spilling = true;
         }

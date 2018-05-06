@@ -4,6 +4,7 @@ import API.Annotations.*;
 import API.Utility.Rotator;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
+import Game.Maps.BarMap;
 
 public class Barman extends Person {
     private Vector startPosition;
@@ -57,7 +58,13 @@ public class Barman extends Person {
     @ActionCallable(name = "arrived-on-barrel")
     public void arrivedOnBarrel(Barrel barrel) {
         setRotation(0);
-        new TimerAction(1500,this,"spill").execute(barrel);
+
+        long delay = 500;
+        if (getMap() instanceof BarMap){
+            delay = ((BarMap)getMap()).getGameSpeed() * 500;
+        }
+
+        new TimerAction(delay,this,"spill").execute(barrel);
     }
 
     @ActionCallable(name = "spill")
