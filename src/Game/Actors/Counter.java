@@ -11,7 +11,6 @@ public class Counter extends Actor {
 	private Barman[] barmans;
     private Barman freeBarman;
     private boolean isSearchingFreeBarman;
-    private int i;
 	
 	public Counter(CounterTail counterTail, Barman barmanLeft, Barman barmanCenter, Barman barmanRight) {
 		this.counterTail = counterTail;
@@ -26,15 +25,14 @@ public class Counter extends Actor {
 
     @Override
     protected void tick(long deltaTime) {
-        if (counterTail.isModifyEnabled() ){
+        if (!counterTail.getWaitingCustomers().isEmpty() && counterTail.isModifyEnabled()){
             isSearchingFreeBarman = true;
-	        for (i = 0; i < 3 && isSearchingFreeBarman; i++) {
+	        for (int i = 0; i < 3 && isSearchingFreeBarman; i++) {
 
                 if (barmans[i].isFree()) {
-
                     barmans[i].setFree(false);
 
-                    actionCallResponse(counterTail, "dequeue-customer", "entry-counter-line-and-movement");
+                    actionCallResponse(counterTail, "counter-dequeue-customer", "entry-counter-line-and-movement", i);
 
                     counterTail.setModifyEnabled(false);
                     isSearchingFreeBarman = false;
@@ -44,8 +42,12 @@ public class Counter extends Actor {
 
     }
 
-    @ActionResponse(name = "dequeue-customer")
+    @ActionResponse(name = "counter-dequeue-customer")
     public void dequeueResponse(Customer customer){
-        customer.moveTo(barmans[i].getLocation().add(new Vector(0, 130)), "arrived-to-barman", barmans[i]);
+	    if(customer != null){
+            int i = customer.servingBarman;
+            customer.moveTo(barmans[i].getLocation().add(new Vector(0, 130)), "arrived-to-barman", barmans[i]);
+            customer.servingBarman = -1;
+        }
     }
 }

@@ -42,7 +42,7 @@ public class EntryDoor extends Actor {
 
     @Override
     protected void tick(long deltaTime) {
-        if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
+        if (!localTail.getWaitingCustomers().isEmpty() && localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
             localTail.setModifyEnabled(false);
             actionCallResponse(localTail, "dequeue-customer", "entry-local-line-and-movement");
             numPeopleInside++;
@@ -53,7 +53,8 @@ public class EntryDoor extends Actor {
 
     @ActionResponse(name = "dequeue-customer")
     public void dequeueResponse(Customer customer){
-        customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
+        if(customer != null)
+            customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
     }
 
     @ActionCallable(name = "close-door")

@@ -27,7 +27,8 @@ public class Customer extends Person {
     private int armchairIndex;
     private static int generateId = 0;
     private int id;
-    public CustomerInfo customerInfo;
+    public int servingBarman;
+    private CustomerInfo customerInfo;
 
     public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         if (Math.random() > 0.5) {
@@ -46,6 +47,7 @@ public class Customer extends Person {
         this.counter = counter;
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
+        servingBarman = -1;
         wineGlass = 0;
         armchairIndex = -1;
         generateId++;

@@ -67,12 +67,15 @@ public abstract class Tail extends Actor {
 
     @ActionCallable(name = "dequeue-customer")
     public Customer dequeueCustomer(String actionAfterUpdateQueueLocation) {
-        Customer customer = waitingCustomers.pop();
-        getWaitingCustomers().forEach((c)->{
-            Transform transform = getPersonTransformInQueue(c);
-            c.moveTo(transform.location, actionAfterUpdateQueueLocation, transform.rotation);
-        });
-        return customer;
+        if(!waitingCustomers.isEmpty()){
+            Customer customer = waitingCustomers.removeFirst();
+            waitingCustomers.forEach((c)->{
+                Transform transform = getPersonTransformInQueue(c);
+                c.moveTo(transform.location, actionAfterUpdateQueueLocation, transform.rotation);
+            });
+            return customer;
+        }
+        return null;
     }
 
     @ActionCallable(name = "enqueue-customer")

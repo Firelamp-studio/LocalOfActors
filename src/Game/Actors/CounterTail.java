@@ -26,10 +26,15 @@ public class CounterTail extends Tail {
             rotationOffset = -90;
         }
 
-        customer.customerInfo.setCustomerNum(getTailSize()-1);
-
         return new Transform(getLocation().add(new Vector(xOffset * -70, yOffset * 60)),
                 new Rotator(180 * alternateOffset + rotationOffset));
+    }
+
+    @ActionCallable(name = "counter-dequeue-customer")
+    public Customer counterDequeueCustomer(String actionAfterUpdateQueueLocation, int i) {
+        Customer c = dequeueCustomer(actionAfterUpdateQueueLocation);
+        c.servingBarman = i;
+        return c;
     }
 
     @ActionCallable(name = "counter-enqueue-customer")
