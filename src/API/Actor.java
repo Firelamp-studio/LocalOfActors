@@ -270,12 +270,16 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     public void disposeActor(){
         setActionsStopped(true);
         setTickStopped(true);
+
         getMap().getViewArea().remove(getSprite());
 
         for(JComponent comp : getAttachedComps()){
             getMap().getViewArea().remove(comp);
             comp = null;
         }
+
+        getMap().getViewArea().invalidate();
+        getMap().getViewArea().validate();
     }
 }
 
