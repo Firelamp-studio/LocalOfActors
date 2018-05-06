@@ -14,10 +14,12 @@ public class CounterTail extends Tail {
         int xOffset = getTailSize() / 6;
         int tempYOffset = getTailSize() % 6;
         int alternateOffset = xOffset % 2;
-        int yOffset = 5 * alternateOffset - tempYOffset;
-        int secondOffset = xOffset > 0 ? 50 : 0;
+        System.out.println(" - AlternateOffset: " + alternateOffset);
+        int moreUp = xOffset > 0 ? 1 : 0;
+        int yOffset = alternateOffset == 0 ? tempYOffset + moreUp : 5 + moreUp - tempYOffset;
+
         addToTail(customer);
-        return getLocation().add(new Vector(xOffset * -50, yOffset * 50 + secondOffset));
+        return getLocation().add(new Vector(xOffset * -50, yOffset * 50));
     }
 
     public Customer letPersonOrder() {
