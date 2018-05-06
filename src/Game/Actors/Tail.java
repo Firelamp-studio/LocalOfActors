@@ -65,8 +65,9 @@ public abstract class Tail extends Actor {
         }
     }
 
+    @ActionCallable(name = "dequeue-customer")
     public Customer dequeueCustomer(String actionAfterUpdateQueueLocation) {
-        Customer customer = getWaitingCustomers().pop();
+        Customer customer = waitingCustomers.pop();
         getWaitingCustomers().forEach((c)->{
             Transform transform = getPersonTransformInQueue(c);
             c.moveTo(transform.location, actionAfterUpdateQueueLocation, transform.rotation);
@@ -74,6 +75,7 @@ public abstract class Tail extends Actor {
         return customer;
     }
 
+    @ActionCallable(name = "enqueue-customer")
     protected final Transform enqueueCustomer(Customer customer) {
         addToTail(customer);
         return getPersonTransformInQueue(customer);
