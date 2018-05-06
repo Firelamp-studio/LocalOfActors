@@ -17,20 +17,27 @@ public class SitGroup extends Actor {
         super.beginPlay();
         for (int i = 0; i < armchairs.length; i++){
             armchairs[i] = new Armchair();
-            getMap().addElement(armchairs[i], new Vector(getLocation().x + (100 * i),getLocation().y));
-
+            getMap().addElement(armchairs[i], getLocation().add(new Vector(100 * i, 0)));
         }
     }
 
     @ActionCallable(name = "sit-on-sit")
-    public Vector getFreeSitVector(){
-        for (Armchair armchair :  armchairs) {
-            if (!armchair.isOccupied()) {
-                armchair.setOccupied(true);
-                return armchair.getLocation();
+    public int getFreeSitVector(){
+        for (int i = 0; i < armchairs.length; i++) {
+            if (!armchairs[i].isOccupied()) {
+                armchairs[i].setOccupied(true);
+                return i;
             }
         }
-        return null;
+        return -1;
+    }
+
+    public Armchair getArmchair(int index) {
+        return armchairs[index];
+    }
+
+    public Vector getArmchairLocation(int index) {
+        return armchairs[index].getLocation();
     }
 
 }

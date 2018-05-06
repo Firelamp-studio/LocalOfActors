@@ -22,6 +22,7 @@ public class Customer extends Person {
     private CounterTail counterTail;
     private Barman barman;
     private SitGroup sitGroup;
+    private int armchairIndex;
     CustomerInfo customer;
 
     public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
@@ -40,6 +41,7 @@ public class Customer extends Person {
         this.counter = counter;
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
+        armchairIndex = -1;
         customer = new CustomerInfo(new Vector(100));
     }
 
@@ -90,34 +92,38 @@ public class Customer extends Person {
 
     @ActionCallable(name = "do-something")
     public void doSomething() {
-        /*double random = Math.random();
+        double random = Math.random();
         if (random > 0.4) {
             actionCallResponse(counterTail, "get-in-line-for-order", this);
         } else if (random > 0.1) {
-            for (int i = 0; i < 4; i++){*/
+            for (int i = 0; i < 4; i++){
                 actionCallResponse(sitGroup, "sit-on-sit" );
-            /*}
+            }
         } else {
             exit();
-        }*/
+        }
     }
 
     @ActionResponse(name = "sit-on-sit")
-    public void goToSit(Vector vector) {
-        if (vector == null) {
-            doSomething();
+    public void goToSit(int index) {
+        armchairIndex = index;
+        if (index < 0) {
+            chooseWahtToDo();
         } else {
-            moveTo(vector, "on-arrived-on-sit");
+            System.out.println(sitGroup.getArmchairLocation(index));
+            moveTo(sitGroup.getArmchairLocation(index), "on-arrived-on-sit");
         }
     }
 
     @ActionCallable(name = "on-arrived-on-sit")
     public void onArrivedOnSit() {
-        new TimerAction( (long) (Math.random() * 4000 + 2000), this, "wait-on-sit");
+        setRotation(0);
+        new TimerAction( (long) (Math.random() * 4000 + 2000), this, "wait-on-sit").execute();
     }
 
     @ActionCallable(name = "wait-on-sit")
     public void waitOnsit() {
+        sitGroup.getArmchair(armchairIndex).setOccupied(false);
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 

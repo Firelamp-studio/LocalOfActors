@@ -49,7 +49,7 @@ public class BarMap extends Map {
         addActor(counter, new Vector(1000, 240));
         addActor(redWine, new Vector(900, 50));
         addActor(whiteWine, new Vector(1100, 50));
-        addActor(sitGroup, new Vector(850, 650));
+        addActor(sitGroup, new Vector(300, 650));
         //addActor(localTail, new Vector( 1000, 750 ) );
         //addComponent(new CustomerInfo(new Vector(100)), new Vector(100), 10);
         /*CustomerInfo ci = new CustomerInfo(new Vector(300));
