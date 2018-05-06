@@ -97,13 +97,13 @@ public class Customer extends Person {
     @ActionCallable(name = "do-something")
     public void doSomething() {
         double random = Math.random();
-        //if (random > 0.4) {
+        if (random > 0.4) {
             actionCallResponse(counterTail, "counter-enqueue-customer", this);
-        /*} else if (random > 0.1) {
+        } else if (random > 0.1) {
             actionCallResponse(sitGroup, "sit-on-sit" );
         } else {
             exit();
-        }*/
+        }
     }
 
     @ActionResponse(name = "counter-enqueue-customer")

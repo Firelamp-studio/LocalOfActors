@@ -14,8 +14,8 @@ public class Counter extends Actor {
 		this.counterTail = counterTail;
         barmans = new Barman[3];
         barmans[0] = barmanLeft;
-        barmans[0] = barmanCenter;
-        barmans[0] = barmanRight;
+        barmans[1] = barmanCenter;
+        barmans[2] = barmanRight;
         freeBarman = null;
         setSprite("counter.png");
 		tickEnabled = true;
