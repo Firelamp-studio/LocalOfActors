@@ -26,11 +26,12 @@ public class Counter extends Actor {
 	    for (int i = 0; i < 3; i++) {
             if (barmans[i].isFree()) {
                 if (counterTail.isModifyEnabled() ){
+                    barmans[i].setFree(false);
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     counterTail.setModifyEnabled(false);
                     Customer customer = counterTail.dequeueCustomer("entry-counter-line-and-movement");
                     //gestire i barman;
-                    customer.moveTo(barmans[i].getLocation().add(new Vector(0, 150)), "arrived-to-barman", barmans[i]);
+                    customer.moveTo(barmans[i].getLocation().add(new Vector(0, 130)), "arrived-to-barman", barmans[i]);
                     break;
                 }
             }

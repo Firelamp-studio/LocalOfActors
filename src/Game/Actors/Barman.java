@@ -44,6 +44,10 @@ public class Barman extends Person {
         return free;
     }
 
+    public void setFree(boolean free) {
+        this.free = free;
+    }
+
     /*@ActionResponse(name = "consuma_vino")
     public void consumaVino(double quantita) {
 

@@ -106,7 +106,7 @@ public class Customer extends Person {
             } else {
                 actionCallResponse(counterTail, "counter-enqueue-customer", this);
             }
-        } else if (random > 0.1) {
+        } else if (random > 0.05) {
             actionCallResponse(sitGroup, "sit-on-sit" );
         } else {
             exit();
