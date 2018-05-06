@@ -26,7 +26,7 @@ public class Barman extends Person {
     protected void beginPlay() {
         super.beginPlay();
         setRotation(180);
-        startPosition = new Vector(getLocation().x, getLocation().y);
+        startPosition = new Vector(getLocation());
     }
 
     public void orderWine(boolean bIsRedWine, Customer customer) {

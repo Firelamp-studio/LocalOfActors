@@ -27,6 +27,10 @@ public class Vector {
     public Vector(){
         this(0, 0);
     }
+
+    public Vector(Vector vector){
+        this(vector.x, vector.y);
+    }
     
     public Dimension toDimension() {
     	return new Dimension(x, y);
