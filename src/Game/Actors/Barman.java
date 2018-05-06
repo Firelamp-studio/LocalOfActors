@@ -10,37 +10,35 @@ public class Barman extends Person {
     private boolean free;
     private boolean fillRedWhine;
     private Barrel redWineBarrel;
-    private Barrel witheWineBarrel;
+    private Barrel whiteWineBarrel;
     private int wineGlass;
 
-    public Barman(Barrel redWineBarrel, Barrel witheWineBarrel) {
+    public Barman(Barrel redWineBarrel, Barrel whiteWineBarrel) {
         free = true;
         this.redWineBarrel = redWineBarrel;
-        this.witheWineBarrel = witheWineBarrel;
+        this.whiteWineBarrel = whiteWineBarrel;
         wineGlass = 0;
         setSprite("barman.png", 0.4);
+        startPosition = new Vector();
     }
 
     @Override
     protected void beginPlay() {
         super.beginPlay();
         setRotation(180);
-        startPosition = getLocation();
+        startPosition = new Vector(getLocation().x, getLocation().y);
     }
-
-    @Override
-    protected void tick(long deltaTime) {
-
-    }
-
 
     public void orderWine(boolean bIsRedWine, Customer customer) {
         if (customer.getDrinkCard().hasComsumation()) {
             fillRedWhine = bIsRedWine;
-            if (bIsRedWine)
+            if (bIsRedWine){
+                setRotation(Rotator.rotationLookingTo(getLocation(), redWineBarrel.getLocation()));
                 actionCall(redWineBarrel,"request-spill", this);
-            else
-                actionCall(witheWineBarrel,"request-spill", this);
+            } else {
+                setRotation(Rotator.rotationLookingTo(getLocation(), whiteWineBarrel.getLocation()));
+                actionCall(whiteWineBarrel,"request-spill", this);
+            }
         } else {
             customer.moveTo(Customer.getWaitingAreaVector(), "choose-what-to-do");
         }
@@ -51,13 +49,12 @@ public class Barman extends Person {
         if (fillRedWhine)
             moveTo(redWineBarrel.getLocation().add(new Vector(0, 80)), "arrived-on-barrel", redWineBarrel);
         else
-            moveTo(witheWineBarrel.getLocation().add(new Vector(0, 80)), "arrived-on-barrel", witheWineBarrel);
+            moveTo(whiteWineBarrel.getLocation().add(new Vector(0, 80)), "arrived-on-barrel", whiteWineBarrel);
     }
 
     @ActionCallable(name = "arrived-on-barrel")
     public void arrivedOnBarrel(Barrel barrel) {
-        setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
-        new TimerAction(2000,this,"spill").execute(barrel);
+        new TimerAction(1500,this,"spill").execute(barrel);
     }
 
     @ActionCallable(name = "spill")
@@ -67,7 +64,8 @@ public class Barman extends Person {
 
     @ActionResponse(name = "get-wine-glass")
     public void getWineGlass(int wineGlass) {
-        moveTo(startPosition, "molla-il-bichciere");
+        System.out.println("MOVE TO START: " + startPosition);
+        moveTo(startPosition);
     }
 
     public boolean isFree() {
