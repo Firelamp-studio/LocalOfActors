@@ -50,16 +50,7 @@ public class BarMap extends Map {
         addActor(localTail, new Vector(180, 750));
         addActor(entryDoor, new Vector(200, 700));
         addActor(cashDesk, new Vector(180, 300));
-        
-        counter.setSprite("counter.png");
         addActor(counter, new Vector(1000, 225));
-        Element lamp = new Element();
-        lamp.setSprite("test.png", 0.5);
-        addElement(lamp, new Vector(734, 112));
-
-        addActor(new Owner(lamp), new Vector(165, 556));
-
-        addActor(new Barrel(), new Vector(500));
         //addActor(localTail, new Vector( 1000, 750 ) );
         //addComponent(new CustomerInfo(new Vector(100)), new Vector(100), 10);
         /*CustomerInfo ci = new CustomerInfo(new Vector(300));

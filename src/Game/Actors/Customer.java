@@ -126,6 +126,6 @@ public class Customer extends Person {
     }
 
     public Vector getWaitingAreaVector() {
-        return new Vector((int) Math.random() * 300 + 350, (int) Math.random() * 500 + 310);
+        return new Vector((int) (Math.random() * 300 + 250), (int) (Math.random() * 500 + 210));
     }
 }
