@@ -9,12 +9,13 @@ public class Pawn extends Actor {
 	private int xSteps;
 	private int ySteps;
 	private int walkingSteps;
+	private Object[] argsAfterMoveTo;
 
 	public Pawn(){
 		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop");
 	}
 
-	public final void moveTo(Vector location, String actionCaller) {
+	public final void moveTo(Vector location, String actionCaller, Object... args) {
 		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
 		Vector dist = getLocation().distance(location);
@@ -22,6 +23,8 @@ public class Pawn extends Actor {
 		if(diff.equals(new Vector())) {
 			return;
 		}
+
+		argsAfterMoveTo = args;
 		
 		int xIncr = diff.x > 0 ? -1 : 1;
 		int yIncr = diff.y > 0 ? -1 : 1;
@@ -48,8 +51,8 @@ public class Pawn extends Actor {
 		moveTimer.execute(actionCaller, location, xModule, yModule, xIncr, yIncr);
 	}
 	
-	public final void moveTo(Element element, String actionCaller) {
-		moveTo(element.getLocation(), actionCaller);
+	public final void moveTo(Element element, String actionCaller, Object... args) {
+		moveTo(element.getLocation(), actionCaller, args);
 	}
 	
 	public final void moveTo(Vector location) {
@@ -96,7 +99,7 @@ public class Pawn extends Actor {
 			moveTimer.kill();
 
 			if(actionCaller != null && !actionCaller.isEmpty())
-				new TimerAction(10, this, actionCaller).execute();
+				new TimerAction(10, this, actionCaller).execute(argsAfterMoveTo);
 			
 			return;
 		}

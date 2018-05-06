@@ -1,6 +1,8 @@
 package Game.Actors;
 
 import API.Annotations.ActionCallable;
+import API.Utility.Rotator;
+import API.Utility.Transform;
 import API.Utility.Vector;
 
 public class LocalTail extends Tail {
@@ -11,17 +13,17 @@ public class LocalTail extends Tail {
     }
 
     @Override
-    protected Vector getPersonPositionInQueue(Customer customer) {
+    protected Transform getPersonTransformInQueue(Customer customer) {
         for (int i = 0; i < getTailSize(); i++) {
             if (getWaitingCustomers().get(i) == customer) {
-                return getLocation().add(new Vector(i * 50,0));
+                return new Transform(getLocation().add(new Vector(i * 50,0)), new Rotator());
             }
         }
         return null;
     }
 
     @ActionCallable(name = "local-enqueue-customer")
-    public Vector localEnqueueCustomer(Customer customer){
+    public Transform localEnqueueCustomer(Customer customer){
         return enqueueCustomer(customer);
     }
 }

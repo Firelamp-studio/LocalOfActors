@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import API.Actor;
 import API.Annotations.ActionCallable;
-import API.Utility.Vector;
+import API.Utility.Transform;
 
 public abstract class Tail extends Actor {
 
@@ -68,15 +68,16 @@ public abstract class Tail extends Actor {
     public Customer dequeueCustomer(String actionAfterUpdateQueueLocation) {
         Customer customer = getWaitingCustomers().pop();
         getWaitingCustomers().forEach((c)->{
-            c.moveTo(getPersonPositionInQueue(c), actionAfterUpdateQueueLocation);
+            Transform transform = getPersonTransformInQueue(c);
+            c.moveTo(transform.location, actionAfterUpdateQueueLocation, transform.rotation);
         });
         return customer;
     }
 
-    protected final Vector enqueueCustomer(Customer customer) {
+    protected final Transform enqueueCustomer(Customer customer) {
         addToTail(customer);
-        return getPersonPositionInQueue(customer);
+        return getPersonTransformInQueue(customer);
     }
 
-    protected abstract Vector getPersonPositionInQueue(Customer customer);
+    protected abstract Transform getPersonTransformInQueue(Customer customer);
 }
