@@ -11,7 +11,9 @@ public class CounterTail extends Tail {
 
     @ActionCallable(name = "get-in-line-for-order")
     public Vector newPersonInLocalQueue(Customer customer) {
-        return newPersonInQueue(customer);
+        addToTail(customer);
+        int relativeY = getWaitingCustomers().size() - 1;
+        return getLocation().add(new Vector(0,relativeY * 40));
     }
 
     @ActionCallable(name = "let-person-order")

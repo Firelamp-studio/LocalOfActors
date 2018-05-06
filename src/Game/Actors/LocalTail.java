@@ -11,11 +11,17 @@ public class LocalTail extends Tail {
 
     @ActionCallable(name = "get-in-line-for-entry")
     public Vector newPersonInLocalQueue(Customer customer) {
-        return newPersonInQueue(customer);
+        addToTail(customer);
+        int relativeX = getWaitingCustomers().size() - 1;
+        return getLocation().add(new Vector(relativeX * 40,0));
     }
 
     public Customer letPersonEntry() {
-        return customerLeaveQueue();
+        Customer customer = getWaitingCustomers().pop();
+        getWaitingCustomers().forEach((c)->{
+            c.moveTo(getPersonPositionInQueue(c), "entry-line-end-movement");
+        });
+        return customer;
     }
 
     @ActionCallable(name = "customer-arrived-to-position")

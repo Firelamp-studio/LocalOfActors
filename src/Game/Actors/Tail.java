@@ -29,11 +29,7 @@ public class Tail extends Actor {
         return waitingCustomers.remove(customer);
     }
 
-    protected Vector newPersonInQueue(Customer customer) {
-        addToTail(customer);
-        int relativeX = waitingCustomers.size() - 1;
-        return getLocation().add(new Vector(relativeX * 40,0));
-    }
+
 
     protected Vector getPersonPositionInQueue(Customer customer) {
         for (int i = 0; i < waitingCustomers.size(); i++) {
@@ -44,13 +40,7 @@ public class Tail extends Actor {
         return null;
     }
 
-    protected Customer customerLeaveQueue() {
-        Customer customer = waitingCustomers.pop();
-        waitingCustomers.forEach((c)->{
-            c.moveTo(getPersonPositionInQueue(c), "entry-line-end-movement");
-        });
-        return customer;
-    }
+
 
     protected boolean removeFirst() {
         try {
