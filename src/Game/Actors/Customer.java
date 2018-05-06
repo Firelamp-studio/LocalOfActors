@@ -59,7 +59,7 @@ public class Customer extends Person {
 
         //moveTo(sitGroup.getArmchairLocation(sitGroup.getFreeSitIndex()));
         actionCallResponse(localTail, "local-enqueue-customer", this);
-        addRelativeComponent(customerInfo, new Vector(0, 80));
+        addRelativeComponent(customerInfo, new Vector(0, 80),100);
     }
 
     @Override
