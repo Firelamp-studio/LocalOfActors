@@ -95,6 +95,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "choose-what-to-do")
     public void chooseWahtToDo() {
+        setRotation((float)Math.random()*360);
         timerChooseAction.execute();
     }
 
