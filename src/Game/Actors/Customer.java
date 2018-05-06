@@ -94,7 +94,6 @@ public class Customer extends Person {
 
     @ActionCallable(name = "do-something")
     public void doSomething() {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
         double random = Math.random();
         /*if (random > 0.4) {
             actionCallResponse(counterTail, "get-in-line-for-order", this);

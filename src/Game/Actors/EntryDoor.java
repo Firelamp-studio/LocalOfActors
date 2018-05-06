@@ -88,7 +88,8 @@ public class EntryDoor extends Actor {
     }
 
     @ActionCallable(name = "destroy-customer-on-exit")
-    public void destroy(Customer customer) {
+    public void destroycCustomer() {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASJAHDIJAHFKAFHNASIDFHSIUFHNSDIJFNSJKFNSDJIFSIDFNJKSDU");
         customerToDestroy.disposeActor();
         customerToDestroy = null;
     }
