@@ -6,7 +6,7 @@ import API.Actor;
 import API.Annotations.ActionCallable;
 import API.Utility.Vector;
 
-public class Tail extends Actor {
+public abstract class Tail extends Actor {
 
     private LinkedList<Customer> waitingCustomers;
     private int maxPeopleInQueue;
@@ -64,4 +64,6 @@ public class Tail extends Actor {
             System.out.println("Il cliente può uscire dalla coda");
         }
     }
+
+    protected abstract Vector getPersonPositionInQueue(Customer customer);
 }

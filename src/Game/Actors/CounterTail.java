@@ -11,15 +11,8 @@ public class CounterTail extends Tail {
 
     @ActionCallable(name = "get-in-line-for-order")
     public Vector newPersonInLocalQueue(Customer customer) {
-        int xOffset = getTailSize() / 6;
-        int tempYOffset = getTailSize() % 6;
-        int alternateOffset = xOffset % 2;
-        System.out.println(" - AlternateOffset: " + alternateOffset);
-        int moreUp = xOffset > 0 ? 1 : 0;
-        int yOffset = alternateOffset == 0 ? tempYOffset + moreUp : 5 + moreUp - tempYOffset;
-
         addToTail(customer);
-        return getLocation().add(new Vector(xOffset * -50, yOffset * 50));
+        return getPersonPositionInQueue(customer);
     }
 
     public Customer letPersonOrder() {
@@ -30,12 +23,14 @@ public class CounterTail extends Tail {
         return customer;
     }
 
-    private Vector getPersonPositionInQueue(Customer customer) {
-        for (int i = 0; i < getTailSize(); i++) {
-            if (getWaitingCustomers().get(i) == customer) {
-                return getLocation().add(new Vector(0,i * 50));
-            }
-        }
-        return null;
+    @Override
+    protected Vector getPersonPositionInQueue(Customer customer) {
+        int xOffset = getTailSize() / 6;
+        int tempYOffset = getTailSize() % 6;
+        int alternateOffset = xOffset % 2;
+        int moreUp = xOffset > 0 ? 1 : 0;
+        int yOffset = alternateOffset == 0 ? tempYOffset + moreUp : 5 + moreUp - tempYOffset;
+
+        return getLocation().add(new Vector(xOffset * -50, yOffset * 50));
     }
 }

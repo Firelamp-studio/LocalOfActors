@@ -24,7 +24,8 @@ public class LocalTail extends Tail {
         return customer;
     }
 
-    private Vector getPersonPositionInQueue(Customer customer) {
+    @Override
+    protected Vector getPersonPositionInQueue(Customer customer) {
         for (int i = 0; i < getTailSize(); i++) {
             if (getWaitingCustomers().get(i) == customer) {
                 return getLocation().add(new Vector(i * 50,0));
