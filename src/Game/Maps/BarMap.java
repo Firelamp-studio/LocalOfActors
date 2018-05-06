@@ -36,9 +36,9 @@ public class BarMap extends Map {
         LocalTail localTail = new LocalTail(200);
         Owner owner = new Owner();
         CounterTail counterTail = new CounterTail(10);
-        Barman barmanLeft = new Barman(redWine, whiteWine);
-        Barman barmanCenter = new Barman(redWine, whiteWine);
-        Barman barmanRight = new Barman(redWine, whiteWine);
+        Barman barmanLeft = new Barman(redWine, whiteWine, owner);
+        Barman barmanCenter = new Barman(redWine, whiteWine, owner);
+        Barman barmanRight = new Barman(redWine, whiteWine, owner);
         Counter counter = new Counter(counterTail, barmanLeft, barmanCenter, barmanRight);
         SitGroup sitGroup = new SitGroup();
         EntryDoor entryDoor = new EntryDoor(localTail, owner, cashDesk, counter, counterTail, sitGroup);

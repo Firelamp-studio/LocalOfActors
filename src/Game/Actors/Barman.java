@@ -87,6 +87,7 @@ public class Barman extends Person {
     @ActionCallable(name = "move-to-owner")
     public void moveToOwner(Barrel barrel) {
         actionCall(owner, "refill-barrel", barrel);
+        moveTo(startPosition,"");
     }
 
     //moveTo(owner.getLocation().add(new Vector(40,0)), "move-to-owner", );

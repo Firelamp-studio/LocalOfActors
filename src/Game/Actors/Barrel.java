@@ -17,7 +17,7 @@ public class Barrel extends Actor {
     private LinkedList<Barman> requests;
     
     public Barrel(boolean bIsRedWhine){
-        wineMl = 100000;
+        wineMl = 1000;
         this.bIsRedWhine = bIsRedWhine;
         if (bIsRedWhine) {
             setSprite("red_barrel.png");
@@ -81,5 +81,9 @@ public class Barrel extends Actor {
     	} else {
     		barrelInfo.setVisible(true);
     	}
+    }
+
+    public void refill() {
+        wineMl = 100000;
     }
 }
