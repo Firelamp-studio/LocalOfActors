@@ -24,7 +24,6 @@ public class Customer extends Person {
     private Barman barman;
     private SitGroup sitGroup;
     private int wineGlass;
-    private int armchairIndex;
     private static int generateId = 0;
     private int id;
     public int servingBarman;
@@ -49,7 +48,6 @@ public class Customer extends Person {
         this.sitGroup = sitGroup;
         servingBarman = -1;
         wineGlass = 0;
-        armchairIndex = -1;
         generateId++;
         id = generateId;
         customerInfo = new CustomerInfo(new Vector(100));
@@ -154,23 +152,22 @@ public class Customer extends Person {
     @ActionResponse(name = "sit-on-sit")
     public void goToSit(int index) {
         customerInfo.setIntention("Sto andando a sedermi");
-        armchairIndex = index;
         if (index < 0) {
             doSomething();
         } else {
-            moveTo(sitGroup.getArmchairLocation(index), "on-arrived-on-sit");
+            moveTo(sitGroup.getArmchairLocation(index), "on-arrived-on-sit", index);
         }
     }
 
     @ActionCallable(name = "on-arrived-on-sit")
-    public void onArrivedOnSit() {
+    public void onArrivedOnSit(int index) {
         setRotation(0);
-        new TimerAction( (long) (Math.random() * 4000 + 2000), this, "wait-on-sit").execute();
+        new TimerAction( (long) (Math.random() * 4000 + 2000), this, "wait-on-sit").execute(index);
     }
 
     @ActionCallable(name = "wait-on-sit")
-    public void waitOnsit() {
-        sitGroup.getArmchair(armchairIndex).setOccupied(false);
+    public void waitOnsit(int index) {
+        sitGroup.getArmchair(index).setOccupied(false);
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
