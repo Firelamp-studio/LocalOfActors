@@ -9,15 +9,16 @@ public class DrinkCard {
 		witheConsumations = 0;
 	}
 	
-	public void useComsumation(boolean bIsRedWine) throws Exception {
-		if ((redConsumations + witheConsumations) >= 20) {
+	public boolean useComsumation(boolean bIsRedWine) {
+		if ((redConsumations + witheConsumations) > 20) {
 			if (bIsRedWine) {
 				redConsumations++;
 			} else {
 				witheConsumations++;
 			}
+			return true;
 		} else {
-			throw new Exception("No more consumations left");
+			return false;
 		}
 		
 	}

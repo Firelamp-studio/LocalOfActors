@@ -7,35 +7,35 @@ import API.Utility.Vector;
 
 public class Counter extends Actor {
 	private CounterTail counterTail;
-	private Barman freeBarman;
+	private Barman[] barmans;
+    private Barman freeBarman;
 	
-	public Counter(CounterTail counterTail) {
+	public Counter(CounterTail counterTail, Barman barmanLeft, Barman barmanCenter, Barman barmanRight) {
 		this.counterTail = counterTail;
-		setSprite("counter.png");
+        barmans = new Barman[3];
+        barmans[0] = barmanLeft;
+        barmans[0] = barmanCenter;
+        barmans[0] = barmanRight;
+        freeBarman = null;
+        setSprite("counter.png");
 		tickEnabled = true;
 	}
 
     @Override
     protected void tick(long deltaTime) {
-        if (counterTail.isModifyEnabled() /*c'è un barman libero*/){
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            counterTail.setModifyEnabled(false);
-            Customer customer = counterTail.dequeueCustomer("entry-counter-line-and-movement");
-            //gestire i barman;
-            //System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
-            customer.moveTo(new Vector(0, 60), "arrived-to-barman");
-            new TimerAction(1200, this, "close-door").execute();
+	    for (int i = 0; i < 3; i++) {
+            if (barmans[i].isFree()) {
+                if (counterTail.isModifyEnabled() ){
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    counterTail.setModifyEnabled(false);
+                    Customer customer = counterTail.dequeueCustomer("entry-counter-line-and-movement");
+                    //gestire i barman;
+                    //System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
+                    customer.moveTo(barmans[i].getLocation().add(new Vector(0, 70)), "arrived-to-barman", barmans[i]);
+                    break;
+                }
+            }
         }
+
     }
-    /*
-    @ActionCallable(name = "barman-is-free")
-    public void serveCustomer(Barman barman) {
-    	freeBarman = barman;
-    	actionCall(counterTail, "go-to-barman");
-    }
-    
-    @ActionCallable(name = "get-free-barman")
-    public Barman getFreeBarman() {
-    	return freeBarman;
-    }*/
 }

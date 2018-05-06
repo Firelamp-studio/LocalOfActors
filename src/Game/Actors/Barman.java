@@ -4,13 +4,21 @@ import API.Annotations.*;
 import Game.DrinkCard;
 
 public class Barman extends Person {
-
+    private boolean free;
     private Barrel redWineBarrel;
     private Barrel witheWineBarrel;
 
     public Barman(Barrel redWineBarrel, Barrel witheWineBarrel) {
+        free = true;
         this.redWineBarrel = redWineBarrel;
         this.witheWineBarrel = witheWineBarrel;
+        setSprite("man.png", 0.4);
+    }
+
+    @Override
+    protected void beginPlay() {
+        super.beginPlay();
+        setRotation(180);
     }
 
     @Override
@@ -18,19 +26,18 @@ public class Barman extends Person {
 
     }
 
-    @ActionResponse(name = "order-wine")
-    public void consumaVino(boolean bIsRedWine, DrinkCard drinkCard) {
-        try {
-            if (bIsRedWine) {
-                actionCall(redWineBarrel, "take-wine");
-            } else {
-                actionCall(witheWineBarrel, "take-wine");
-            }
-            drinkCard.useComsumation(bIsRedWine);
-        } catch (Exception e) {
-            // TODO: handle exception
+    public void orderWine(boolean bIsRedWine, DrinkCard drinkCard) {
+        if (bIsRedWine) {
+            actionCall(redWineBarrel, "take-wine");
+        } else {
+            actionCall(witheWineBarrel, "take-wine");
         }
+        drinkCard.useComsumation(bIsRedWine);
 
+    }
+
+    public boolean isFree() {
+        return free;
     }
 
     /*@ActionResponse(name = "consuma_vino")

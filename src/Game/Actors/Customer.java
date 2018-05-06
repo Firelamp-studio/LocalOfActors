@@ -125,9 +125,27 @@ public class Customer extends Person {
     }
 
     @ActionCallable(name = "arrived-to-barman")
-    public void arrivedToBarman() {
-
+    public void arrivedToBarman(Barman barman) {
+        this.barman = barman;
+        if (Math.random() < 0.5) {
+            barman.orderWine(true, drinkCard);
+        } else {
+            barman.orderWine(false, drinkCard);
+        }
     }
+
+/*
+    @ActionCallable(name = "go-to-barman")
+    public void getFreeBarman() {
+        actionCallResponse(counter, "get-free-barman");
+    }
+
+    @ActionResponse(name = "go-to-barman")
+    public void moveToBarman(Barman freeBarman) {
+        barman = freeBarman;
+        moveTo(barman, "go-to-order-wine");
+    }
+*/
 
     @ActionResponse(name = "sit-on-sit")
     public void goToSit(int index) {
@@ -152,18 +170,6 @@ public class Customer extends Person {
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
-/*
-    @ActionCallable(name = "go-to-barman")
-    public void getFreeBarman() {
-        actionCallResponse(counter, "get-free-barman");
-    }
-
-    @ActionResponse(name = "go-to-barman")
-    public void moveToBarman(Barman freeBarman) {
-        barman = freeBarman;
-        moveTo(barman, "go-to-order-wine");
-    }
-*/
     @ActionCallable(name = "go-to-order-wine")
     public void orderWine() {
         if (Math.random() > 0.5) {
