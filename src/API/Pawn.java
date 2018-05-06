@@ -1,6 +1,7 @@
 package API;
 
 import API.Annotations.ActionCallable;
+import API.Utility.Rotator;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 
@@ -112,9 +113,7 @@ public class Pawn extends Actor {
 			degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));
 		}*/
 		
-		float degrees = (float) Math.toDegrees((Math.atan2(pawnLoc.y - location.y, pawnLoc.x - location.x) - Math.PI / 2));
-		
-		setRotation(degrees);
+		setRotation(Rotator.rotationLookingTo(pawnLoc, location));
 	
 	}
 }

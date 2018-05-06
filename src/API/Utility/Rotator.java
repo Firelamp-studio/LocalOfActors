@@ -1,8 +1,14 @@
 package API.Utility;
 
+import API.Element;
+
 public class Rotator {
     float rotation;
-    
+
+    public static float rotationLookingTo(Vector start, Vector end){
+        return ((float) Math.toDegrees((Math.atan2(start.y - end.y, start.x - end.x) - Math.PI / 2)))%360;
+    }
+
     public Rotator(){
         setRotation(0);
     }
@@ -17,5 +23,9 @@ public class Rotator {
 
     public float getRotation() {
         return rotation;
+    }
+
+    public void rotateLookingTo(Vector start, Vector end){
+        setRotation( (float) Math.toDegrees((Math.atan2(start.y - end.y, start.x - end.x) - Math.PI / 2)) );
     }
 }
