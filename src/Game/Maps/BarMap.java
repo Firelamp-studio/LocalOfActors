@@ -14,14 +14,7 @@ import API.Element;
 import API.Map;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
-import Game.Actors.Barrel;
-import Game.Actors.CashDesk;
-import Game.Actors.Counter;
-import Game.Actors.CounterTail;
-import Game.Actors.Customer;
-import Game.Actors.EntryDoor;
-import Game.Actors.LocalTail;
-import Game.Actors.Owner;
+import Game.Actors.*;
 import Game.gui.BarrelInfo;
 import Game.gui.CustomerInfo;
 
@@ -45,7 +38,8 @@ public class BarMap extends Map {
         CashDesk cashDesk = new CashDesk();
         CounterTail counterTail = new CounterTail(10);
         Counter counter = new Counter(counterTail);
-        EntryDoor entryDoor = new EntryDoor(localTail, cashDesk, counter, counterTail);
+        SitGroup sitGroup = new SitGroup();
+        EntryDoor entryDoor = new EntryDoor(localTail, cashDesk, counter, counterTail, sitGroup);
         Barrel redWine = new Barrel(true);
         Barrel whiteWine = new Barrel(false);
 
@@ -55,6 +49,7 @@ public class BarMap extends Map {
         addActor(counter, new Vector(1000, 240));
         addActor(redWine, new Vector(900, 50));
         addActor(whiteWine, new Vector(1100, 50));
+        addActor(sitGroup, new Vector(850, 650));
         //addActor(localTail, new Vector( 1000, 750 ) );
         //addComponent(new CustomerInfo(new Vector(100)), new Vector(100), 10);
         /*CustomerInfo ci = new CustomerInfo(new Vector(300));

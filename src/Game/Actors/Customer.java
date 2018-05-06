@@ -21,9 +21,10 @@ public class Customer extends Person {
     private Counter counter;
     private CounterTail counterTail;
     private Barman barman;
+    private SitGroup sitGroup;
     CustomerInfo customer;
 
-    public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail) {
+    public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         if (Math.random() > 0.5) {
             setSprite("man.png", 0.3);
         } else {
@@ -38,6 +39,7 @@ public class Customer extends Person {
         this.cashDesk = cashDesk;
         this.counter = counter;
         this.counterTail = counterTail;
+        this.sitGroup = sitGroup;
         customer = new CustomerInfo(new Vector(100));
     }
 
@@ -88,11 +90,35 @@ public class Customer extends Person {
 
     @ActionCallable(name = "do-something")
     public void doSomething() {
-        if (Math.random() > 0.2) {
+        /*double random = Math.random();
+        if (random > 0.4) {
             actionCallResponse(counterTail, "get-in-line-for-order", this);
+        } else if (random > 0.1) {
+            for (int i = 0; i < 4; i++){*/
+                actionCallResponse(sitGroup, "sit-on-sit" );
+            /*}
         } else {
             exit();
+        }*/
+    }
+
+    @ActionResponse(name = "sit-on-sit")
+    public void goToSit(Vector vector) {
+        if (vector == null) {
+            doSomething();
+        } else {
+            moveTo(vector, "on-arrived-on-sit");
         }
+    }
+
+    @ActionCallable(name = "on-arrived-on-sit")
+    public void onArrivedOnSit() {
+        new TimerAction( (long) (Math.random() * 4000 + 2000), this, "wait-on-sit");
+    }
+
+    @ActionCallable(name = "wait-on-sit")
+    public void waitOnsit() {
+        moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
     @ActionResponse(name = "get-in-line-for-order")

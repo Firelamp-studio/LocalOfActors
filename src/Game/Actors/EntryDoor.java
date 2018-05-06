@@ -15,17 +15,20 @@ public class EntryDoor extends Actor {
     private Counter counter;
     private CounterTail counterTail;
     private LocalTail localTail;
+    private SitGroup sitGroup;
     private int numPeopleInside;
     private int i;
 
-    public EntryDoor(LocalTail localTail, CashDesk cashDesk, Counter counter, CounterTail counterTail) {
+    public EntryDoor(LocalTail localTail, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         this.localTail = localTail;
         this.cashDesk = cashDesk;
         this.counter = counter;
         this.counterTail = counterTail;
+        this.sitGroup = sitGroup;
         numPeopleInside = 0;
         setSprite("door.png");
         timerSpawnCustomer = new TimerAction(true, 2750 , this, "spawn-customer-iterator" );
+        tickEnabled = true;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer")
     public void spawnCustomer() {
-        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail), new Vector( 600, 750 ) );
+        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 600, 750 ) );
     }
     /*
     public void faiEntrareQualcunoOgniTanto(int maxWaitTimeMS){
