@@ -45,7 +45,6 @@ public class EntryDoor extends Actor {
     protected void tick(long deltaTime) {
         if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
             localTail.setModifyEnabled(false);
-            System.out.println("Porta: sto facendo entrare un cliente");
             Customer customer = localTail.letPersonEntry();
             numPeopleInside++;
             System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
@@ -77,7 +76,6 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "customer-exit")
     public void customerExit(Customer customer) {
-        System.out.println("Porta: sto facendo uscire un cliente");
         customer.moveTo(new Vector(165, 1200), "destroy-customer-on-exit");
         numPeopleInside--;
         System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
