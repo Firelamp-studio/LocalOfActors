@@ -4,23 +4,10 @@ import API.Annotations.ActionCallable;
 import API.Utility.Vector;
 
 public class CounterTail extends Tail {
+    //"entry-counter-line-and-movement"
 
     public CounterTail(int maxPeopleInQueue) {
         super(maxPeopleInQueue);
-    }
-
-    @ActionCallable(name = "get-in-line-for-order")
-    public Vector newPersonInLocalQueue(Customer customer) {
-        addToTail(customer);
-        return getPersonPositionInQueue(customer);
-    }
-
-    public Customer letPersonOrder() {
-        Customer customer = getWaitingCustomers().pop();
-        getWaitingCustomers().forEach((c)->{
-            c.moveTo(getPersonPositionInQueue(c), "entry-counter-line-and-movement");
-        });
-        return customer;
     }
 
     @Override

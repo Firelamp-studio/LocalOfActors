@@ -65,5 +65,19 @@ public abstract class Tail extends Actor {
         }
     }
 
+    public Customer dequeueCustomer(String actionAfterUpdateQueueLocation) {
+        Customer customer = getWaitingCustomers().pop();
+        getWaitingCustomers().forEach((c)->{
+            c.moveTo(getPersonPositionInQueue(c), actionAfterUpdateQueueLocation);
+        });
+        return customer;
+    }
+
+    @ActionCallable(name = "enqueue-customer")
+    public Vector enqueueCustomer(Customer customer) {
+        addToTail(customer);
+        return getPersonPositionInQueue(customer);
+    }
+
     protected abstract Vector getPersonPositionInQueue(Customer customer);
 }
