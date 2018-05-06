@@ -106,14 +106,18 @@ public class Customer extends Person {
 
     @ActionResponse(name = "get-in-line-for-order")
     public void getInLineForEOrder(Vector vector) {
-        if (vector != null)
+        if (vector != null) {
             moveTo(vector, "entry-counter-line-and-movement");
-        else
+            System.out.println( id + " Parte entry-counter-line-and-movement");
+        }
+        else {
             doSomething();
+        }
     }
 
-    @ActionCallable(name = "entry-order-line-and-movement")
+    @ActionCallable(name = "entry-counter-line-and-movement")
     public void entryCounterLineEndMovement() {
+        System.out.println( id + " Riceve entry-counter-line-and-movement");
         actionCall(counterTail, "customer-arrived-to-position", this);
         setRotation(0);
     }
@@ -125,7 +129,6 @@ public class Customer extends Person {
         if (index < 0) {
             doSomething();
         } else {
-            System.out.println(sitGroup.getArmchairLocation(index));
             moveTo(sitGroup.getArmchairLocation(index), "on-arrived-on-sit");
         }
     }
@@ -184,7 +187,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "destroy-customer-on-exit")
     public void destroycCustomer() {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASJAHDIJAHFKAFHNASIDFHSIUFHNSDIJFNSJKFNSDJIFSIDFNJKSDU");
+        System.out.println("MUOIO");
         disposeActor();
     }
 
