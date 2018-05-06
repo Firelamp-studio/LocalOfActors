@@ -18,7 +18,7 @@ public class Counter extends Actor {
     protected void tick(long deltaTime) {
         if (counterTail.isModifyEnabled() /*c'è un barman libero*/){
             counterTail.setModifyEnabled(false);
-            Customer customer = counterTail.letPersonOrder();
+            Customer customer = counterTail.dequeueCustomer("entry-counter-line-and-movement");
             //gestire i barman;
             //System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
             customer.moveTo(new Vector(0, 60), "arrived-to-barman");

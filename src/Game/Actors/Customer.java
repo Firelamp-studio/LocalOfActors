@@ -54,7 +54,7 @@ public class Customer extends Person {
         super.beginPlay();
 
         //moveTo(sitGroup.getArmchairLocation(sitGroup.getFreeSitIndex()));
-        actionCallResponse(localTail, "get-in-line-for-entry", this);
+        actionCallResponse(localTail, "local-enqueue-customer", this);
         addRelativeComponent(customerInfo, new Vector(0, 80));
     }
 
@@ -63,7 +63,7 @@ public class Customer extends Person {
 
     }
 
-    @ActionResponse(name = "get-in-line-for-entry")
+    @ActionResponse(name = "local-enqueue-customer")
     public void getInLineForEntry(Vector vector) {
         moveTo(vector, "entry-local-line-and-movement");
     }
@@ -96,7 +96,7 @@ public class Customer extends Person {
     public void doSomething() {
         double random = Math.random();
         //if (random > 0.4) {
-            actionCallResponse(counterTail, "get-in-line-for-order", this);
+            actionCallResponse(counterTail, "counter-enqueue-customer", this);
         /*} else if (random > 0.1) {
             actionCallResponse(sitGroup, "sit-on-sit" );
         } else {
@@ -104,7 +104,7 @@ public class Customer extends Person {
         }*/
     }
 
-    @ActionResponse(name = "get-in-line-for-order")
+    @ActionResponse(name = "counter-enqueue-customer")
     public void getInLineForOrder(Vector vector) {
         if (vector != null) {
             //System.out.println( id + " Parte entry-counter-line-and-movement");
