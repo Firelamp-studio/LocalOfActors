@@ -107,10 +107,10 @@ public class Customer extends Person {
         moveTo(vector, "entry-counter-line-and-movement");
     }
 
-    @ActionCallable(name = "entry-local-line-and-movement")
+    @ActionCallable(name = "entry-order-line-and-movement")
     public void entryCounterLineEndMovement() {
         actionCall(counterTail, "customer-arrived-to-position", this);
-        setRotation(-90);
+        setRotation(0);
     }
 
     @ActionResponse(name = "sit-on-sit")
