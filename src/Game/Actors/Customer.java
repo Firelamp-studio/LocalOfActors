@@ -1,5 +1,6 @@
 package Game.Actors;
 
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
 import API.Annotations.ActionCallable;
@@ -20,6 +21,7 @@ public class Customer extends Person {
     private Counter counter;
     private CounterTail counterTail;
     private Barman barman;
+    CustomerInfo customer;
 
     public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail) {
         if (Math.random() > 0.5) {
@@ -36,6 +38,7 @@ public class Customer extends Person {
         this.cashDesk = cashDesk;
         this.counter = counter;
         this.counterTail = counterTail;
+        customer = new CustomerInfo(new Vector(100));
     }
 
     @Override
@@ -43,6 +46,7 @@ public class Customer extends Person {
         super.beginPlay();
 
         actionCallResponse(localTail, "get-in-line-for-entry", this);
+        addRelativeComponent(customer, new Vector(0, 80));
     }
 
     @Override
@@ -127,5 +131,17 @@ public class Customer extends Person {
 
     public Vector getWaitingAreaVector() {
         return new Vector((int) (Math.random() * 300 + 250), (int) (Math.random() * 500 + 210));
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        super.mousePressed(e);
+
+        if(customer.isVisible()) {
+            customer.setVisible(false);
+        }
+        else {
+            customer.setVisible(true);
+        }
     }
 }

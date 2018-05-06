@@ -46,11 +46,15 @@ public class BarMap extends Map {
         CounterTail counterTail = new CounterTail(10);
         Counter counter = new Counter(counterTail);
         EntryDoor entryDoor = new EntryDoor(localTail, cashDesk, counter, counterTail);
-        localTail.setSprite("test.png", 0);
+        Barrel redWine = new Barrel(true);
+        Barrel whiteWine = new Barrel(false);
+
         addActor(localTail, new Vector(180, 750));
         addActor(entryDoor, new Vector(200, 700));
         addActor(cashDesk, new Vector(180, 300));
-        addActor(counter, new Vector(1000, 225));
+        addActor(counter, new Vector(1000, 240));
+        addActor(redWine, new Vector(900, 50));
+        addActor(whiteWine, new Vector(1100, 50));
         //addActor(localTail, new Vector( 1000, 750 ) );
         //addComponent(new CustomerInfo(new Vector(100)), new Vector(100), 10);
         /*CustomerInfo ci = new CustomerInfo(new Vector(300));
