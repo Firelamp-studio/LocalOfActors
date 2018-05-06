@@ -47,7 +47,9 @@ public class TimerAction implements Runnable {
 
 
     public void kill() {
-        timerThread.interrupt();
+        if (timerThread != null) {
+            timerThread.interrupt();
+        }
     }
 
 
@@ -59,6 +61,7 @@ public class TimerAction implements Runnable {
 
                 actorToCall.addActionCall( new Actor.Action(actionName, methodToCall, args,null) );
             } catch (InterruptedException e) {
+                timerThread = null;
                 return;
             }
         } while (loop && timerThread.isAlive());

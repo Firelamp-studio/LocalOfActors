@@ -20,13 +20,21 @@ public class Sprite extends JLabel{
 	private Rotator rotator;
 	private int viewSize;
 	private Element owner;
-	
+
+	public Sprite(){
+		this(null);
+	}
+
     public Sprite(String imageFile, double scale) {
     	rotator = new Rotator();
     	this.scale = scale;
-    	
-	    try {                
-	        image = ImageIO.read(new File("assets/textures/" + imageFile));
+
+
+	    try {
+	    	if(imageFile != null && !imageFile.isEmpty())
+	        	image = ImageIO.read(new File("assets/textures/" + imageFile));
+	    	else
+				image = ImageIO.read(new File("assets/textures/null.png"));
 	     } catch (IOException ex) {
 	          // handle exception...
 	     }

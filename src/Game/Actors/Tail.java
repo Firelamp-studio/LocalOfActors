@@ -1,47 +1,59 @@
 package Game.Actors;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.LinkedList;
 
 import API.Actor;
-import API.Annotations.ActionCallable;
-import API.Utility.TimerAction;
 import API.Utility.Vector;
 
 public class Tail extends Actor {
-	private ArrayList<Customer> waitingCustomer;
-	
-    public Tail(){
-    	waitingCustomer = new ArrayList();
-    	
+
+    private LinkedList<Customer> waitingCustomers;
+    private int maxPeopleInQueue;
+    private boolean modifyEnabled;
+
+    public Tail(int maxPeopleInQueue) {
+        waitingCustomers = new LinkedList();
+        this.maxPeopleInQueue = maxPeopleInQueue;
+        modifyEnabled = false;
     }
-    
+
+    protected Customer get() {
+        return waitingCustomers.get(0);
+    }
+
     protected void addToTail(Customer customer) {
-    	waitingCustomer.add(customer);
+        waitingCustomers.add(customer);
     }
-    
+
     protected boolean removeCustomer(Customer customer) {
-    	return waitingCustomer.remove(customer);
+        return waitingCustomers.remove(customer);
     }
-    
+
     protected boolean removeFirst() {
-    	try {
-    		waitingCustomer.remove(0);
-		} catch (IndexOutOfBoundsException e) {
-			return false;
-		}
-    	
-    	return true;
-    	
+        try {
+            waitingCustomers.remove(0);
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+
+        return true;
+
     }
-    
+
+    public void setModifyEnabled(boolean modifyEnabled) {
+        this.modifyEnabled = modifyEnabled;
+    }
+
+    public boolean isModifyEnabled() {
+        return modifyEnabled;
+    }
+
+    public LinkedList<Customer> getWaitingCustomers() {
+        return waitingCustomers;
+    }
+
     protected int getTailSize() {
-    	return waitingCustomer.size();
+        return waitingCustomers.size();
     }
-    
-    public Vector getLastFreePlace() {
-    	//TODO ritornare il posto dove si deve mettere l'ultimo
-    	return new Vector();
-    }
-    
+
 }

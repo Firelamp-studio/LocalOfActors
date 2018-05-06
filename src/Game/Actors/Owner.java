@@ -32,11 +32,6 @@ public class Owner extends Person {
 		moveTo(lamp);
 	}
 
-    @Override
-    protected void tick(long deltaTime) {
-    	System.out.println(deltaTime);
-    }
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		super.mousePressed(e);

@@ -15,21 +15,25 @@ public class Element implements MouseListener {
     private HashMap<JComponent, Vector> syncedComps;
     private HashMap<Element, Vector> syncedElements;
     private Map map;
-	
+
+	public Element(String filename, double scale) {
+		syncedComps = new HashMap<>();
+		syncedElements = new HashMap<>();
+		sprite = new Sprite(filename, scale);
+		location = new Vector();
+	}
+
+	public void Element(String filename) {
+		syncedComps = new HashMap<>();
+		syncedElements = new HashMap<>();
+		sprite = new Sprite(filename);
+		location = new Vector();
+	}
+
 	public Element() {
 		syncedComps = new HashMap<>();
 		syncedElements = new HashMap<>();
-		sprite = null;
-		location = new Vector();
-	}
-	
-	public void Element(String filename, double scale) {
-		setSprite(filename, scale);
-		location = new Vector();
-	}
-	
-	public void Element(String filename) {
-		setSprite(filename);
+		sprite = new Sprite(null);
 		location = new Vector();
 	}
 

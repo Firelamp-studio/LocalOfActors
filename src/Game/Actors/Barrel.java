@@ -9,12 +9,19 @@ import API.Utility.Vector;
 import Game.gui.BarrelInfo;
 
 public class Barrel extends Actor {
-    double vino;
-    BarrelInfo barrel;
+    private boolean bIsRedWhine;
+    private int wineMl;
+    private BarrelInfo barrel;
     
-    public Barrel(){
-        vino = 1000;
-        setSprite("white_barrel.png");
+    public Barrel(boolean bIsRedWhine){
+        wineMl = 100000;
+        this.bIsRedWhine = bIsRedWhine;
+        if (bIsRedWhine) {
+            setSprite("red_barrel.png");
+        } else {
+            setSprite("white_barrel.png");
+        }
+
     }
 
     @Override
@@ -31,7 +38,7 @@ public class Barrel extends Actor {
 
     @ActionCallable(name = "consuma_vino")
     public double consumaVino(double quantita){
-        System.out.println("Barrel: Attualmente possiedo " + vino + " litri di vino");
+        /*System.out.println("Barrel: Attualmente possiedo " + vino + " litri di vino");
 
         if(vino >= quantita){
             System.out.println("Barrel: Consumazione di " + quantita + " litri...");
@@ -45,7 +52,7 @@ public class Barrel extends Actor {
             return quantita;
         }
 
-
+*/
         return 0;
     }
 

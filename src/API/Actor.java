@@ -31,8 +31,8 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     private final List<Method> asyncMethods;
     private final List<Method> actionCallableMethods;
     private final List<Method> actionResponseMethods;
-    protected final boolean actionsEnabled;
-    protected final boolean tickEnabled;
+    protected boolean actionsEnabled;
+    protected boolean tickEnabled;
     private boolean actionsStopped;
     private boolean tickStopped;
     private List<Action> actionCalls;
@@ -44,7 +44,7 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     // Constructor
     public Actor() {
         actionsEnabled = true;
-        tickEnabled = true;
+        tickEnabled = false;
         actionsStopped = false;
         tickStopped = false;
 
@@ -156,16 +156,12 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
             
             if (!tickStopped && tickEnabled){
-            	
+                currentTime = Instant.now();
             	if(previousTime != null) {
-            	
-            		currentTime = Instant.now();
-            		
             		tickDuration = Duration.between(previousTime, currentTime).toNanos();
                     tick(tickDuration);
-                    
-                    previousTime = currentTime;
                 }
+                previousTime = currentTime;
             }
             
             try {
@@ -186,12 +182,12 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     }
 
     @Override
-    final public void bindActorForEvents(EventManager eventManager) {
+    final public void bindManagerForEvents(EventManager eventManager) {
     	eventManagerTool.bindActorForEvents(eventManager);
     }
 
     @Override
-    final public void unbindActor(EventManager eventManager) {
+    final public void unbindBindedManager(EventManager eventManager) {
     	eventManagerTool.unbindActor(eventManager);
     }
 
@@ -243,7 +239,7 @@ public abstract class Actor extends Element implements Runnable, EventManager {
             if(actionName.equals(actionResponse.name())){
 
                 try {
-                    if( method.getParameterCount() == 1 && result != null){
+                    if( method.getParameterCount() == 1){
                         method.invoke(this, result);
                     } else if (method.getParameterCount() == 0){
                         method.invoke(this);
