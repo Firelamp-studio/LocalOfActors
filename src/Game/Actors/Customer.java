@@ -18,7 +18,7 @@ public class Customer extends Person {
     private DrinkCard drinkCard;
     private LocalTail localTail;
     private EntryDoor entryDoor;
-    private CashDesk cashDesk;
+    private Owner owner;
     private Counter counter;
     private CounterTail counterTail;
     private Barman barman;
@@ -30,7 +30,7 @@ public class Customer extends Person {
     public int servingBarman;
     private CustomerInfo customerInfo;
 
-    public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
+    public Customer(LocalTail localTail, EntryDoor entryDoor, Owner owner, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         if (Math.random() > 0.5) {
             setSprite("man.png", 0.4);
         } else {
@@ -43,7 +43,7 @@ public class Customer extends Person {
         drinkCard = null;
         this.localTail = localTail;
         this.entryDoor = entryDoor;
-        this.cashDesk = cashDesk;
+        this.owner = owner;
         this.counter = counter;
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
@@ -84,7 +84,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "arrived-to-cashdesk")
     public void payAndGetCard() {
-        actionCallResponse(cashDesk, "pay-and-get-card");
+        actionCallResponse(owner, "pay-and-get-card");
     }
 
     @ActionResponse(name = "pay-and-get-card")

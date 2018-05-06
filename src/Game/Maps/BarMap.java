@@ -3,6 +3,7 @@ package Game.Maps;
 import java.awt.Dimension;
 
 import API.Components.Sprite;
+import API.Element;
 import API.Map;
 import API.Utility.Vector;
 import Game.Actors.*;
@@ -27,22 +28,25 @@ public class BarMap extends Map {
         bouncer.rotate(90);
         addComponent(bouncer, new Vector(100, 750), 0);
 
+        Element cashDesk = new Element("cashdesk.png");
+        addElement(cashDesk,  new Vector(165, 300));
+
         Barrel redWine = new Barrel(true);
         Barrel whiteWine = new Barrel(false);
         LocalTail localTail = new LocalTail(200);
-        CashDesk cashDesk = new CashDesk();
+        Owner owner = new Owner();
         CounterTail counterTail = new CounterTail(10);
         Barman barmanLeft = new Barman(redWine, whiteWine);
         Barman barmanCenter = new Barman(redWine, whiteWine);
         Barman barmanRight = new Barman(redWine, whiteWine);
         Counter counter = new Counter(counterTail, barmanLeft, barmanCenter, barmanRight);
         SitGroup sitGroup = new SitGroup();
-        EntryDoor entryDoor = new EntryDoor(localTail, cashDesk, counter, counterTail, sitGroup);
+        EntryDoor entryDoor = new EntryDoor(localTail, owner, cashDesk, counter, counterTail, sitGroup);
 
         addActor(redWine, new Vector(900, 50));
         addActor(whiteWine, new Vector(1100, 50));
         addActor(localTail, new Vector(165, 750));
-        addActor(cashDesk, new Vector(165, 300));
+        addActor(owner, new Vector(165, 230));
         addActor(counterTail, new Vector(1250, 340));
         addActor(barmanLeft, new Vector(850, 175));
         addActor(barmanCenter, new Vector(1000, 175));

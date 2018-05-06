@@ -21,6 +21,10 @@ public class Element implements MouseListener {
 		location = new Vector();
 	}
 
+	public Element(String filename) {
+		this(filename, 1);
+	}
+
 	public void Element(String filename) {
 		attachedComps = new HashMap<>();
 		sprite = new Sprite(filename);

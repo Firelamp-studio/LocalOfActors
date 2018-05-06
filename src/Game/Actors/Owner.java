@@ -1,47 +1,32 @@
 package Game.Actors;
 
-import java.awt.event.MouseEvent;
-
-import API.Element;
+import API.Actor;
 import API.Annotations.ActionCallable;
-import API.Utility.TimerAction;
-import API.Utility.Vector;
-import Game.gui.CustomerInfo;
+import Game.DrinkCard;
 
-public class Owner extends Person {
-	Element lamp;
-	CustomerInfo customer;
-	
-	public Owner(Element lamp) {
-		setSprite("man.png", 0.5);
-		this.lamp = lamp;
-		setSprite("owner.png");
-		new TimerAction(3000, this, "detach-info").execute();
-	}
-	
-	@ActionCallable(name = "detach-info")
-	public void detachInfoBox() {
-		detachRelativeComponent(customer);
-	}
-	
-	@Override
-	protected void beginPlay() {
-		super.beginPlay();
-		customer = new CustomerInfo(new Vector(100));
-		addRelativeComponent(customer, new Vector(0, 80));
-		moveTo(lamp);
-	}
+public class Owner extends Actor {
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		super.mousePressed(e);
-		
-		if(customer.isVisible()) {
-			customer.setVisible(false);
-		}
-		else {
-			customer.setVisible(true);
-		}
-	}
-    
+    private int receipts;
+
+    public Owner() {
+        receipts = 0;
+        setSprite("owner.png", 0.4);
+    }
+
+    @Override
+    protected void beginPlay() {
+        super.beginPlay();
+        setRotation(180);
+    }
+
+    @Override
+    protected void tick(long deltaTime) {
+
+    }
+
+    @ActionCallable(name = "pay-and-get-card")
+    public DrinkCard giveCard() {
+        receipts += 10;
+        return new DrinkCard();
+    }
 }

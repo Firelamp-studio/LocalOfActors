@@ -3,6 +3,7 @@ package Game.Actors;
 import API.Actor;
 import API.Annotations.ActionCallable;
 import API.Annotations.ActionResponse;
+import API.Element;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.Maps.BarMap;
@@ -10,20 +11,22 @@ import Game.Maps.BarMap;
 public class EntryDoor extends Actor {
     private TimerAction timerSpawnCustomer;
     private BarMap map;
-    private CashDesk cashDesk;
+    private Owner owner;
     private Counter counter;
     private CounterTail counterTail;
     private LocalTail localTail;
     private SitGroup sitGroup;
+    private Element cashDesk;
     private int numPeopleInside;
     private int i;
 
-    public EntryDoor(LocalTail localTail, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
+    public EntryDoor(LocalTail localTail, Owner owner, Element cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         this.localTail = localTail;
-        this.cashDesk = cashDesk;
+        this.owner = owner;
         this.counter = counter;
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
+        this.cashDesk = cashDesk;
         numPeopleInside = 0;
         setSprite("door.png");
         tickEnabled = true;
@@ -74,7 +77,7 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer")
     public void spawnCustomer() {
-        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 1600, 750 ), 10 );
+        map.addActor(new Customer(localTail, this, owner, counter, counterTail, sitGroup), new Vector( 1600, 750 ), 10 );
     }
 
     @ActionCallable(name = "customer-exit")
