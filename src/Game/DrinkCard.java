@@ -17,9 +17,7 @@ public class DrinkCard {
 				witheConsumations++;
 			}
 			return true;
-		} else {
-			return false;
 		}
-		
+		return false;
 	}
 }

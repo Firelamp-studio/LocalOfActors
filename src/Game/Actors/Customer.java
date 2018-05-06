@@ -23,6 +23,7 @@ public class Customer extends Person {
     private CounterTail counterTail;
     private Barman barman;
     private SitGroup sitGroup;
+    private float wineGlass;
     private int armchairIndex;
     private static int generateId = 0;
     private int id;
@@ -45,6 +46,7 @@ public class Customer extends Person {
         this.counter = counter;
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
+        wineGlass = 0;
         armchairIndex = -1;
         generateId++;
         id = generateId;
@@ -98,7 +100,12 @@ public class Customer extends Person {
     public void doSomething() {
         double random = Math.random();
         if (random > 0.4) {
-            actionCallResponse(counterTail, "counter-enqueue-customer", this);
+            if (wineGlass > 0){
+                wineGlass -= 50;
+                chooseWahtToDo();
+            } else {
+                actionCallResponse(counterTail, "counter-enqueue-customer", this);
+            }
         } else if (random > 0.1) {
             actionCallResponse(sitGroup, "sit-on-sit" );
         } else {
@@ -127,6 +134,7 @@ public class Customer extends Person {
     @ActionCallable(name = "arrived-to-barman")
     public void arrivedToBarman(Barman barman) {
         this.barman = barman;
+        setRotation(0);
         if (Math.random() < 0.5) {
             barman.orderWine(true, drinkCard);
         } else {

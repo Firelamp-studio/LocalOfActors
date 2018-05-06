@@ -7,11 +7,13 @@ public class Barman extends Person {
     private boolean free;
     private Barrel redWineBarrel;
     private Barrel witheWineBarrel;
+    private float wineGlass;
 
     public Barman(Barrel redWineBarrel, Barrel witheWineBarrel) {
         free = true;
         this.redWineBarrel = redWineBarrel;
         this.witheWineBarrel = witheWineBarrel;
+        wineGlass = 0;
         setSprite("man.png", 0.4);
     }
 
@@ -27,14 +29,16 @@ public class Barman extends Person {
     }
 
     public void orderWine(boolean bIsRedWine, DrinkCard drinkCard) {
-        if (bIsRedWine) {
-            actionCall(redWineBarrel, "take-wine");
-        } else {
-            actionCall(witheWineBarrel, "take-wine");
+        if (drinkCard.useComsumation(bIsRedWine)) {
+            if (bIsRedWine) {
+                moveTo(redWineBarrel, "arrived-on-barrel");
+            } else {
+                moveTo(witheWineBarrel, "arrived-on-barrel");
+            }
         }
-        drinkCard.useComsumation(bIsRedWine);
-
     }
+
+    @ActionCallable
 
     public boolean isFree() {
         return free;
