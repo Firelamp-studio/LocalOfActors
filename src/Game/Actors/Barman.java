@@ -8,6 +8,7 @@ import Game.Maps.BarMap;
 
 public class Barman extends Person {
     private Vector startPosition;
+    private Owner owner;
     private Customer customer;
     private boolean free;
     private boolean fillRedWhine;
@@ -15,10 +16,11 @@ public class Barman extends Person {
     private Barrel whiteWineBarrel;
     private int wineGlass;
 
-    public Barman(Barrel redWineBarrel, Barrel whiteWineBarrel) {
+    public Barman(Barrel redWineBarrel, Barrel whiteWineBarrel, Owner owner) {
         free = true;
         this.redWineBarrel = redWineBarrel;
         this.whiteWineBarrel = whiteWineBarrel;
+        this.owner = owner;
         wineGlass = 0;
         setSprite("barman.png", 0.4);
         startPosition = new Vector();
@@ -61,7 +63,7 @@ public class Barman extends Person {
 
         long delay = 500;
         if (getMap() instanceof BarMap){
-            delay = ((BarMap)getMap()).getGameSpeed() * 500;
+            delay = ((BarMap)getMap()).getGameSpeed() * 250;
         }
 
         new TimerAction(delay,this,"spill").execute(barrel);
@@ -69,13 +71,25 @@ public class Barman extends Person {
 
     @ActionCallable(name = "spill")
     public void spill(Barrel barrel) {
-        actionCallResponse(barrel, "get-wine-glass");
+        actionCallResponse(barrel, "get-wine-glass", this);
     }
 
     @ActionResponse(name = "get-wine-glass")
     public void getWineGlass(int wineGlass) {
         moveTo(startPosition, "give-wine-glass", wineGlass);
     }
+
+    @ActionCallable(name = "request-new-barrel")
+    public void requestNewBarrel(Barrel barrel) {
+        moveTo(owner, "move-to-owner", barrel);
+    }
+
+    @ActionCallable(name = "move-to-owner")
+    public void moveToOwner(Barrel barrel) {
+        actionCall(owner, "refill-barrel", barrel);
+    }
+
+    //moveTo(owner.getLocation().add(new Vector(40,0)), "move-to-owner", );
 
     @ActionCallable(name = "give-wine-glass")
     public void giveWineGlass(int wineGlass) {

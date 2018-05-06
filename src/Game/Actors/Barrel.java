@@ -40,7 +40,7 @@ public class Barrel extends Actor {
     @Override
     protected void tick(long deltaTime) {
         super.tick(deltaTime);
-        if (!spilling && !requests.isEmpty() && wineMl > 0) {
+        if (!spilling && !requests.isEmpty()) {
             actionCall(requests.pop(), "can-spill");
             spilling = true;
         }
@@ -58,13 +58,14 @@ public class Barrel extends Actor {
     }
 
     @ActionCallable(name = "get-wine-glass")
-    public int giveWineGlass() {
+    public int giveWineGlass(Barman barman) {
         if (wineMl > 0) {
             wineMl -= 250;
             spilling = false;
             barrelInfo.setWineValue(wineMl/1000.f);
             return 250;
         }
+        actionCall(barman, "request-new-barrel", this);
         return 0;
     }
 
