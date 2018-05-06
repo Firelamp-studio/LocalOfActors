@@ -81,13 +81,19 @@ public class Barman extends Person {
 
     @ActionCallable(name = "request-new-barrel")
     public void requestNewBarrel(Barrel barrel) {
-        moveTo(owner, "move-to-owner", barrel);
+        moveTo(owner.getLocation().add(new Vector(40,0)), "move-to-owner", barrel);
     }
 
     @ActionCallable(name = "move-to-owner")
     public void moveToOwner(Barrel barrel) {
-        actionCall(owner, "refill-barrel", barrel);
-        moveTo(startPosition,"");
+        actionCall(owner, "refill-barrel", barrel, this);
+        moveTo(startPosition);
+    }
+
+    @ActionCallable(name = "redo-spill-request")
+    public void redoSpillRequest(Barrel barrel) {
+        setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
+        actionCall(barrel,"request-spill", this);
     }
 
     //moveTo(owner.getLocation().add(new Vector(40,0)), "move-to-owner", );

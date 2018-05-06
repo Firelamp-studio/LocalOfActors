@@ -85,5 +85,7 @@ public class Barrel extends Actor {
 
     public void refill() {
         wineMl = 100000;
+        barrelInfo.setWineValue(wineMl/1000.f);
+        spilling = false;
     }
 }
