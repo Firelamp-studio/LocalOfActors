@@ -44,7 +44,7 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     // Constructor
     public Actor() {
         actionsEnabled = true;
-        tickEnabled = true;
+        tickEnabled = false;
         actionsStopped = false;
         tickStopped = false;
 
