@@ -10,6 +10,7 @@ import API.Utility.TimerAction;
 import API.Utility.Transform;
 import API.Utility.Vector;
 import Game.DrinkCard;
+import Game.Maps.BarMap;
 import Game.gui.CustomerInfo;
 
 public class Customer extends Person {
@@ -162,7 +163,12 @@ public class Customer extends Person {
     @ActionCallable(name = "on-arrived-on-sit")
     public void onArrivedOnSit(int index) {
         setRotation(0);
-        new TimerAction( (long) (Math.random() * 4000 + 2000), this, "wait-on-sit").execute(index);
+
+        long delay = 1000;
+        if (getMap() instanceof BarMap){
+            delay = ((BarMap)getMap()).getGameSpeed() * 100;
+        }
+        new TimerAction( (long) (Math.random() * delay*4 + delay*2), this, "wait-on-sit").execute(index);
     }
 
     @ActionCallable(name = "wait-on-sit")
