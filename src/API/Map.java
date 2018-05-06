@@ -59,11 +59,15 @@ public abstract class Map {
 	public void addElement(Element element, Vector location) {
 		addElement(element, location, 0);
 	}
-	
+
 	public void addActor(Actor actor, Vector location){
-        addElement(actor, location, 1);
-        actor.beginPlay();
-    }
+		addActor(actor, location, 1);
+	}
+
+	public void addActor(Actor actor, Vector location, int zindex){
+		addElement(actor, location, zindex);
+		actor.beginPlay();
+	}
 	
 	
 }

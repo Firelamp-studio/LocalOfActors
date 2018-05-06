@@ -3,6 +3,7 @@ package Game.Actors;
 import java.util.LinkedList;
 
 import API.Actor;
+import API.Annotations.ActionCallable;
 import API.Utility.Vector;
 
 public class Tail extends Actor {
@@ -56,4 +57,10 @@ public class Tail extends Actor {
         return waitingCustomers.size();
     }
 
+    @ActionCallable(name = "customer-arrived-to-position")
+    public void customerArrivedToPosition(Customer customer) {
+        if (!waitingCustomers.isEmpty() && waitingCustomers.getFirst() == customer) {
+            setModifyEnabled(true);
+        }
+    }
 }

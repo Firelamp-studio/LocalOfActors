@@ -32,12 +32,4 @@ public class CounterTail extends Tail {
         }
         return null;
     }
-
-    @ActionCallable(name = "customer-arrived-to-position")
-    public void customerArrivedToPosition(Customer customer) {
-        if (getWaitingCustomers().getFirst() == customer) {
-            setModifyEnabled(true);
-        }
-    }
-
 }

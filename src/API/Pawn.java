@@ -8,12 +8,14 @@ public class Pawn extends Actor {
 	private TimerAction moveTimer;
 	private int xSteps;
 	private int ySteps;
+	private int walkingSteps;
 	
 	public final void moveTo(Vector location, String actionCaller) {
 		if(moveTimer != null){
 			moveTimer.kill();
 		}
 
+		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
 		Vector dist = getLocation().distance(location);
 		
@@ -59,9 +61,8 @@ public class Pawn extends Actor {
 	
 	@ActionCallable(name = "pawn-walking-loop")
 	public void pawnWalkingLoop(String actionCaller, Vector location, int xModule, int yModule, int xIncr, int yIncr) {
-		
-		xSteps--;
-		ySteps--;
+
+		walkingSteps++;
 		
 		Vector pawnLoc = getLocation();
 	
@@ -70,15 +71,17 @@ public class Pawn extends Actor {
 		
 		if(xModule > 0) {
 				
-			if(xSteps > 0 && (xSteps % xModule == 0)) {
+			if(xSteps > 0 && (walkingSteps % xModule == 0)) {
 				xShift = xIncr;
+				xSteps--;
 			}
 		}
 		
 		if(yModule > 0) {
 			
-			if(ySteps > 0 && (ySteps % yModule == 0)) {
+			if(ySteps > 0 && (walkingSteps % yModule == 0)) {
 				yShift = yIncr;
+				ySteps--;
 			}
 		}
 		

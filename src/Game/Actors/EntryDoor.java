@@ -72,7 +72,7 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer")
     public void spawnCustomer() {
-        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 600, 750 ) );
+        map.addActor(new Customer(localTail, this, cashDesk, counter, counterTail, sitGroup), new Vector( 600, 750 ), 10 );
     }
     /*
     public void faiEntrareQualcunoOgniTanto(int maxWaitTimeMS){

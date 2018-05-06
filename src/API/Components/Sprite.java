@@ -19,7 +19,6 @@ public class Sprite extends JLabel{
 	private double scale;
 	private Rotator rotator;
 	private int viewSize;
-	private Element owner;
 
 	public Sprite(){
 		this(null);
@@ -42,7 +41,6 @@ public class Sprite extends JLabel{
 	    setSize(viewSize, viewSize);
 	    setPreferredSize(new Dimension(viewSize, viewSize));
 	    setOpaque(false);
-	    addMouseListener(owner);
     }
     
     public Sprite(String imageFile) {
