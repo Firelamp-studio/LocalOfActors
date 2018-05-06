@@ -2,6 +2,7 @@ package Game.Actors;
 
 import API.Actor;
 import API.Annotations.ActionCallable;
+import API.Annotations.ActionResponse;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.Maps.BarMap;
@@ -43,13 +44,16 @@ public class EntryDoor extends Actor {
     protected void tick(long deltaTime) {
         if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
             localTail.setModifyEnabled(false);
-            Customer customer = localTail.dequeueCustomer("entry-local-line-and-movement");
+            actionCallResponse(localTail, "dequeue-customer", "entry-local-line-and-movement");
             numPeopleInside++;
-            System.out.println("DENTRO CI SONO " + numPeopleInside + " PERSONE");
-            customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
             setRotation(90);
             new TimerAction(map.getGameSpeed() * 140, this, "close-door").execute();
         }
+    }
+
+    @ActionResponse(name = "dequeue-customer")
+    public void dequeueResponse(Customer customer){
+        customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
     }
 
     @ActionCallable(name = "close-door")

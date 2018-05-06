@@ -26,6 +26,7 @@ public class CounterTail extends Tail {
             rotationOffset = -90;
         }
 
+        customer.customerInfo.setCustomerNum(getTailSize()-1);
 
         return new Transform(getLocation().add(new Vector(xOffset * -70, yOffset * 60)),
                 new Rotator(180 * alternateOffset + rotationOffset));
