@@ -13,7 +13,7 @@ public class Pawn extends Actor {
 	public Pawn(){
 		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop");
 	}
-	
+
 	public final void moveTo(Vector location, String actionCaller) {
 		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
@@ -59,7 +59,7 @@ public class Pawn extends Actor {
 	public final void moveTo(Element element) {
 		moveTo(element, null);
 	}
-	
+
 	@ActionCallable(name = "pawn-walking-loop")
 	public void pawnWalkingLoop(String actionCaller, Vector location, int xModule, int yModule, int xIncr, int yIncr) {
 		if(moveTimer == null || !moveTimer.isAlive())

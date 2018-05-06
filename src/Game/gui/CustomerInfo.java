@@ -6,17 +6,19 @@ import javax.swing.JPanel;
 import API.Utility.Vector;
 
 public class CustomerInfo extends JPanel{
-	JLabel customerNum, whiteWineLabel, redWineLabel;
+	JLabel customerNum, whiteWineLabel, redWineLabel, intentionLabel;
 	
 	public CustomerInfo(Vector size) {
 		whiteWineLabel = new JLabel("Litri vino bianco: ");
 		redWineLabel = new JLabel("Litri vino rosso: ");
 		customerNum = new JLabel("Cliente");
+		intentionLabel = new JLabel("Intention: ");
 		
 		setPreferredSize(size.toDimension());
 		add(customerNum);
 		add(whiteWineLabel);
 		add(redWineLabel);
+		add(intentionLabel);
 		
 		setVisible(false);
 	}
@@ -31,5 +33,9 @@ public class CustomerInfo extends JPanel{
 	
 	public void setCustomerNum(int num) {
 		redWineLabel.setText("Customer " + num);
+	}
+
+	public void setIntention(String intention){
+		intentionLabel.setText("Intention: " + intention);
 	}
 }

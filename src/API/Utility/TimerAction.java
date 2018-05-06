@@ -40,6 +40,12 @@ public class TimerAction implements Runnable {
     public void execute(Object... args) {
         this.args = args;
         if (actionName != null && !actionName.isEmpty()) {
+            if(timerThread != null){
+                if(timerThread.isAlive())
+                    timerThread.interrupt();
+                timerThread = null;
+            }
+
             timerThread = new Thread(this);
             timerThread.start();
         }
