@@ -12,7 +12,7 @@ public class Pawn extends Actor {
 	private Object[] argsAfterMoveTo;
 
 	public Pawn(){
-		moveTimer = new TimerAction(true, 10, this, "pawn-walking-loop");
+		moveTimer = new TimerAction(true, 2, this, "pawn-walking-loop");
 	}
 
 	public final void moveTo(Vector location, String actionCaller, Object... args) {
