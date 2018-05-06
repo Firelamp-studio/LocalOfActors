@@ -60,11 +60,11 @@ public class Customer extends Person {
 
     @ActionResponse(name = "get-in-line-for-entry")
     public void getInLineForEntry(Vector vector) {
-        moveTo(vector, "entry-line-end-movement");
+        moveTo(vector, "entry-local-line-and-movement");
     }
 
-    @ActionCallable(name = "entry-line-end-movement")
-    public void entryLineEndMovement() {
+    @ActionCallable(name = "entry-local-line-and-movement")
+    public void entryLocalLineEndMovement() {
         actionCall(localTail, "customer-arrived-to-position", this);
         setRotation(-90);
     }
@@ -102,6 +102,17 @@ public class Customer extends Person {
         } else {
             exit();
         }
+    }
+
+    @ActionResponse(name = "get-in-line-for-order")
+    public void getInLineForEOrder(Vector vector) {
+        moveTo(vector, "entry-counter-line-and-movement");
+    }
+
+    @ActionCallable(name = "entry-local-line-and-movement")
+    public void entryCounterLineEndMovement() {
+        actionCall(counterTail, "customer-arrived-to-position", this);
+        setRotation(-90);
     }
 
     @ActionResponse(name = "sit-on-sit")

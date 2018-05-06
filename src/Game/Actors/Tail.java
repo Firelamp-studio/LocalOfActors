@@ -29,19 +29,6 @@ public class Tail extends Actor {
         return waitingCustomers.remove(customer);
     }
 
-
-
-    protected Vector getPersonPositionInQueue(Customer customer) {
-        for (int i = 0; i < waitingCustomers.size(); i++) {
-            if (waitingCustomers.get(i) == customer) {
-                return getLocation().add(new Vector(i * 40,0));
-            }
-        }
-        return null;
-    }
-
-
-
     protected boolean removeFirst() {
         try {
             waitingCustomers.remove(0);

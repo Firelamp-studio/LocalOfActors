@@ -19,9 +19,18 @@ public class LocalTail extends Tail {
     public Customer letPersonEntry() {
         Customer customer = getWaitingCustomers().pop();
         getWaitingCustomers().forEach((c)->{
-            c.moveTo(getPersonPositionInQueue(c), "entry-line-end-movement");
+            c.moveTo(getPersonPositionInQueue(c), "entry-local-line-and-movement");
         });
         return customer;
+    }
+
+    private Vector getPersonPositionInQueue(Customer customer) {
+        for (int i = 0; i < getWaitingCustomers().size(); i++) {
+            if (getWaitingCustomers().get(i) == customer) {
+                return getLocation().add(new Vector(i * 40,0));
+            }
+        }
+        return null;
     }
 
     @ActionCallable(name = "customer-arrived-to-position")

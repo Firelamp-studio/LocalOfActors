@@ -44,6 +44,8 @@ public class BarMap extends Map {
         Barrel whiteWine = new Barrel(false);
 
         addActor(localTail, new Vector(180, 750));
+        counterTail.setSprite("test.png", 0.2);
+        addActor(counterTail, new Vector(1000, 340));
         addActor(entryDoor, new Vector(200, 700));
         addActor(cashDesk, new Vector(180, 300));
         addActor(counter, new Vector(1000, 240));
