@@ -9,15 +9,20 @@ public class DrinkCard {
 		witheConsumations = 0;
 	}
 	
-	public boolean useComsumation(boolean bIsRedWine) {
-		if ((redConsumations + witheConsumations) > 20) {
-			if (bIsRedWine) {
-				redConsumations++;
-			} else {
-				witheConsumations++;
-			}
+	public boolean hasComsumation() {
+		if ((redConsumations + witheConsumations) < 20)
 			return true;
-		}
 		return false;
+	}
+
+	public boolean useConsumatABoolean(boolean bIsRedWine) {
+		if (hasComsumation()) {
+			if (bIsRedWine)
+				redConsumations++;
+			else
+				witheConsumations++;
+			return true;
+		} else
+			return false;
 	}
 }

@@ -30,7 +30,6 @@ public class Counter extends Actor {
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     counterTail.setModifyEnabled(false);
                     Customer customer = counterTail.dequeueCustomer("entry-counter-line-and-movement");
-                    //gestire i barman;
                     customer.moveTo(barmans[i].getLocation().add(new Vector(0, 130)), "arrived-to-barman", barmans[i]);
                     break;
                 }

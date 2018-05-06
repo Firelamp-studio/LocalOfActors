@@ -23,7 +23,7 @@ public class Customer extends Person {
     private CounterTail counterTail;
     private Barman barman;
     private SitGroup sitGroup;
-    private float wineGlass;
+    private int wineGlass;
     private int armchairIndex;
     private static int generateId = 0;
     private int id;
@@ -136,24 +136,16 @@ public class Customer extends Person {
         this.barman = barman;
         setRotation(0);
         if (Math.random() < 0.5) {
-            barman.orderWine(true, drinkCard);
+            barman.orderWine(true, this);
         } else {
-            barman.orderWine(false, drinkCard);
+            barman.orderWine(false, this);
         }
     }
 
-/*
-    @ActionCallable(name = "go-to-barman")
-    public void getFreeBarman() {
-        actionCallResponse(counter, "get-free-barman");
+    @ActionCallable(name = "get-wine")
+    public void getWineAndWait() {
+        moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
-
-    @ActionResponse(name = "go-to-barman")
-    public void moveToBarman(Barman freeBarman) {
-        barman = freeBarman;
-        moveTo(barman, "go-to-order-wine");
-    }
-*/
 
     @ActionResponse(name = "sit-on-sit")
     public void goToSit(int index) {
@@ -178,20 +170,6 @@ public class Customer extends Person {
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
-    @ActionCallable(name = "go-to-order-wine")
-    public void orderWine() {
-        if (Math.random() > 0.5) {
-            actionCallResponse(barman, "order-wine", true, drinkCard);
-        } else {
-            actionCallResponse(barman, "order-wine", false, drinkCard);
-        }
-    }
-
-    @ActionCallable(name = "give-wine")
-    public void getWineAndWait() {
-        moveTo(getWaitingAreaVector(), "choose-what-to-do");
-    }
-
     private void exit() {
         customerInfo.setIntention("Sto uscendo");
         moveTo(entryDoor.getLocation().add(new Vector(-30, -50)), "open-door-and-exit");
@@ -208,8 +186,12 @@ public class Customer extends Person {
         disposeActor();
     }
 
-    public Vector getWaitingAreaVector() {
+    public static Vector getWaitingAreaVector() {
         return new Vector((int) (Math.random() * 300 + 250), (int) (Math.random() * 350 + 250));
+    }
+
+    public DrinkCard getDrinkCard() {
+        return drinkCard;
     }
 
     @Override
