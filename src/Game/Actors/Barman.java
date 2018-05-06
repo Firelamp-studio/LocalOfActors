@@ -14,7 +14,7 @@ public class Barman extends Person {
         this.redWineBarrel = redWineBarrel;
         this.witheWineBarrel = witheWineBarrel;
         wineGlass = 0;
-        setSprite("man.png", 0.4);
+        setSprite("barman.png", 0.4);
     }
 
     @Override

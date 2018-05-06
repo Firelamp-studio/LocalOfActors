@@ -15,7 +15,7 @@ public class Owner extends Person {
 	public Owner(Element lamp) {
 		setSprite("man.png", 0.5);
 		this.lamp = lamp;
-		
+		setSprite("owner.png");
 		new TimerAction(3000, this, "detach-info").execute();
 	}
 	
