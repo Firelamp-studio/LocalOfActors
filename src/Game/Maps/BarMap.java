@@ -47,9 +47,9 @@ public class BarMap extends Map {
         Counter counter = new Counter(counterTail);
         EntryDoor entryDoor = new EntryDoor(localTail, cashDesk, counter, counterTail);
         localTail.setSprite("test.png", 0);
-        addActor(localTail, new Vector(200, 750));
+        addActor(localTail, new Vector(180, 750));
         addActor(entryDoor, new Vector(200, 700));
-        addActor(cashDesk, new Vector(200, 300));
+        addActor(cashDesk, new Vector(180, 300));
         
         counter.setSprite("counter.png");
         addActor(counter, new Vector(1000, 225));

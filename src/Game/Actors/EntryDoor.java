@@ -25,6 +25,7 @@ public class EntryDoor extends Actor {
         this.counterTail = counterTail;
         numPeopleInside = 0;
         setSprite("door.png");
+        timerSpawnCustomer = new TimerAction(true, 2750 , this, "spawn-customer-iterator" );
     }
 
     @Override
@@ -34,7 +35,6 @@ public class EntryDoor extends Actor {
             map = (BarMap) getMap();
             i = map.getTotalPeople();
         }
-        timerSpawnCustomer = new TimerAction(true, 2500 , this, "spawn-customer-iterator" );
         timerSpawnCustomer.execute();
     }
 
@@ -42,11 +42,19 @@ public class EntryDoor extends Actor {
     protected void tick(long deltaTime) {
         if (localTail.isModifyEnabled() && numPeopleInside < map.getMaxLocalPeople()){
             localTail.setModifyEnabled(false);
-            System.out.println("dovrebbe entrare gente");
+            /*if (timerDoorClose != null)
+                timerDoorClose.kill();*/
             Customer customer = localTail.letPersonEntry();
             numPeopleInside++;
-            customer.moveTo(map.getMapCenter());
+            customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
+            setRotation(90);
+            new TimerAction(1200, this, "close-door").execute();
         }
+    }
+
+    @ActionCallable(name = "close-door")
+    public void closeDoor(){
+        setRotation(0);
     }
 
     @ActionCallable(name = "spawn-customer-iterator")

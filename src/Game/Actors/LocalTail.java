@@ -20,9 +20,7 @@ public class LocalTail extends Tail {
 
     @ActionCallable(name = "customer-arrived-to-position")
     public void customerArrivedToPosition(Customer customer) {
-        System.out.println("arrivato");
         if (getWaitingCustomers().getFirst() == customer) {
-            System.out.println("primo");
             setModifyEnabled(true);
         }
     }

@@ -66,10 +66,6 @@ public class Customer extends Person {
 
     }
 
-    public void moveToCashdesk() {
-        moveTo(cashDesk, "arrived-to-cashdesk");
-    }
-
     @ActionCallable(name = "arrived-to-cashdesk")
     public void payAndGetCard() {
         actionCallResponse(cashDesk, "pay-and-get-card");
