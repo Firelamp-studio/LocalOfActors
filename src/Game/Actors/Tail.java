@@ -73,8 +73,7 @@ public abstract class Tail extends Actor {
         return customer;
     }
 
-    @ActionCallable(name = "enqueue-customer")
-    public Vector enqueueCustomer(Customer customer) {
+    protected final Vector enqueueCustomer(Customer customer) {
         addToTail(customer);
         return getPersonPositionInQueue(customer);
     }
