@@ -16,7 +16,6 @@ public class EntryDoor extends Actor {
     private CounterTail counterTail;
     private LocalTail localTail;
     private SitGroup sitGroup;
-    private Customer customerToDestroy;
     private int numPeopleInside;
     private int i;
 
@@ -78,7 +77,6 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "customer-exit")
     public void customerExit(Customer customer) {
-        customerToDestroy = customer;
         System.out.println("Porta: sto facendo uscire un cliente");
         customer.moveTo(new Vector(165, 900), "destroy-customer-on-exit");
         numPeopleInside--;
@@ -87,10 +85,4 @@ public class EntryDoor extends Actor {
         new TimerAction(1200, this, "close-door").execute();
     }
 
-    @ActionCallable(name = "destroy-customer-on-exit")
-    public void destroycCustomer() {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASJAHDIJAHFKAFHNASIDFHSIUFHNSDIJFNSJKFNSDJIFSIDFNJKSDU");
-        customerToDestroy.disposeActor();
-        customerToDestroy = null;
-    }
 }

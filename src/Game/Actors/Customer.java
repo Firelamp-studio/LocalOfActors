@@ -179,6 +179,12 @@ public class Customer extends Person {
         actionCall(entryDoor, "customer-exit", this);
     }
 
+    @ActionCallable(name = "destroy-customer-on-exit")
+    public void destroycCustomer() {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASJAHDIJAHFKAFHNASIDFHSIUFHNSDIJFNSJKFNSDJIFSIDFNJKSDU");
+        disposeActor();
+    }
+
     public Vector getWaitingAreaVector() {
         return new Vector((int) (Math.random() * 300 + 250), (int) (Math.random() * 350 + 250));
     }
