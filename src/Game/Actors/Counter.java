@@ -9,6 +9,7 @@ public class Counter extends Actor {
 	private CounterTail counterTail;
 	private Barman[] barmans;
     private Barman freeBarman;
+    private boolean isSearchingFreeBarman;
 	
 	public Counter(CounterTail counterTail, Barman barmanLeft, Barman barmanCenter, Barman barmanRight) {
 		this.counterTail = counterTail;
@@ -23,15 +24,18 @@ public class Counter extends Actor {
 
     @Override
     protected void tick(long deltaTime) {
-	    for (int i = 0; i < 3; i++) {
-            if (barmans[i].isFree()) {
-                if (counterTail.isModifyEnabled() ){
+        if (counterTail.isModifyEnabled() ){
+            isSearchingFreeBarman = true;
+	        for (int i = 0; i < 3 && isSearchingFreeBarman; i++) {
+
+                if (barmans[i].isFree()) {
+
                     barmans[i].setFree(false);
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                    counterTail.setModifyEnabled(false);
                     Customer customer = counterTail.dequeueCustomer("entry-counter-line-and-movement");
                     customer.moveTo(barmans[i].getLocation().add(new Vector(0, 130)), "arrived-to-barman", barmans[i]);
-                    break;
+
+                    counterTail.setModifyEnabled(false);
+                    isSearchingFreeBarman = false;
                 }
             }
         }
