@@ -239,7 +239,7 @@ public abstract class Actor extends Element implements Runnable, EventManager {
             if(actionName.equals(actionResponse.name())){
 
                 try {
-                    if( method.getParameterCount() == 1 && result != null){
+                    if( method.getParameterCount() == 1){
                         method.invoke(this, result);
                     } else if (method.getParameterCount() == 0){
                         method.invoke(this);
