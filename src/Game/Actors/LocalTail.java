@@ -13,10 +13,8 @@ public class LocalTail extends Tail {
     public Vector newPersonInLocalQueue(Customer customer) {
         addToTail(customer);
         int relativeX = getWaitingCustomers().size() - 1;
-
         System.out.println(getWaitingCustomers().size());
-
-        return getLocation().add(new Vector(relativeX * 40,0));
+        return getLocation().add(new Vector(relativeX * 50,0));
     }
 
     public Customer letPersonEntry() {
@@ -32,7 +30,7 @@ public class LocalTail extends Tail {
     private Vector getPersonPositionInQueue(Customer customer) {
         for (int i = 0; i < getWaitingCustomers().size(); i++) {
             if (getWaitingCustomers().get(i) == customer) {
-                return getLocation().add(new Vector(i * 40,0));
+                return getLocation().add(new Vector(i * 50,0));
             }
         }
         return null;

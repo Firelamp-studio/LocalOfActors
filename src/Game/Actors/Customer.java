@@ -23,18 +23,21 @@ public class Customer extends Person {
     private Barman barman;
     private SitGroup sitGroup;
     private int armchairIndex;
+    private static int generateId = 0;
+    private int id;
     CustomerInfo customer;
 
     public Customer(LocalTail localTail, EntryDoor entryDoor, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         if (Math.random() > 0.5) {
-            setSprite("man.png", 0.3);
+            setSprite("man.png", 0.4);
         } else {
-            setSprite("woman.png", 0.3);
+            setSprite("woman.png", 0.4);
         }
 
         long delay = new Random().nextInt(2000) + 1;
-        timerChooseAction = new TimerAction(false, delay, this, "do-something");
+        timerChooseAction = new TimerAction(delay, this, "do-something");
 
+        drinkCard = null;
         this.localTail = localTail;
         this.entryDoor = entryDoor;
         this.cashDesk = cashDesk;
@@ -42,6 +45,8 @@ public class Customer extends Person {
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
         armchairIndex = -1;
+        generateId++;
+        id = generateId;
         customer = new CustomerInfo(new Vector(100));
     }
 
@@ -66,7 +71,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "entry-local-line-and-movement")
     public void entryLocalLineEndMovement() {
-        System.out.println("entry-local-line-and-movement");
+        System.out.println("Cliente " + id + ": sono in fila per entrare");
         actionCall(localTail, "customer-arrived-to-position", this);
         setRotation(-90);
     }
@@ -93,13 +98,13 @@ public class Customer extends Person {
         double random = Math.random();
         if (random > 0.4) {
             actionCallResponse(counterTail, "get-in-line-for-order", this);
-        } else if (random > 0.1) {
+        } else /*if (random > 0.1) */{
             for (int i = 0; i < 4; i++){
                 actionCallResponse(sitGroup, "sit-on-sit" );
             }
-        } else {
+        } /*else {
             exit();
-        }
+        }*/
     }
 
     @ActionResponse(name = "get-in-line-for-order")
@@ -115,9 +120,10 @@ public class Customer extends Person {
 
     @ActionResponse(name = "sit-on-sit")
     public void goToSit(int index) {
+        customer.setIntention("Sto andando a sedermi");
         armchairIndex = index;
         if (index < 0) {
-            chooseWahtToDo();
+            actionCall(this, "do-something");
         } else {
             System.out.println(sitGroup.getArmchairLocation(index));
             moveTo(sitGroup.getArmchairLocation(index), "on-arrived-on-sit");
@@ -167,11 +173,12 @@ public class Customer extends Person {
     }
 
     private void exit() {
-        //TODO exit
+        System.out.println("sto uscendo");
+        moveTo(new Vector(0, 0));
     }
 
     public Vector getWaitingAreaVector() {
-        return new Vector((int) (Math.random() * 300 + 250), (int) (Math.random() * 500 + 210));
+        return new Vector((int) (Math.random() * 300 + 250), (int) (Math.random() * 350 + 250));
     }
 
     @Override

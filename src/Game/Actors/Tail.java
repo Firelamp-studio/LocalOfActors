@@ -61,7 +61,7 @@ public class Tail extends Actor {
     public void customerArrivedToPosition(Customer customer) {
         if (!waitingCustomers.isEmpty() && waitingCustomers.getFirst() == customer) {
             setModifyEnabled(true);
-            System.out.println("customer-arrived-to-position");
+            System.out.println("Il cliente può entrare");
         }
     }
 }

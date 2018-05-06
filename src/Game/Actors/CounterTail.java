@@ -13,7 +13,7 @@ public class CounterTail extends Tail {
     public Vector newPersonInLocalQueue(Customer customer) {
         addToTail(customer);
         int relativeY = getWaitingCustomers().size() - 1;
-        return getLocation().add(new Vector(0,relativeY * 40));
+        return getLocation().add(new Vector(0,relativeY * 50));
     }
 
     public Customer letPersonOrder() {
@@ -27,7 +27,7 @@ public class CounterTail extends Tail {
     private Vector getPersonPositionInQueue(Customer customer) {
         for (int i = 0; i < getWaitingCustomers().size(); i++) {
             if (getWaitingCustomers().get(i) == customer) {
-                return getLocation().add(new Vector(0,i * 40));
+                return getLocation().add(new Vector(0,i * 50));
             }
         }
         return null;
