@@ -6,7 +6,6 @@ import API.Utility.Transform;
 import API.Utility.Vector;
 
 public class CounterTail extends Tail {
-    //"entry-counter-line-and-movement"
 
     public CounterTail(int maxPeopleInQueue) {
         super(maxPeopleInQueue);

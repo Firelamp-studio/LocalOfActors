@@ -34,6 +34,10 @@ public class BarMap extends Map {
         Sprite background = new Sprite("local.jpg");
         addComponent(background, getMapCenter(), -10);
 
+        Sprite bouncer = new Sprite("bouncer.png", 0.5);
+        bouncer.rotate(90);
+        addComponent(bouncer, new Vector(100, 750), 0);
+
         Barrel redWine = new Barrel(true);
         Barrel whiteWine = new Barrel(false);
         LocalTail localTail = new LocalTail(200);
