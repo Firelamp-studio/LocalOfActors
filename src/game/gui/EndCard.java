@@ -18,5 +18,7 @@ public class EndCard extends JPanel{
         add(recessedLabel);
 
         setPreferredSize(new Dimension(500, 300));
+
+        System.out.println("FINE DELLA SERATA - Total guadagno: " + recessed + "€");
     }
 }
