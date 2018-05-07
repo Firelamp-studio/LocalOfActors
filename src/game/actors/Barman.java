@@ -1,12 +1,13 @@
 package game.actors;
 
+import api.Pawn;
 import api.annotations.*;
 import api.utility.Rotator;
 import api.utility.TimerAction;
 import api.utility.Vector;
 import game.maps.BarMap;
 
-public class Barman extends Person {
+public class Barman extends Pawn {
     private boolean free;
     private Vector startPosition;
     private Barrel redWineBarrel;

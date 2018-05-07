@@ -6,7 +6,7 @@ import api.utility.TimerAction;
 import api.utility.Vector;
 import game.maps.BarMap;
 
-public class Pawn extends Actor {
+public abstract class Pawn extends Actor {
 	private TimerAction moveTimer;
 	private int xSteps;
 	private int ySteps;

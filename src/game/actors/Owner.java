@@ -1,5 +1,6 @@
 package game.actors;
 
+import api.Pawn;
 import api.annotations.ActionCallable;
 import api.annotations.ActionResponse;
 import api.utility.TimerAction;
@@ -7,7 +8,7 @@ import api.utility.Vector;
 import game.DrinkCard;
 import game.maps.BarMap;
 
-public class Owner extends Person {
+public class Owner extends Pawn {
     private CashDesk cashDesk;
     private Vector startPosiotion;
     private int receipts;

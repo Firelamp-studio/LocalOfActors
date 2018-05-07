@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 
 import api.Actor;
+import api.Pawn;
 import api.annotations.ActionCallable;
 import api.annotations.ActionResponse;
 import api.utility.Rotator;
@@ -26,7 +27,7 @@ import game.gui.CustomerInfo;
  * @since 1.0
  */
 
-public class Customer extends Person {
+public class Customer extends Pawn {
     /**
      * {@link TimerAction} che gestisce il tempo casuale tra una scelta e l'altra
      */
