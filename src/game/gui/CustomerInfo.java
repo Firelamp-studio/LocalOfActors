@@ -9,6 +9,7 @@ import game.DrinkCard;
 public class CustomerInfo extends JPanel{
 	private JLabel customerNum, whiteWineLabel, redWineLabel, intentionLabel;
 	private DrinkCard drinkCard;
+	private final int customerIndex;
 	
 	public CustomerInfo(Vector size, int customerIndex) {
 		whiteWineLabel = new JLabel("Consumazioni vino bianco: 0");
@@ -16,6 +17,7 @@ public class CustomerInfo extends JPanel{
 		customerNum = new JLabel("Cliente " + customerIndex);
 		intentionLabel = new JLabel("\"Voglio entrare alla festa\"");
 
+		this.customerIndex = customerIndex;
 		this.drinkCard = drinkCard;
 
 		setPreferredSize(size.toDimension());
@@ -39,6 +41,9 @@ public class CustomerInfo extends JPanel{
 	}
 
 	public void setIntention(String intention){
-		intentionLabel.setText("\"" + intention + "\"");
+	    //Print to console the intention
+        System.out.println("Cliente " + customerIndex + ": " + intention);
+
+        intentionLabel.setText("\"" + intention + "\"");
 	}
 }
