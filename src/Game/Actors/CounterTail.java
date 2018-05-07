@@ -7,10 +7,6 @@ import API.Utility.Vector;
 
 public class CounterTail extends Tail {
 
-    public CounterTail(int maxPeopleInQueue) {
-        super(maxPeopleInQueue);
-    }
-
     @Override
     protected Transform getPersonTransformInQueue(Customer customer) {
         int currentIndex = -1;

@@ -39,10 +39,10 @@ public class Barman extends Person {
             fillRedWhine = bIsRedWine;
             if (bIsRedWine){
                 setRotation(Rotator.rotationLookingTo(getLocation(), redWineBarrel.getLocation()));
-                actionCall(redWineBarrel,"request-spill", this);
+                actionCallOnNotify(redWineBarrel,"request-spill", this);
             } else {
                 setRotation(Rotator.rotationLookingTo(getLocation(), whiteWineBarrel.getLocation()));
-                actionCall(whiteWineBarrel,"request-spill", this);
+                actionCallOnNotify(whiteWineBarrel,"request-spill", this);
             }
         } else {
             customer.moveTo(Customer.getWaitingAreaVector(), "choose-what-to-do");

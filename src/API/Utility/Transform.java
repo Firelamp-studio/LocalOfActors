@@ -8,4 +8,9 @@ public class Transform {
         this.location = location;
         this.rotation = rotation;
     }
+
+    @Override
+    public String toString() {
+        return location.toString() + " " + rotation.toString();
+    }
 }

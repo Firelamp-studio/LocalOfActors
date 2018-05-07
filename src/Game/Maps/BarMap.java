@@ -28,14 +28,13 @@ public class BarMap extends Map {
         bouncer.rotate(90);
         addComponent(bouncer, new Vector(100, 750), 0);
 
-        Element cashDesk = new Element("cashdesk.png");
-        addElement(cashDesk,  new Vector(165, 300));
 
+        CashDesk cashDesk = new CashDesk();
         Barrel redWine = new Barrel(true);
         Barrel whiteWine = new Barrel(false);
-        LocalTail localTail = new LocalTail(200);
-        Owner owner = new Owner();
-        CounterTail counterTail = new CounterTail(10);
+        LocalTail localTail = new LocalTail();
+        Owner owner = new Owner(cashDesk);
+        CounterTail counterTail = new CounterTail();
         Barman barmanLeft = new Barman(redWine, whiteWine, owner);
         Barman barmanCenter = new Barman(redWine, whiteWine, owner);
         Barman barmanRight = new Barman(redWine, whiteWine, owner);
@@ -54,6 +53,7 @@ public class BarMap extends Map {
         addActor(entryDoor, new Vector(200, 700));
         addActor(counter, new Vector(1000, 240));
         addActor(sitGroup, new Vector(300, 650));
+        addActor(cashDesk, new Vector(165, 300));
     }
 
     public int getTotalPeople() {

@@ -14,7 +14,6 @@ public class Barrel extends Actor {
     private boolean spilling;
     private int wineMl;
     private BarrelInfo barrelInfo;
-    private LinkedList<Barman> requests;
     
     public Barrel(boolean bIsRedWhine){
         wineMl = 1000;
@@ -24,7 +23,6 @@ public class Barrel extends Actor {
         } else {
             setSprite("white_barrel.png");
         }
-        requests = new LinkedList<>();
         tickEnabled = true;
         spilling = false;
     }
@@ -40,8 +38,8 @@ public class Barrel extends Actor {
     @Override
     protected void tick(long deltaTime) {
         super.tick(deltaTime);
-        if (!spilling && !requests.isEmpty()) {
-            actionCall(requests.pop(), "can-spill");
+        if (!spilling && getNumOfNotifyActions() > 0) {
+            notifyNextAction();
             spilling = true;
         }
     }
@@ -54,7 +52,7 @@ public class Barrel extends Actor {
 
     @ActionCallable(name = "request-spill")
     public void requestSpill(Barman barman) {
-        requests.add(barman);
+        actionCall(barman, "can-spill");
     }
 
     @ActionCallable(name = "get-wine-glass")

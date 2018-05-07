@@ -5,6 +5,7 @@ import API.Annotations.ActionCallable;
 import API.Annotations.ActionResponse;
 import API.Element;
 import API.Utility.TimerAction;
+import API.Utility.Transform;
 import API.Utility.Vector;
 import Game.Maps.BarMap;
 
@@ -16,11 +17,11 @@ public class EntryDoor extends Actor {
     private CounterTail counterTail;
     private LocalTail localTail;
     private SitGroup sitGroup;
-    private Element cashDesk;
+    private CashDesk cashDesk;
     private int numPeopleInside;
     private int i;
 
-    public EntryDoor(LocalTail localTail, Owner owner, Element cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
+    public EntryDoor(LocalTail localTail, Owner owner, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         this.localTail = localTail;
         this.owner = owner;
         this.counter = counter;
@@ -57,7 +58,8 @@ public class EntryDoor extends Actor {
     @ActionResponse(name = "dequeue-customer")
     public void dequeueResponse(Customer customer){
         if(customer != null)
-            customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
+            actionCall(customer, "start-enqueue-cashdesk");
+            //customer.moveTo(cashDesk.getLocation().add(new Vector(0, 60)), "arrived-to-cashdesk");
     }
 
     @ActionCallable(name = "close-door")
@@ -77,7 +79,7 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer")
     public void spawnCustomer() {
-        map.addActor(new Customer(localTail, this, owner, counter, counterTail, sitGroup), new Vector( 1600, 750 ), 10 );
+        map.addActor(new Customer(localTail, this, owner, cashDesk, counter, counterTail, sitGroup), new Vector( 1600, 750 ), 10 );
     }
 
     @ActionCallable(name = "customer-exit")

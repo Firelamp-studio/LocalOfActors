@@ -24,13 +24,14 @@ public class Customer extends Person {
     private CounterTail counterTail;
     private Barman barman;
     private SitGroup sitGroup;
+    private CashDesk cashDesk;
     private int wineGlass;
     private static int generateId = 0;
     private int id;
     public int servingBarman;
     private CustomerInfo customerInfo;
 
-    public Customer(LocalTail localTail, EntryDoor entryDoor, Owner owner, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
+    public Customer(LocalTail localTail, EntryDoor entryDoor, Owner owner,  CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         if (Math.random() > 0.5) {
             setSprite("man.png", 0.4);
         } else {
@@ -47,6 +48,7 @@ public class Customer extends Person {
         this.counter = counter;
         this.counterTail = counterTail;
         this.sitGroup = sitGroup;
+        this.cashDesk = cashDesk;
         servingBarman = -1;
         wineGlass = 0;
         generateId++;
@@ -63,9 +65,20 @@ public class Customer extends Person {
         addRelativeComponent(customerInfo, new Vector(0, 80),100);
     }
 
-    @Override
-    protected void tick(long deltaTime) {
+    @ActionCallable(name = "start-enqueue-cashdesk")
+    public void startEnqueueCashdesk(){
+        actionCallResponse(cashDesk,"cashdesk-enqueue-customer", this);
+    }
 
+    @ActionResponse(name = "cashdesk-enqueue-customer")
+    public void cashdeskEnqueueingCustomer(Transform transform){
+        moveTo(transform.location, "entry-cashdesk-line-and-movement", transform.rotation);
+    }
+
+    @ActionCallable(name = "entry-cashdesk-line-and-movement")
+    public void entryCashdeskLineEndMovement(Rotator rotation){
+        actionCall(cashDesk, "customer-arrived-to-position", this);
+        setRotation(rotation.getRotation());
     }
 
     @ActionResponse(name = "local-enqueue-customer")

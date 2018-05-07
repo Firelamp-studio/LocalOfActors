@@ -28,4 +28,9 @@ public class Rotator {
     public void rotateLookingTo(Vector start, Vector end){
         setRotation( (float) Math.toDegrees((Math.atan2(start.y - end.y, start.x - end.x) - Math.PI / 2)) );
     }
+
+    @Override
+    public String toString() {
+        return "[rot=" + rotation + "]";
+    }
 }

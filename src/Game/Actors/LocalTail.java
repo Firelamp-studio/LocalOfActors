@@ -7,10 +7,6 @@ import API.Utility.Vector;
 
 public class LocalTail extends Tail {
 
-    public LocalTail(int maxPeopleInQueue) {
-        super(maxPeopleInQueue);
-    }
-
     @Override
     protected Transform getPersonTransformInQueue(Customer customer) {
         for (int i = 0; i < getTailSize(); i++) {

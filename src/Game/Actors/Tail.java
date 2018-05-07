@@ -9,12 +9,10 @@ import API.Utility.Transform;
 public abstract class Tail extends Actor {
 
     private LinkedList<Customer> waitingCustomers;
-    private int maxPeopleInQueue;
     private boolean modifyEnabled;
 
-    public Tail(int maxPeopleInQueue) {
+    public Tail() {
         waitingCustomers = new LinkedList();
-        this.maxPeopleInQueue = maxPeopleInQueue;
         modifyEnabled = false;
     }
 

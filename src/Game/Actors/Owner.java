@@ -1,16 +1,19 @@
 package Game.Actors;
 
 import API.Annotations.ActionCallable;
+import API.Annotations.ActionResponse;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.DrinkCard;
 
 public class Owner extends Person {
+    private CashDesk cashDesk;
     private Vector startPosiotion;
     private int receipts;
     public boolean isRefillingBarrel;
 
-    public Owner() {
+    public Owner(CashDesk cashDesk) {
+        this.cashDesk = cashDesk;
         isRefillingBarrel = false;
         receipts = 0;
         tickEnabled = true;
@@ -26,25 +29,22 @@ public class Owner extends Person {
 
     @Override
     protected void tick(long deltaTime) {
-        if(!isRefillingBarrel && getNumOfNotifyActions("refill-barrel") > 0 || getNumOfNotifyActions("pay-and-get-card") > 0){
-            System.out.println("BARRRELLLLLLLLLLLLLLL: " + getNumOfNotifyActions("refill-barrel"));
-            System.out.println("PAYYYYYYYYYY: " + getNumOfNotifyActions("refill-barrel"));
-            if(getNumOfNotifyActions("refill-barrel") > 0){
-                notifyNextAction("refill-barrel");
-                isRefillingBarrel = true;
-            } else {
-                notifyAllActions("pay-and-get-card");
-            }
+        if(!isRefillingBarrel && cashDesk.isModifyEnabled() && !cashDesk.getWaitingCustomers().isEmpty()){
+            cashDesk.setModifyEnabled(false);
+            actionCallResponse(cashDesk, "dequeue-customer", "entry-cashdesk-line-and-movement");
+        }
+        if(!isRefillingBarrel && getNumOfNotifyActions("refill-barrel") > 0){
+            notifyNextAction("refill-barrel");
+            isRefillingBarrel = true;
         }
     }
 
-    @ActionCallable(name = "pay-and-get-card")
-    public void giveCard(Customer customer) {
-        if(!isRefillingBarrel){
-            receipts += 10;
+    @ActionResponse(name = "dequeue-customer")
+    public void dequeueResponse(Customer customer){
+        if(customer != null){
             actionCall(customer, "pay-and-get-card", new DrinkCard());
-        } else {
-            actionCallOnNotify(this, "pay-and-get-card", customer);
+            receipts += 10;
+            customer.moveTo(cashDesk.getLocation().add(new Vector(0, 30)), "arrived-to-cashdesk");
         }
     }
 
