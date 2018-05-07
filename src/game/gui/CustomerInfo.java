@@ -14,7 +14,7 @@ public class CustomerInfo extends JPanel{
 		whiteWineLabel = new JLabel("Consumazioni vino bianco: 0");
 		redWineLabel = new JLabel("Consumazioni vino rosso: 0");
 		customerNum = new JLabel("Cliente " + customerIndex);
-		intentionLabel = new JLabel("Voglio entrare alla festa");
+		intentionLabel = new JLabel("\"Voglio entrare alla festa\"");
 
 		this.drinkCard = drinkCard;
 
