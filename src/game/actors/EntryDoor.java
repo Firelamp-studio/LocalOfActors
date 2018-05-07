@@ -8,8 +8,6 @@ import api.utility.Vector;
 import game.gui.EndCard;
 import game.maps.BarMap;
 
-import javax.swing.*;
-
 public class EntryDoor extends Actor {
     private TimerAction timerSpawnCustomer;
     private BarMap map;
@@ -20,7 +18,7 @@ public class EntryDoor extends Actor {
     private SitGroup sitGroup;
     private CashDesk cashDesk;
     private int numPeopleInside;
-    private int i;
+    private int enteredPeople;
 
     public EntryDoor(LocalTail localTail, Owner owner, CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
         this.localTail = localTail;
@@ -39,7 +37,7 @@ public class EntryDoor extends Actor {
         super.beginPlay();
         if (getMap() instanceof BarMap){
             map = (BarMap) getMap();
-            i = map.getTotalPeople();
+            enteredPeople = map.getTotalPeople();
         }
         timerSpawnCustomer = new TimerAction(true, 250 *  map.getGameSpeed() , this, "spawn-customer-iterator" );
         timerSpawnCustomer.execute();
@@ -70,9 +68,11 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "spawn-customer-iterator")
     public void spawnCustomerIterator() {
-        if (i > 0) {
-            i--;
-            new TimerAction((long)(Math.random() * 150 * map.getGameSpeed()), this, "spawn-customer").execute();
+        if (enteredPeople > 0) {
+            enteredPeople--;
+            if(localTail.getTailSize() < 30){
+                new TimerAction((long)(Math.random() * 150 * map.getGameSpeed()), this, "spawn-customer").execute();
+            }
         } else {
             timerSpawnCustomer.kill();
         }
