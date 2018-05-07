@@ -6,17 +6,20 @@ import java.util.LinkedList;
 import API.Actor;
 import API.Annotations.ActionCallable;
 import API.Annotations.AsyncMethod;
+import API.Utility.TimerAction;
 import API.Utility.Vector;
+import Game.Maps.BarMap;
 import Game.gui.BarrelInfo;
 
 public class Barrel extends Actor {
     private boolean bIsRedWhine;
     private boolean spilling;
     private int wineMl;
+    private long spillDelay;
     private BarrelInfo barrelInfo;
     
     public Barrel(boolean bIsRedWhine){
-        wineMl = 1000;
+        wineMl = 10000;
         this.bIsRedWhine = bIsRedWhine;
         if (bIsRedWhine) {
             setSprite("red_barrel.png");
@@ -33,6 +36,12 @@ public class Barrel extends Actor {
     	barrelInfo = new BarrelInfo(new Vector(100, 30));
     	addRelativeComponent(barrelInfo, new Vector(0, 30));
         barrelInfo.setWineValue(wineMl/1000.f);
+
+        long delay = 500;
+        if (getMap() instanceof BarMap){
+            delay = ((BarMap)getMap()).getGameSpeed() * 250;
+        }
+        spillDelay = delay;
     }
 
     @Override
@@ -40,7 +49,8 @@ public class Barrel extends Actor {
         super.tick(deltaTime);
         if (!spilling && getNumOfNotifyActions("request-spill") > 0) {
             spilling = true;
-            System.out.println("PARTITA CONFERMA SPILL " + (bIsRedWhine ? "RED" : "WHITE"));
+            System.out.println("NUMBER OF SPILL REQUESTS " + getNumOfNotifyActions("request-spill"));
+            System.out.println("BARREL CONFERMA SPILL " + (bIsRedWhine ? "RED" : "WHITE"));
             notifyNextAction("request-spill");
         }
     }
@@ -53,19 +63,24 @@ public class Barrel extends Actor {
 
     @ActionCallable(name = "request-spill")
     public void requestSpill(Barman barman) {
-        actionCall(barman, "can-spill");
+        actionCall(barman, "can-spill", this);
     }
 
     @ActionCallable(name = "get-wine-glass")
     public void giveWineGlass(Barman barman) {
         if (wineMl > 0) {
-            wineMl -= 250;
-            spilling = false;
-            barrelInfo.setWineValue(wineMl/1000.f);
-            actionCall(barman, "get-wine-glass");
+            new TimerAction(spillDelay,this,"on-wine-spilled").execute(barman);
         } else {
-            actionCall(barman, "request-new-barrel", this);
+            //actionCall(barman, "request-new-barrel", this);
         }
+    }
+
+    @ActionCallable(name = "on-wine-spilled")
+    public void onWineSpilled(Barman barman){
+        wineMl -= 250;
+        barrelInfo.setWineValue(wineMl/1000.f);
+        spilling = false;
+        actionCall(barman, "get-wine-glass", this);
     }
 
     @ActionCallable(name = "dispatch_vino_finito")
@@ -86,5 +101,9 @@ public class Barrel extends Actor {
         wineMl = 1000;
         barrelInfo.setWineValue(wineMl/1000.f);
         spilling = false;
+    }
+
+    public void setSpilling(boolean spilling) {
+        this.spilling = spilling;
     }
 }

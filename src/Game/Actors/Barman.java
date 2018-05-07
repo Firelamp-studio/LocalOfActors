@@ -11,11 +11,9 @@ public class Barman extends Person {
     private Owner owner;
     private Customer customer;
     private boolean free;
-    private boolean fillRedWhine;
     private Barrel redWineBarrel;
     private Barrel whiteWineBarrel;
     private int wineGlass;
-    long spillDelay;
 
     public Barman(Barrel redWineBarrel, Barrel whiteWineBarrel, Owner owner) {
         free = true;
@@ -25,12 +23,6 @@ public class Barman extends Person {
         wineGlass = 0;
         setSprite("barman.png", 0.4);
         startPosition = new Vector();
-
-        long delay = 500;
-        if (getMap() instanceof BarMap){
-            delay = ((BarMap)getMap()).getGameSpeed() * 250;
-        }
-        spillDelay = delay;
     }
 
     @Override
@@ -44,7 +36,6 @@ public class Barman extends Person {
     public void orderWine(boolean bIsRedWine, Customer customer) {
         this.customer = customer;
         if (customer.getDrinkCard().hasComsumation()) {
-            fillRedWhine = bIsRedWine;
             if (bIsRedWine){
                 setRotation(Rotator.rotationLookingTo(getLocation(), redWineBarrel.getLocation()));
                 actionCallOnNotify(redWineBarrel,"request-spill", this);
@@ -59,27 +50,19 @@ public class Barman extends Person {
     }
 
     @ActionCallable(name = "can-spill")
-    public void canSpill() {
-        if (fillRedWhine)
-            moveTo(redWineBarrel.getLocation().add(new Vector(0, 80)), "arrived-on-barrel", redWineBarrel);
-        else
-            moveTo(whiteWineBarrel.getLocation().add(new Vector(0, 80)), "arrived-on-barrel", whiteWineBarrel);
+    public void canSpill(Barrel barrel) {
+        moveTo(barrel.getLocation().add(new Vector(0, 80)), "arrived-on-barrel", barrel);
     }
 
     @ActionCallable(name = "arrived-on-barrel")
     public void arrivedOnBarrel(Barrel barrel) {
         setRotation(0);
 
-        new TimerAction(spillDelay,this,"spill").execute(barrel);
-    }
-
-    @ActionCallable(name = "spill")
-    public void spill(Barrel barrel) {
-        actionCallResponse(barrel, "get-wine-glass", this);
+        actionCall(barrel, "get-wine-glass", this);
     }
 
     @ActionCallable(name = "get-wine-glass")
-    public void getWineGlass() {
+    public void getWineGlass(Barrel barrel) {
         moveTo(startPosition, "give-wine-glass", 250);
     }
 
@@ -97,7 +80,7 @@ public class Barman extends Person {
     @ActionCallable(name = "redo-spill-request")
     public void redoSpillRequest(Barrel barrel) {
         setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
-        actionCall(barrel,"request-spill", this);
+        actionCallOnNotify(barrel,"request-spill", this);
     }
 
     //moveTo(owner.getLocation().add(new Vector(40,0)), "move-to-owner", );

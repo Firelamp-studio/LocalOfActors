@@ -274,26 +274,29 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
     public void notifyNextAction(){
         if(!actionCallsToNotify.isEmpty()){
-            actionCalls.add( actionCallsToNotify.get(0) );
-            actionCallsToNotify.remove(0);
+            for(Action action : actionCallsToNotify){
+                actionCalls.add( action );
+                actionCallsToNotify.remove(action);
+                return;
+            }
         }
     }
 
     public void notifyAllActions(){
         if(!actionCallsToNotify.isEmpty()){
-            for(int i = 0; i < actionCallsToNotify.size(); i++){
-                actionCalls.add( actionCallsToNotify.get(i) );
-                actionCallsToNotify.remove(i);
+            for(Action action : actionCallsToNotify){
+                actionCalls.add( action );
+                actionCallsToNotify.remove(action);
             }
         }
     }
 
     public void notifyAllActions(String actionName){
         if(!actionCallsToNotify.isEmpty()){
-            for(int i = 0; i < actionCallsToNotify.size(); i++){
-                if(actionCallsToNotify.get(i).actionName == actionName){
-                    actionCalls.add( actionCallsToNotify.get(i) );
-                    actionCallsToNotify.remove(i);
+            for(Action action : actionCallsToNotify){
+                if(action.actionName == actionName){
+                    actionCalls.add( action );
+                    actionCallsToNotify.remove(action);
                 }
             }
         }
@@ -301,10 +304,10 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
     public void notifyNextAction(String actionName){
         if(!actionCallsToNotify.isEmpty()){
-            for(int i = 0; i < actionCallsToNotify.size(); i++){
-                if(actionCallsToNotify.get(i).actionName == actionName){
-                    actionCalls.add( actionCallsToNotify.get(i) );
-                    actionCallsToNotify.remove(i);
+            for(Action action : actionCallsToNotify){
+                if(action.actionName == actionName){
+                    actionCalls.add( action );
+                    actionCallsToNotify.remove(action);
                     return;
                 }
             }
@@ -326,7 +329,9 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
     public String getNextActionToNotify(){
         if(!actionCallsToNotify.isEmpty()){
-            return actionCallsToNotify.get(0).actionName;
+            for(Action action : actionCallsToNotify){
+                return action.actionName;
+            }
         }
         return "";
     }
