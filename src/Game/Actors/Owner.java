@@ -26,10 +26,11 @@ public class Owner extends Person {
 
     @Override
     protected void tick(long deltaTime) {
-        int numOfNotifyRefill = getNumOfNotifyActions("refill-barrel");
-        if(!isRefillingBarrel && numOfNotifyRefill > 0 || getNumOfNotifyActions("pay-and-get-card") > 0){
-            if(numOfNotifyRefill > 0){
-                notifyAllActions("refill-barrel");
+        if(!isRefillingBarrel && getNumOfNotifyActions("refill-barrel") > 0 || getNumOfNotifyActions("pay-and-get-card") > 0){
+            System.out.println("BARRRELLLLLLLLLLLLLLL: " + getNumOfNotifyActions("refill-barrel"));
+            System.out.println("PAYYYYYYYYYY: " + getNumOfNotifyActions("refill-barrel"));
+            if(getNumOfNotifyActions("refill-barrel") > 0){
+                notifyNextAction("refill-barrel");
                 isRefillingBarrel = true;
             } else {
                 notifyAllActions("pay-and-get-card");

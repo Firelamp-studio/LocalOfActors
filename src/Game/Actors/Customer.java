@@ -75,7 +75,6 @@ public class Customer extends Person {
 
     @ActionCallable(name = "entry-local-line-and-movement")
     public void entryLocalLineEndMovement(Rotator rotator) {
-        System.out.println("Cliente " + id + ": sono in fila per entrare");
         actionCall(localTail, "customer-arrived-to-position", this);
         setRotation(rotator.getRotation());
     }
@@ -118,7 +117,6 @@ public class Customer extends Person {
     @ActionResponse(name = "counter-enqueue-customer")
     public void getInLineForOrder(Transform transform) {
         if (transform!= null) {
-            System.out.println( id + " Parte entry-counter-line-and-movement");
             moveTo(transform.location, "entry-counter-line-and-movement", transform.rotation);
         }
         else {
@@ -128,7 +126,6 @@ public class Customer extends Person {
 
     @ActionCallable(name = "entry-counter-line-and-movement")
     public void entryCounterLineEndMovement(Rotator rotator) {
-        System.out.println( id + " Riceve entry-counter-line-and-movement");
         actionCall(counterTail, "customer-arrived-to-position", this);
         setRotation(rotator.getRotation());
     }
@@ -189,7 +186,6 @@ public class Customer extends Person {
 
     @ActionCallable(name = "destroy-customer-on-exit")
     public void destroycCustomer() {
-        System.out.println("MUOIO");
         disposeActor();
     }
 
