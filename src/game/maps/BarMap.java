@@ -45,7 +45,7 @@ public class BarMap extends Map {
         addActor(whiteWine, new Vector(1100, 50));
         addActor(localTail, new Vector(165, 750));
         addActor(owner, new Vector(165, 230));
-        addActor(counterTail, new Vector(1250, 340));
+        addActor(counterTail, new Vector(1350, 340));
         addActor(barmanLeft, new Vector(850, 175));
         addActor(barmanCenter, new Vector(1000, 175));
         addActor(barmanRight, new Vector(1150, 175));
