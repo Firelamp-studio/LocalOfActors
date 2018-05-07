@@ -99,6 +99,7 @@ public class Customer extends Person {
 
     @ActionResponse(name = "cashdesk-enqueue-customer")
     public void cashdeskEnqueueingCustomer(Transform transform){
+        customerInfo.setIntention("Sono entrato");
         customerInfo.setIntention("Vado alla cassa");
         moveTo(transform.location, "entry-cashdesk-line-and-movement", transform.rotation);
     }
@@ -171,6 +172,7 @@ public class Customer extends Person {
         this.barman = barman;
         setRotation(0);
         actionCall(barman, "order-wine", Math.random() < 0.5, this);
+        customerInfo.setIntention("Sono servito dal barman");
     }
 
     @ActionCallable(name = "receive-wine-glass")
@@ -178,6 +180,7 @@ public class Customer extends Person {
         this.wineGlass = 250;
         customerInfo.updateDrinkCard();
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
+        customerInfo.setIntention("Ho ottenuto il vino");
         customerInfo.setIntention("Scelgo cosa fare");
     }
 
@@ -223,7 +226,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "destroy-customer-on-exit")
     public void destroycCustomer() {
-        System.out.println("cliente " + id +": consumazioni vino rosso = " + drinkCard.getRedConsumations() + ", Consumazioni vino bianco = " + drinkCard.getWitheConsumations());
+        System.out.println("Cliente " + id +": consumazioni vino rosso = " + drinkCard.getRedConsumations() + ", Consumazioni vino bianco = " + drinkCard.getWitheConsumations());
         disposeActor();
     }
 
