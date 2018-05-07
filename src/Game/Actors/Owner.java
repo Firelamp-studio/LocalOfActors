@@ -39,8 +39,8 @@ public class Owner extends Person {
             cashDesk.setModifyEnabled(false);
             actionCallResponse(cashDesk, "dequeue-customer", "entry-cashdesk-line-and-movement");
         }
-        if(!isRefillingBarrel && getNumOfNotifyActions("refill-barrel") > 0){
-            notifyNextAction("refill-barrel");
+        if(!isRefillingBarrel && getNumOfNotifyActions() > 0){
+            notifyNextAction();
             isRefillingBarrel = true;
         }
     }

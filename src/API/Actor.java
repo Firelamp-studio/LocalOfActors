@@ -273,39 +273,51 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     }
 
     public void notifyNextAction(){
-        if(!actionCallsToNotify.isEmpty()){
-            for(Action action : actionCallsToNotify){
-                actionCalls.add( action );
-                actionCallsToNotify.remove(action);
-                return;
-            }
+        Action[] tempActionCalls = new Action[actionCalls.size()];
+        tempActionCalls = actionCallsToNotify.toArray(tempActionCalls);
+
+        for(Action action : tempActionCalls){
+            actionCalls.add( action );
+            actionCallsToNotify.remove(action);
+            return;
         }
     }
 
     public void notifyAllActions(){
-        if(!actionCallsToNotify.isEmpty()){
-            for(Action action : actionCallsToNotify){
-                actionCalls.add( action );
-                actionCallsToNotify.remove(action);
-            }
+        Action[] tempActionCalls = new Action[actionCalls.size()];
+        tempActionCalls = actionCallsToNotify.toArray(tempActionCalls);
+        ArrayList<Action> actionsToRemove = new ArrayList<>();
+
+        for(Action action : tempActionCalls){
+            actionCalls.add( action );
+            actionsToRemove.add(action);
         }
+
+        actionCallsToNotify.removeAll(actionsToRemove);
     }
 
     public void notifyAllActions(String actionName){
-        if(!actionCallsToNotify.isEmpty()){
-            for(Action action : actionCallsToNotify){
-                if(action.actionName == actionName){
-                    actionCalls.add( action );
-                    actionCallsToNotify.remove(action);
-                }
+        Action[] tempActionCalls = new Action[actionCalls.size()];
+        tempActionCalls = actionCallsToNotify.toArray(tempActionCalls);
+        ArrayList<Action> actionsToRemove = new ArrayList<>();
+
+        for(Action action : tempActionCalls){
+            if(action.actionName.equals(actionName)){
+                actionCalls.add( action );
+                actionsToRemove.add(action);
             }
         }
+
+        actionCallsToNotify.removeAll(actionsToRemove);
     }
 
     public void notifyNextAction(String actionName){
-        if(!actionCallsToNotify.isEmpty()){
-            for(Action action : actionCallsToNotify){
-                if(action.actionName == actionName){
+        Action[] tempActionCalls = new Action[actionCalls.size()];
+        tempActionCalls = actionCallsToNotify.toArray(tempActionCalls);
+
+        if(tempActionCalls.length > 0){
+            for(Action action : tempActionCalls){
+                if(action.actionName.equals(actionName)){
                     actionCalls.add( action );
                     actionCallsToNotify.remove(action);
                     return;
@@ -315,9 +327,12 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     }
 
     public int getNumOfNotifyActions(String actionName){
+        Action[] tempActionCalls = new Action[actionCalls.size()];
+        tempActionCalls = actionCallsToNotify.toArray(tempActionCalls);
+
         int totActions = 0;
-        for(Action action : actionCallsToNotify){
-            if(action.actionName == actionName)
+        for(Action action : tempActionCalls){
+            if(action.actionName.equals(actionName))
                 totActions++;
         }
         return totActions;
@@ -328,8 +343,11 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     }
 
     public String getNextActionToNotify(){
-        if(!actionCallsToNotify.isEmpty()){
-            for(Action action : actionCallsToNotify){
+        Action[] tempActionCalls = new Action[actionCalls.size()];
+        tempActionCalls = actionCallsToNotify.toArray(tempActionCalls);
+
+        if(tempActionCalls.length > 0){
+            for(Action action : tempActionCalls){
                 return action.actionName;
             }
         }
