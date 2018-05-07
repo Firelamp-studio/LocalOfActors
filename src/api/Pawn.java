@@ -74,7 +74,7 @@ public abstract class Pawn extends Actor {
 
 	@ActionCallable(name = "pawn-walking-loop")
 	public void pawnWalkingLoop(String actionCaller, Vector location, int xModule, int yModule, int xIncr, int yIncr) {
-		if(moveTimer == null || !moveTimer.isAlive())
+		if(moveTimer == null || !moveTimer.isAlive() || moveTimer.getKillRequested())
 			return;
 
 		walkingSteps++;
@@ -104,11 +104,11 @@ public abstract class Pawn extends Actor {
 		setLocation(nextLoc);
 			
 		
-		if(xSteps <= 0 && ySteps <= 0 && moveTimer.isAlive()) {
+		if(xSteps <= 0 && ySteps <= 0) {
 			moveTimer.kill();
 
 			if(actionCaller != null && !actionCaller.isEmpty())
-				new TimerAction(10, this, actionCaller).execute(argsAfterMoveTo);
+			    actionCall(this, actionCaller, argsAfterMoveTo);
 			
 			return;
 		}

@@ -12,6 +12,7 @@ public class TimerAction implements Runnable {
     private Method methodToCall;
     private long delay;
     private boolean loop;
+    private boolean killRequested;
     private Object[] args;
 
     public TimerAction(boolean loop, long delay, Actor actorToCall, String actionName) {
@@ -20,6 +21,8 @@ public class TimerAction implements Runnable {
         this.actorToCall = actorToCall;
         this.timerThread = null;
         this.actionName = actionName;
+
+        killRequested = false;
 
         methodToCall = null;
         for(Method method : actorToCall.getActionCallableMethods()){
@@ -48,11 +51,13 @@ public class TimerAction implements Runnable {
 
             timerThread = new Thread(this);
             timerThread.start();
+            killRequested = false;
         }
     }
 
 
     public void kill() {
+        killRequested = true;
         if (timerThread != null) {
             timerThread.interrupt();
         }
@@ -76,5 +81,9 @@ public class TimerAction implements Runnable {
                 return;
             }
         } while (timerThread!= null && loop && timerThread.isAlive());
+    }
+
+    public boolean getKillRequested(){
+        return killRequested;
     }
 }

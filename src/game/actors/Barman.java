@@ -52,8 +52,8 @@ public class Barman extends Pawn {
 
     @ActionCallable(name = "request-spilling-to-barrel")
     public void requestSpillingToBarrel(Barrel barrel){
-            setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
-            actionCallOnNotify(barrel,"start-spilling-wine", this);
+        setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
+        actionCallOnNotify(barrel,"start-spilling-wine", this);
     }
 
     @ActionCallable(name = "order-wine")

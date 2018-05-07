@@ -56,6 +56,7 @@ public class Barrel extends Actor {
 
     @ActionCallable(name = "start-spilling-wine")
     public void spillWine(Barman barman){
+        System.out.println((hasRedWine ? "red: " : "white: ") + "start-spilling-wine");
         if(mlWine.get() > 0){
             barman.moveTo(getLocation().add(new Vector(0, 80)), "spill-wine", this);
         } else {
@@ -65,6 +66,7 @@ public class Barrel extends Actor {
 
     @ActionCallable(name = "barman-end-spilling")
     public void barmanEndSpilling(Barman barman){
+        System.out.println((hasRedWine ? "red: " : "white: ") + "barman-end-spilling");
         mlWine.addAndGet(-250);
         barrelInfo.updateWineValue();
         spilling = false;
