@@ -42,7 +42,7 @@ public class CustomerInfo extends JPanel{
 
 	public void setIntention(String intention){
 	    //Print to console the intention
-        //System.out.println("Cliente " + customerIndex + ": " + intention);
+        System.out.println("Cliente " + customerIndex + ": " + intention);
 
         intentionLabel.setText("\"" + intention + "\"");
 	}
