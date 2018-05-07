@@ -28,7 +28,7 @@ import game.gui.CustomerInfo;
 
 public class Customer extends Person {
     /**
-     * {@link TimerAction che gestisce il tempo casuale tra una scelta e l'altra}
+     * {@link TimerAction} che gestisce il tempo casuale tra una scelta e l'altra
      */
     private TimerAction timerChooseAction;
 
