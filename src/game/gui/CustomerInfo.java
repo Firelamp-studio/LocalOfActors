@@ -12,8 +12,8 @@ public class CustomerInfo extends JPanel{
 	private final int customerIndex;
 	
 	public CustomerInfo(Vector size, int customerIndex) {
+        redWineLabel = new JLabel("Consumazioni vino rosso: 0");
 		whiteWineLabel = new JLabel("Consumazioni vino bianco: 0");
-		redWineLabel = new JLabel("Consumazioni vino rosso: 0");
 		customerNum = new JLabel("Cliente " + customerIndex);
 		intentionLabel = new JLabel("\"Voglio entrare alla festa\"");
 
@@ -22,8 +22,8 @@ public class CustomerInfo extends JPanel{
 
 		setPreferredSize(size.toDimension());
 		add(customerNum);
+        add(redWineLabel);
 		add(whiteWineLabel);
-		add(redWineLabel);
 		add(intentionLabel);
 		
 		setVisible(false);
