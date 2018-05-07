@@ -54,6 +54,7 @@ public class Customer extends Person {
         generateId++;
         id = generateId;
         customerInfo = new CustomerInfo(new Vector(175, 90), id);
+
     }
 
     @Override
@@ -63,6 +64,7 @@ public class Customer extends Person {
         //moveTo(sitGroup.getArmchairLocation(sitGroup.getFreeSitIndex()));
         actionCallResponse(localTail, "local-enqueue-customer", this);
         addRelativeComponent(customerInfo, new Vector(0, 80),100);
+        customerInfo.setIntention("Vado in coda all'entrata");
     }
 
     @ActionCallable(name = "start-enqueue-cashdesk")
@@ -88,6 +90,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "entry-local-line-and-movement")
     public void entryLocalLineEndMovement(Rotator rotator) {
+        customerInfo.setIntention("Sono in coda all'entrata");
         actionCall(localTail, "customer-arrived-to-position", this);
         setRotation(rotator.getRotation());
     }
