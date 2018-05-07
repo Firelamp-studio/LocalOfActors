@@ -37,6 +37,7 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     private boolean actionsStopped;
     private boolean tickStopped;
     private List<Action> actionCalls;
+    private List<Action> actionCallsToNotify;
     private Thread actorThread;
     
     private EventManagerTool eventManagerTool;
@@ -56,6 +57,7 @@ public abstract class Actor extends Element implements Runnable, EventManager {
         actionCallableMethods = new ArrayList<>();
         actionResponseMethods = new ArrayList<>();
         actionCalls = Collections.synchronizedList(new LinkedList<Action>());
+        actionCallsToNotify = Collections.synchronizedList(new LinkedList<Action>());
         
         eventManagerTool = new EventManagerTool(this);
 
@@ -68,6 +70,10 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
             else if (actionsEnabled && method.isAnnotationPresent(ActionCallable.class)) {
                 actionCallableMethods.add(method);
+            }
+
+            else if (actionsEnabled && method.isAnnotationPresent(ActionResponse.class)) {
+                actionResponseMethods.add(method);
             }
 
             else if (actionsEnabled && method.isAnnotationPresent(ActionResponse.class)) {
@@ -253,6 +259,76 @@ public abstract class Actor extends Element implements Runnable, EventManager {
                 }
             }
         }
+    }
+
+    public void actionCallOnNotify(Actor actorToCall, String actionName, Object... args){
+        for(Method method : actorToCall.actionCallableMethods){
+
+            ActionCallable actionCallable = method.getAnnotation(ActionCallable.class);
+
+            if(actionName.equals(actionCallable.name()) && method.getParameterCount() == args.length){
+                actorToCall.actionCallsToNotify.add( new Action(actionName, method, args,null) );
+            }
+        }
+    }
+
+    public void notifyNextAction(){
+        if(!actionCallsToNotify.isEmpty()){
+            actionCalls.add( actionCallsToNotify.get(0) );
+            actionCallsToNotify.remove(0);
+        }
+    }
+
+    public void notifyAllActions(){
+        if(!actionCallsToNotify.isEmpty()){
+            for(int i = 0; i < actionCallsToNotify.size(); i++){
+                actionCalls.add( actionCallsToNotify.get(i) );
+                actionCallsToNotify.remove(i);
+            }
+        }
+    }
+
+    public void notifyAllActions(String actionName){
+        if(!actionCallsToNotify.isEmpty()){
+            for(int i = 0; i < actionCallsToNotify.size(); i++){
+                if(actionCallsToNotify.get(i).actionName == actionName){
+                    actionCalls.add( actionCallsToNotify.get(i) );
+                    actionCallsToNotify.remove(i);
+                }
+            }
+        }
+    }
+
+    public void notifyNextAction(String actionName){
+        if(!actionCallsToNotify.isEmpty()){
+            for(int i = 0; i < actionCallsToNotify.size(); i++){
+                if(actionCallsToNotify.get(i).actionName == actionName){
+                    actionCalls.add( actionCallsToNotify.get(i) );
+                    actionCallsToNotify.remove(i);
+                    return;
+                }
+            }
+        }
+    }
+
+    public int getNumOfNotifyActions(String actionName){
+        int totActions = 0;
+        for(Action action : actionCallsToNotify){
+            if(action.actionName == actionName)
+                totActions++;
+        }
+        return totActions;
+    }
+
+    public int getNumOfNotifyActions(){
+        return actionCallsToNotify.size();
+    }
+
+    public String getNextActionToNotify(){
+        if(!actionCallsToNotify.isEmpty()){
+            return actionCallsToNotify.get(0).actionName;
+        }
+        return "";
     }
 
     protected void tick(long deltaTime){

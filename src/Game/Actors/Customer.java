@@ -83,10 +83,10 @@ public class Customer extends Person {
 
     @ActionCallable(name = "arrived-to-cashdesk")
     public void payAndGetCard() {
-        actionCallResponse(owner, "pay-and-get-card");
+        actionCall(owner, "pay-and-get-card", this);
     }
 
-    @ActionResponse(name = "pay-and-get-card")
+    @ActionCallable(name = "pay-and-get-card")
     public void onCardRecived(DrinkCard drinkCard) {
         this.drinkCard = drinkCard;
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
