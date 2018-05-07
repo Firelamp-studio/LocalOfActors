@@ -1,109 +1,64 @@
 package Game.Actors;
 
-import java.awt.event.MouseEvent;
-import java.util.LinkedList;
-
 import API.Actor;
 import API.Annotations.ActionCallable;
-import API.Annotations.AsyncMethod;
-import API.Utility.TimerAction;
 import API.Utility.Vector;
-import Game.Maps.BarMap;
 import Game.gui.BarrelInfo;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Barrel extends Actor {
-    private boolean bIsRedWhine;
+    private final boolean hasRedWine;
     private boolean spilling;
-    private int wineMl;
-    private long spillDelay;
-    private BarrelInfo barrelInfo;
-    
-    public Barrel(boolean bIsRedWhine){
-        wineMl = 10000;
-        this.bIsRedWhine = bIsRedWhine;
-        if (bIsRedWhine) {
+    private AtomicInteger mlWine;
+    BarrelInfo barrelInfo;
+
+    public Barrel(boolean hasRedWine){
+        this.hasRedWine = hasRedWine;
+        if (hasRedWine) {
             setSprite("red_barrel.png");
         } else {
             setSprite("white_barrel.png");
         }
-        tickEnabled = true;
         spilling = false;
+        tickEnabled = true;
+
+        mlWine = new AtomicInteger(10000);
+
+        barrelInfo = new BarrelInfo(new Vector(110, 30), mlWine);
     }
 
     @Override
     protected void beginPlay() {
-    	super.beginPlay();
-    	barrelInfo = new BarrelInfo(new Vector(100, 30));
-    	addRelativeComponent(barrelInfo, new Vector(0, 30));
-        barrelInfo.setWineValue(wineMl/1000.f);
+        super.beginPlay();
 
-        long delay = 500;
-        if (getMap() instanceof BarMap){
-            delay = ((BarMap)getMap()).getGameSpeed() * 250;
-        }
-        spillDelay = delay;
+        addRelativeComponent(barrelInfo, new Vector(hasRedWine ? -100 : 100, 30), 5);
+        barrelInfo.updateWineValue();
     }
 
     @Override
     protected void tick(long deltaTime) {
         super.tick(deltaTime);
-        if (!spilling && getNumOfNotifyActions("request-spill") > 0) {
+        if(!spilling && getNumOfNotifyActions("start-spilling-wine") > 0){
             spilling = true;
-            System.out.println("NUMBER OF SPILL REQUESTS " + getNumOfNotifyActions("request-spill"));
-            System.out.println("BARREL CONFERMA SPILL " + (bIsRedWhine ? "RED" : "WHITE"));
-            notifyNextAction("request-spill");
+            notifyNextAction("start-spilling-wine");
         }
     }
 
-    @AsyncMethod
-    public void allAvvio(){
-        System.out.println("AVVIATO IL THREAD ID BARREL");
-    }
-
-
-    @ActionCallable(name = "request-spill")
-    public void requestSpill(Barman barman) {
-        actionCall(barman, "can-spill", this);
-    }
-
-    @ActionCallable(name = "get-wine-glass")
-    public void giveWineGlass(Barman barman) {
-        if (wineMl > 0) {
-            new TimerAction(spillDelay,this,"on-wine-spilled").execute(barman);
+    @ActionCallable(name = "start-spilling-wine")
+    public void spillWine(Barman barman){
+        if(mlWine.get() > 0){
+            barman.moveTo(getLocation().add(new Vector(0, 80)), "spill-wine", this);
         } else {
-            //actionCall(barman, "request-new-barrel", this);
+            //TODO: Owner bla
         }
     }
 
-    @ActionCallable(name = "on-wine-spilled")
-    public void onWineSpilled(Barman barman){
-        wineMl -= 250;
-        barrelInfo.setWineValue(wineMl/1000.f);
+    @ActionCallable(name = "barman-end-spilling")
+    public void barmanEndSpilling(Barman barman){
+        mlWine.addAndGet(-250);
+        barrelInfo.updateWineValue();
         spilling = false;
-        actionCall(barman, "get-wine-glass", this);
-    }
-
-    @ActionCallable(name = "dispatch_vino_finito")
-    public void dispatchVinoFinito(){
-        dispatchEvent("vino_finito");
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    	if(barrelInfo.isVisible()){
-    		barrelInfo.setVisible(false);
-    	} else {
-    		barrelInfo.setVisible(true);
-    	}
-    }
-
-    public void refill() {
-        wineMl = 1000;
-        barrelInfo.setWineValue(wineMl/1000.f);
-        spilling = false;
-    }
-
-    public void setSpilling(boolean spilling) {
-        this.spilling = spilling;
+        barman.moveTo(barman.getStartPosition(), "give-wine-to-customer");
     }
 }

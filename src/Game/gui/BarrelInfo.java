@@ -5,17 +5,22 @@ import javax.swing.JPanel;
 
 import API.Utility.Vector;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class BarrelInfo extends JPanel {
-	JLabel wineLabel;
-	
-	public BarrelInfo(Vector size) {
+	private JLabel wineLabel;
+	private AtomicInteger mlWineVar;
+
+	public BarrelInfo(Vector size, AtomicInteger mlWineVar) {
+		this.mlWineVar = mlWineVar;
+
 		wineLabel = new JLabel("Litri vino: ");
 		
 		setPreferredSize(size.toDimension());
 		add(wineLabel);
 	}
 	
-	public void setWineValue(float litres) {
-		wineLabel.setText("Litri vino: " + litres);
+	public void updateWineValue() {
+		wineLabel.setText("Litri vino: " + mlWineVar.get()/1000.f);
 	}
 }

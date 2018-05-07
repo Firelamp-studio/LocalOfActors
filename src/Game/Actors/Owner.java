@@ -47,7 +47,7 @@ public class Owner extends Person {
             customer.moveTo(cashDesk.getLocation().add(new Vector(0, 30)), "arrived-to-cashdesk");
         }
     }
-
+/*
     @ActionCallable(name = "refill-barrel")
     public void refillBarrel(Barrel barrel, Barman barman) {
         moveTo(new Vector(200, 100), "move-to-storage", barrel, barman);
@@ -81,5 +81,5 @@ public class Owner extends Person {
         setRotation(180);
         isRefillingBarrel = false;
     }
-
+*/
 }

@@ -151,8 +151,8 @@ public class Customer extends Person {
     }
 
     @ActionCallable(name = "receive-wine-glass")
-    public void getWineAndWait(int wineGlass) {
-        this.wineGlass = wineGlass;
+    public void getWineAndWait() {
+        this.wineGlass = 250;
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
