@@ -3,6 +3,7 @@ package game.actors;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
+import api.Actor;
 import api.annotations.ActionCallable;
 import api.annotations.ActionResponse;
 import api.utility.Rotator;
@@ -12,6 +13,18 @@ import api.utility.Vector;
 import game.DrinkCard;
 import game.maps.BarMap;
 import game.gui.CustomerInfo;
+
+/**
+ * Questa &egrave; la classe che modella il cliente.
+ *
+ * <p>Ogni comportamento e modo di reagire del cliente &egrave; definito qua
+ *
+ * <p>Questa classe &egrave; derivata di {@link Actor}.
+ *
+ * @author  Lorenzo Pecchio
+ * @see     Actor
+ * @since 1.0
+ */
 
 public class Customer extends Person {
 
@@ -67,22 +80,6 @@ public class Customer extends Person {
         customerInfo.setIntention("Vado in coda all'entrata");
     }
 
-    @ActionCallable(name = "start-enqueue-cashdesk")
-    public void startEnqueueCashdesk(){
-        actionCallResponse(cashDesk,"cashdesk-enqueue-customer", this);
-    }
-
-    @ActionResponse(name = "cashdesk-enqueue-customer")
-    public void cashdeskEnqueueingCustomer(Transform transform){
-        moveTo(transform.location, "entry-cashdesk-line-and-movement", transform.rotation);
-    }
-
-    @ActionCallable(name = "entry-cashdesk-line-and-movement")
-    public void entryCashdeskLineEndMovement(Rotator rotation){
-        actionCall(cashDesk, "customer-arrived-to-position", this);
-        setRotation(rotation.getRotation());
-    }
-
     @ActionResponse(name = "local-enqueue-customer")
     public void getInLineForEntry(Transform transform) {
         moveTo(transform.location, "entry-local-line-and-movement", transform.rotation);
@@ -95,6 +92,23 @@ public class Customer extends Person {
         setRotation(rotator.getRotation());
     }
 
+    @ActionCallable(name = "start-enqueue-cashdesk")
+    public void startEnqueueCashdesk(){
+        actionCallResponse(cashDesk,"cashdesk-enqueue-customer", this);
+    }
+
+    @ActionResponse(name = "cashdesk-enqueue-customer")
+    public void cashdeskEnqueueingCustomer(Transform transform){
+        customerInfo.setIntention("Vado alla cassa");
+        moveTo(transform.location, "entry-cashdesk-line-and-movement", transform.rotation);
+    }
+
+    @ActionCallable(name = "entry-cashdesk-line-and-movement")
+    public void entryCashdeskLineEndMovement(Rotator rotation){
+        customerInfo.setIntention("Sono alla cassa");
+        actionCall(cashDesk, "customer-arrived-to-position", this);
+        setRotation(rotation.getRotation());
+    }
 
     @ActionCallable(name = "arrived-to-cashdesk")
     public void payAndGetCard() {
@@ -106,6 +120,8 @@ public class Customer extends Person {
         this.drinkCard = drinkCard;
         customerInfo.bindDrinkCard(drinkCard);
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
+        customerInfo.setIntention("Ho ottenuto la tessera");
+        customerInfo.setIntention("Scelgo cosa fare");
     }
 
     @ActionCallable(name = "choose-what-to-do")
@@ -119,12 +135,15 @@ public class Customer extends Person {
         double random = Math.random();
         if (random > 0.3) {
             if (wineGlass > 0){
+                customerInfo.setIntention("Bevo un po di vino");
                 wineGlass -= 50;
                 chooseWahtToDo();
             } else {
+                customerInfo.setIntention("Vado in coda per il vino");
                 actionCallResponse(counterTail, "counter-enqueue-customer", this);
             }
         } else if (random > 0.05) {
+            customerInfo.setIntention("Vado a sedermi");
             actionCallResponse(sitGroup, "sit-on-sit" );
         } else {
             exit();
@@ -159,11 +178,11 @@ public class Customer extends Person {
         this.wineGlass = 250;
         customerInfo.updateDrinkCard();
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
+        customerInfo.setIntention("Scelgo cosa fare");
     }
 
     @ActionResponse(name = "sit-on-sit")
     public void goToSit(int index) {
-        customerInfo.setIntention("Sto andando a sedermi");
         if (index < 0) {
             doSomething();
         } else {
@@ -173,6 +192,7 @@ public class Customer extends Person {
 
     @ActionCallable(name = "on-arrived-on-sit")
     public void onArrivedOnSit(int index) {
+        customerInfo.setIntention("Sono seduto");
         setRotation(0);
 
         long delay = 1000;
@@ -186,21 +206,24 @@ public class Customer extends Person {
     public void waitOnsit(int index) {
         sitGroup.getArmchair(index).setOccupied(false);
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
+        customerInfo.setIntention("Scelgo cosa fare");
     }
 
     @ActionCallable(name = "exit")
     private void exit() {
-        customerInfo.setIntention("Sto uscendo");
+        customerInfo.setIntention("Me ne vado");
         moveTo(entryDoor.getLocation().add(new Vector(-30, -50)), "open-door-and-exit");
     }
 
     @ActionCallable(name = "open-door-and-exit")
     public void opernDoorAndEntry(){
         actionCall(entryDoor, "customer-exit", this);
+        customerInfo.setVisible(true);
     }
 
     @ActionCallable(name = "destroy-customer-on-exit")
     public void destroycCustomer() {
+        System.out.println("cliente " + id +": consumazioni vino rosso = " + drinkCard.getRedConsumations() + ", Consumazioni vino bianco = " + drinkCard.getWitheConsumations());
         disposeActor();
     }
 

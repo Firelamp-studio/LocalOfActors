@@ -4,15 +4,14 @@ import java.util.LinkedList;
 
 import api.Actor;
 import api.annotations.ActionCallable;
+import api.utility.Rotator;
 import api.utility.Transform;
 
 /**
  * Questa &egrave; la classe astratta coda, che si occupa di gestire una lista di
- * {@link Customer} nel posizionamento logico e grafico
+ * {@link Customer} nel posizionamento logico e grafico.
  *
- * <p>Questa classe &egrave; un componente di
- * <a href="{@docRoot}/java/util/package-summary.html#CollectionsFramework">
- * Una cosa che non abbiamo fatto noi</a>.
+ * <p>Questa classe &egrave; derivata di {@link Actor}.
  *
  * @author  Lorenzo Pecchio
  * @see     Actor
@@ -120,10 +119,11 @@ public abstract class Tail extends Actor {
     protected int getTailSize() {
         return waitingCustomers.size();
     }
-
     /**
-     * Azione chiamata da {@Link Customer#entryCashdeskLineEndMovement Customer.entryCashdeskLineEndMovement}.
-     * Imposta la variabile {@link #modifyEnabled} vera se la coda non &egrave; vuota e se il {@code Customer}
+     * Azione chiamata da {@link Customer#entryLocalLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
+     * {@link Customer#entryCounterLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
+     * {@link Customer#entryCashdeskLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement}.
+     * Quando arriva un {@code Customer}, imposta la variabile {@link #modifyEnabled} vera se la coda non &egrave; vuota e se il {@code Customer}
      * &egrave; il primo in coda
      *
      * @param customer {@code Customer} da controllare che sia il primo in coda
