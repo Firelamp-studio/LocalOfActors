@@ -30,10 +30,10 @@ public class BarMap extends Map {
 
 
         CashDesk cashDesk = new CashDesk();
-        Barrel redWine = new Barrel(true);
-        Barrel whiteWine = new Barrel(false);
-        LocalTail localTail = new LocalTail();
         Owner owner = new Owner(cashDesk);
+        Barrel redWine = new Barrel(true, owner);
+        Barrel whiteWine = new Barrel(false, owner);
+        LocalTail localTail = new LocalTail();
         CounterTail counterTail = new CounterTail();
         Barman barmanLeft = new Barman(redWine, whiteWine, owner);
         Barman barmanCenter = new Barman(redWine, whiteWine, owner);

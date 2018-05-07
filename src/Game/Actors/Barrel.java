@@ -11,21 +11,25 @@ public class Barrel extends Actor {
     private final boolean hasRedWine;
     private boolean spilling;
     private AtomicInteger mlWine;
-    BarrelInfo barrelInfo;
+    private BarrelInfo barrelInfo;
+    private Owner owner;
 
-    public Barrel(boolean hasRedWine){
+    public Barrel(boolean hasRedWine, Owner owner){
         this.hasRedWine = hasRedWine;
+        this.owner = owner;
+
         if (hasRedWine) {
             setSprite("red_barrel.png");
         } else {
             setSprite("white_barrel.png");
         }
+
         spilling = false;
         tickEnabled = true;
 
         mlWine = new AtomicInteger(10000);
 
-        barrelInfo = new BarrelInfo(new Vector(110, 30), mlWine);
+        barrelInfo = new BarrelInfo(new Vector(110, 45), mlWine);
     }
 
     @Override
@@ -39,18 +43,26 @@ public class Barrel extends Actor {
     @Override
     protected void tick(long deltaTime) {
         super.tick(deltaTime);
-        if(!spilling && getNumOfNotifyActions("start-spilling-wine") > 0){
+        if(!spilling && getNumOfNotifyActions() > 0){
             spilling = true;
-            notifyNextAction("start-spilling-wine");
+            barrelInfo.setLocked(true);
+            notifyNextAction();
         }
+    }
+
+    public void refill(){
+        mlWine.set(10000);
+        spilling = false;
+        barrelInfo.setLocked(false);
     }
 
     @ActionCallable(name = "start-spilling-wine")
     public void spillWine(Barman barman){
+        System.out.println("start-spilling-wine " + barman.getStartPosition());
         if(mlWine.get() > 0){
             barman.moveTo(getLocation().add(new Vector(0, 80)), "spill-wine", this);
         } else {
-            //TODO: Owner bla
+            barman.moveTo(owner, "arrived-to-owner", this);
         }
     }
 
@@ -59,6 +71,7 @@ public class Barrel extends Actor {
         mlWine.addAndGet(-250);
         barrelInfo.updateWineValue();
         spilling = false;
-        barman.moveTo(barman.getStartPosition(), "give-wine-to-customer");
+        barrelInfo.setLocked(false);
+        barman.moveTo(barman.getStartPosition(), "give-wine-to-customer", hasRedWine);
     }
 }

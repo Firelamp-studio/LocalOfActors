@@ -15,7 +15,7 @@ public class DrinkCard {
 		return false;
 	}
 
-	public boolean useConsumatABoolean(boolean bIsRedWine) {
+	public boolean useConsumation(boolean bIsRedWine) {
 		if (hasComsumation()) {
 			if (bIsRedWine)
 				redConsumations++;
@@ -24,5 +24,13 @@ public class DrinkCard {
 			return true;
 		} else
 			return false;
+	}
+
+	public int getRedConsumations() {
+		return redConsumations;
+	}
+
+	public int getWitheConsumations() {
+		return witheConsumations;
 	}
 }

@@ -53,7 +53,7 @@ public class Customer extends Person {
         wineGlass = 0;
         generateId++;
         id = generateId;
-        customerInfo = new CustomerInfo(new Vector(100));
+        customerInfo = new CustomerInfo(new Vector(175, 90), id);
     }
 
     @Override
@@ -101,6 +101,7 @@ public class Customer extends Person {
     @ActionCallable(name = "pay-and-get-card")
     public void onCardRecived(DrinkCard drinkCard) {
         this.drinkCard = drinkCard;
+        customerInfo.bindDrinkCard(drinkCard);
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
@@ -153,6 +154,7 @@ public class Customer extends Person {
     @ActionCallable(name = "receive-wine-glass")
     public void getWineAndWait() {
         this.wineGlass = 250;
+        customerInfo.updateDrinkCard();
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
@@ -183,6 +185,7 @@ public class Customer extends Person {
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
     }
 
+    @ActionCallable(name = "exit")
     private void exit() {
         customerInfo.setIntention("Sto uscendo");
         moveTo(entryDoor.getLocation().add(new Vector(-30, -50)), "open-door-and-exit");

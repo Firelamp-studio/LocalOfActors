@@ -4,16 +4,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import API.Utility.Vector;
+import Game.DrinkCard;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomerInfo extends JPanel{
-	JLabel customerNum, whiteWineLabel, redWineLabel, intentionLabel;
+	private JLabel customerNum, whiteWineLabel, redWineLabel, intentionLabel;
+	private DrinkCard drinkCard;
 	
-	public CustomerInfo(Vector size) {
-		whiteWineLabel = new JLabel("Litri vino bianco: ");
-		redWineLabel = new JLabel("Litri vino rosso: ");
-		customerNum = new JLabel("Cliente");
+	public CustomerInfo(Vector size, int customerIndex) {
+		whiteWineLabel = new JLabel("Consumazioni vino bianco: 0");
+		redWineLabel = new JLabel("Consumazioni vino rosso: 0");
+		customerNum = new JLabel("Cliente " + customerIndex);
 		intentionLabel = new JLabel("Intention: ");
-		
+
+		this.drinkCard = drinkCard;
+
 		setPreferredSize(size.toDimension());
 		add(customerNum);
 		add(whiteWineLabel);
@@ -22,17 +28,16 @@ public class CustomerInfo extends JPanel{
 		
 		setVisible(false);
 	}
-	
-	public void setWhiteWineValue(int litres) {
-		whiteWineLabel.setText("Litri vino bianco: " + litres);
+
+	public void bindDrinkCard(DrinkCard drinkCard) {
+		this.drinkCard = drinkCard;
 	}
-	
-	public void setRedWineValue(int litres) {
-		redWineLabel.setText("Litri vino rosso: " + litres);
-	}
-	
-	public void setCustomerNum(int num) {
-		redWineLabel.setText("Customer " + num);
+
+	public void updateDrinkCard() {
+		if(drinkCard != null){
+			whiteWineLabel.setText("Consumazioni vino bianco: " + drinkCard.getWitheConsumations());
+			redWineLabel.setText("Consumazioni vino rosso: " + drinkCard.getRedConsumations());
+		}
 	}
 
 	public void setIntention(String intention){

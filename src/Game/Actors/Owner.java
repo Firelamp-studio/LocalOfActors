@@ -5,11 +5,13 @@ import API.Annotations.ActionResponse;
 import API.Utility.TimerAction;
 import API.Utility.Vector;
 import Game.DrinkCard;
+import Game.Maps.BarMap;
 
 public class Owner extends Person {
     private CashDesk cashDesk;
     private Vector startPosiotion;
     private int receipts;
+    private BarMap map;
     public boolean isRefillingBarrel;
 
     public Owner(CashDesk cashDesk) {
@@ -25,6 +27,10 @@ public class Owner extends Person {
         super.beginPlay();
         setRotation(180);
         startPosiotion = new Vector(getLocation());
+
+        if (getMap() instanceof BarMap){
+            map = (BarMap) getMap();
+        }
     }
 
     @Override
@@ -47,7 +53,7 @@ public class Owner extends Person {
             customer.moveTo(cashDesk.getLocation().add(new Vector(0, 30)), "arrived-to-cashdesk");
         }
     }
-/*
+
     @ActionCallable(name = "refill-barrel")
     public void refillBarrel(Barrel barrel, Barman barman) {
         moveTo(new Vector(200, 100), "move-to-storage", barrel, barman);
@@ -55,7 +61,7 @@ public class Owner extends Person {
 
     @ActionCallable(name = "move-to-storage")
     public void moveToStorage(Barrel barrel, Barman barman) {
-        new TimerAction(2000, this, "start-move-to-barrel").execute(barrel, barman);
+        new TimerAction(200 * map.getGameSpeed(), this, "start-move-to-barrel").execute(barrel, barman);
     }
 
     @ActionCallable(name = "start-move-to-barrel")
@@ -66,20 +72,19 @@ public class Owner extends Person {
     @ActionCallable(name = "move-to-barrel")
     public void moveToBarell(Barrel barrel, Barman barman) {
         setRotation(0);
-        new TimerAction(2000, this, "start-refill-barrel").execute(barrel, barman);
+        new TimerAction(200 * map.getGameSpeed(), this, "end-refill-barrel").execute(barrel, barman);
     }
 
-    @ActionCallable(name = "start-refill-barrel")
+    @ActionCallable(name = "end-refill-barrel")
     public void startRefillBarell(Barrel barrel, Barman barman) {
         barrel.refill();
-        moveTo(startPosiotion, "end-refill");
-        actionCall(barman, "redo-spill-request", barrel);
+        moveTo(startPosiotion, "arrived-to-cashdesk");
+        actionCall(barman, "request-spilling-to-barrel", barrel);
     }
 
-    @ActionCallable(name = "end-refill")
+    @ActionCallable(name = "arrived-to-cashdesk")
     public void endRefill() {
         setRotation(180);
         isRefillingBarrel = false;
     }
-*/
 }

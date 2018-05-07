@@ -49,16 +49,20 @@ public class Barman extends Person {
         return startPosition;
     }
 
+    @ActionCallable(name = "request-spilling-to-barrel")
+    public void requestSpillingToBarrel(Barrel barrel){
+            setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
+            actionCallOnNotify(barrel,"start-spilling-wine", this);
+    }
+
     @ActionCallable(name = "order-wine")
     public void orderWine(boolean wantRedWine, Customer customer){
         customerToServe = customer;
 
         if(wantRedWine){
-            setRotation(Rotator.rotationLookingTo(getLocation(), redWineBarrel.getLocation()));
-            actionCallOnNotify(redWineBarrel,"start-spilling-wine", this);
+            requestSpillingToBarrel(redWineBarrel);
         } else {
-            setRotation(Rotator.rotationLookingTo(getLocation(), whiteWineBarrel.getLocation()));
-            actionCallOnNotify(whiteWineBarrel,"start-spilling-wine", this);
+            requestSpillingToBarrel(whiteWineBarrel);
         }
     }
 
@@ -69,9 +73,28 @@ public class Barman extends Person {
     }
 
     @ActionCallable(name = "give-wine-to-customer")
-    public void giveWineToCustomer(){
+    public void giveWineToCustomer(boolean isRedWine){
         free = true;
         setRotation(180);
-        actionCall(customerToServe, "receive-wine-glass");
+        if(customerToServe.getDrinkCard().hasComsumation()){
+            customerToServe.getDrinkCard().useConsumation(isRedWine);
+            actionCall(customerToServe, "receive-wine-glass");
+        } else {
+            actionCall(customerToServe, "exit");
+        }
+
+    }
+
+
+
+    @ActionCallable(name = "arrived-to-owner")
+    public void arrivedToOwner(Barrel barrel){
+        actionCallOnNotify(owner, "refill-barrel", barrel, this);
+        moveTo(startPosition, "come-back-and-wait-owner", barrel);
+    }
+
+    @ActionCallable(name = "come-back-and-wait-owner")
+    public void comeBackAndWaitOwner(Barrel barrel){
+        setRotation(Rotator.rotationLookingTo(getLocation(), barrel.getLocation()));
     }
 }
