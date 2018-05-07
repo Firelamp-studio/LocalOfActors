@@ -5,7 +5,10 @@ import api.annotations.ActionCallable;
 import api.annotations.ActionResponse;
 import api.utility.TimerAction;
 import api.utility.Vector;
+import game.gui.EndCard;
 import game.maps.BarMap;
+
+import javax.swing.*;
 
 public class EntryDoor extends Actor {
     private TimerAction timerSpawnCustomer;
@@ -86,6 +89,10 @@ public class EntryDoor extends Actor {
         numPeopleInside--;
         setRotation(90);
         new TimerAction(120 * map.getGameSpeed(), this, "close-door").execute();
+
+        if(numPeopleInside <= 0){
+            getMap().addComponent(new EndCard(owner.getRecessed()), getMap().getMapCenter(), 100);
+        }
     }
 
 }

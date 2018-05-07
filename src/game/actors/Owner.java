@@ -22,6 +22,10 @@ public class Owner extends Person {
         setSprite("owner.png", 0.4);
     }
 
+    public int getRecessed() {
+        return receipts;
+    }
+
     @Override
     protected void beginPlay() {
         super.beginPlay();
