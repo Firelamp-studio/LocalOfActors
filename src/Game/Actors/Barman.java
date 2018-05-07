@@ -15,6 +15,7 @@ public class Barman extends Person {
     private Barrel redWineBarrel;
     private Barrel whiteWineBarrel;
     private int wineGlass;
+    long spillDelay;
 
     public Barman(Barrel redWineBarrel, Barrel whiteWineBarrel, Owner owner) {
         free = true;
@@ -24,6 +25,12 @@ public class Barman extends Person {
         wineGlass = 0;
         setSprite("barman.png", 0.4);
         startPosition = new Vector();
+
+        long delay = 500;
+        if (getMap() instanceof BarMap){
+            delay = ((BarMap)getMap()).getGameSpeed() * 250;
+        }
+        spillDelay = delay;
     }
 
     @Override
@@ -33,6 +40,7 @@ public class Barman extends Person {
         startPosition = new Vector(getLocation());
     }
 
+    @ActionCallable(name = "order-wine")
     public void orderWine(boolean bIsRedWine, Customer customer) {
         this.customer = customer;
         if (customer.getDrinkCard().hasComsumation()) {
@@ -46,6 +54,7 @@ public class Barman extends Person {
             }
         } else {
             customer.moveTo(Customer.getWaitingAreaVector(), "choose-what-to-do");
+            free = true;
         }
     }
 
@@ -61,12 +70,7 @@ public class Barman extends Person {
     public void arrivedOnBarrel(Barrel barrel) {
         setRotation(0);
 
-        long delay = 500;
-        if (getMap() instanceof BarMap){
-            delay = ((BarMap)getMap()).getGameSpeed() * 250;
-        }
-
-        new TimerAction(delay,this,"spill").execute(barrel);
+        new TimerAction(spillDelay,this,"spill").execute(barrel);
     }
 
     @ActionCallable(name = "spill")
@@ -74,9 +78,9 @@ public class Barman extends Person {
         actionCallResponse(barrel, "get-wine-glass", this);
     }
 
-    @ActionResponse(name = "get-wine-glass")
-    public void getWineGlass(int wineGlass) {
-        moveTo(startPosition, "give-wine-glass", wineGlass);
+    @ActionCallable(name = "get-wine-glass")
+    public void getWineGlass() {
+        moveTo(startPosition, "give-wine-glass", 250);
     }
 
     @ActionCallable(name = "request-new-barrel")
@@ -101,7 +105,7 @@ public class Barman extends Person {
     @ActionCallable(name = "give-wine-glass")
     public void giveWineGlass(int wineGlass) {
         setRotation(180);
-        actionCall(customer, "recive-wine-glass", wineGlass);
+        actionCall(customer, "receive-wine-glass", wineGlass);
         free = true;
     }
 

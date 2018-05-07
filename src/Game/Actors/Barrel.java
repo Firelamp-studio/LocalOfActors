@@ -38,9 +38,10 @@ public class Barrel extends Actor {
     @Override
     protected void tick(long deltaTime) {
         super.tick(deltaTime);
-        if (!spilling && getNumOfNotifyActions() > 0) {
-            notifyNextAction();
+        if (!spilling && getNumOfNotifyActions("request-spill") > 0) {
             spilling = true;
+            System.out.println("PARTITA CONFERMA SPILL " + (bIsRedWhine ? "RED" : "WHITE"));
+            notifyNextAction("request-spill");
         }
     }
 
@@ -56,15 +57,15 @@ public class Barrel extends Actor {
     }
 
     @ActionCallable(name = "get-wine-glass")
-    public int giveWineGlass(Barman barman) {
+    public void giveWineGlass(Barman barman) {
         if (wineMl > 0) {
             wineMl -= 250;
             spilling = false;
             barrelInfo.setWineValue(wineMl/1000.f);
-            return 250;
+            actionCall(barman, "get-wine-glass");
+        } else {
+            actionCall(barman, "request-new-barrel", this);
         }
-        actionCall(barman, "request-new-barrel", this);
-        return 0;
     }
 
     @ActionCallable(name = "dispatch_vino_finito")

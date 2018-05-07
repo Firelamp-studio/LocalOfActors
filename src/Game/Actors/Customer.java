@@ -147,14 +147,10 @@ public class Customer extends Person {
     public void arrivedToBarman(Barman barman) {
         this.barman = barman;
         setRotation(0);
-        if (Math.random() < 0.5) {
-            barman.orderWine(true, this);
-        } else {
-            barman.orderWine(false, this);
-        }
+        actionCall(barman, "order-wine", Math.random() < 0.5, this);
     }
 
-    @ActionCallable(name = "recive-wine-glass")
+    @ActionCallable(name = "receive-wine-glass")
     public void getWineAndWait(int wineGlass) {
         this.wineGlass = wineGlass;
         moveTo(getWaitingAreaVector(), "choose-what-to-do");
