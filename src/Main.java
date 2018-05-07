@@ -1,11 +1,6 @@
-import API.Map;
-import API.Window;
-import API.Utility.Vector;
-import java.util.ArrayList;
+import api.Window;
 
-import Game.Actors.*;
-import Game.Maps.BarMap;
-import Game.Maps.MenuMap;
+import game.maps.MenuMap;
 
 public class Main {
 	
