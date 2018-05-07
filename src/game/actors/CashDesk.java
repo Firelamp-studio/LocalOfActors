@@ -6,22 +6,6 @@ import api.utility.Rotator;
 import api.utility.Transform;
 import api.utility.Vector;
 
-/**
- * Questa &egrave; la classe astratta coda, che si occupa di gestire una lista di
- * {@link Customer} nel posizionamento logico e grafico
- *
- * <p>Questa classe &egrave; un componente di
- * <a href="{@docRoot}/java/util/package-summary.html#CollectionsFramework">
- * Una cosa che non abbiamo fatto noi</a>.
- *
- * @author  Lorenzo Pecchio
- * @see     Actor
- * @see     Tail
- * @see     LocalTail
- * @see     CounterTail
- * @since 1.0
- */
-
 public class CashDesk extends Tail {
 
     public CashDesk(){

@@ -56,7 +56,6 @@ public class Barrel extends Actor {
 
     @ActionCallable(name = "start-spilling-wine")
     public void spillWine(Barman barman){
-        System.out.println((hasRedWine ? "RED " : "WHITE ") + barman.getStartPosition());
         if(mlWine.get() > 0){
             barman.moveTo(getLocation().add(new Vector(0, 80)), "spill-wine", this);
         } else {
