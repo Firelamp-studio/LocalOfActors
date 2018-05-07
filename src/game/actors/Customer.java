@@ -15,87 +15,20 @@ import game.DrinkCard;
 import game.maps.BarMap;
 import game.gui.CustomerInfo;
 
-/**
- * Questa &egrave; la classe che modella il cliente.
- *
- * <p>Ogni comportamento e modo di reagire del cliente &egrave; definito qua
- *
- * <p>Questa classe &egrave; derivata di {@link Actor}.
- *
- * @author  Lorenzo Pecchio
- * @see     Actor
- * @since 1.0
- */
-
 public class Customer extends Pawn {
-    /**
-     * {@link TimerAction} che gestisce il tempo casuale tra una scelta e l'altra
-     */
     private TimerAction timerChooseAction;
-
-    /**
-     * {@link DrinkCard} del cliente
-     */
     private DrinkCard drinkCard;
-
-    /**
-     * Riferimento alla {@link LocalTail} della mappa
-     */
     private LocalTail localTail;
-
-    /**
-     * Riferimento alla {@link EntryDoor} della mappa
-     */
     private EntryDoor entryDoor;
-
-    /**
-     * Riferimento all'{@link Owner} della mappa
-     */
     private Owner owner;
-
-    /**
-     * Riferimento al {@link Counter} della mappa
-     */
     private Counter counter;
-
-    /**
-     * Riferimento alla {@link CounterTail} della mappa
-     */
     private CounterTail counterTail;
-
-    /**
-     * Riferimento al {@link Barman} che lo sta servendo
-     */
     private Barman barman;
-
-    /**
-     * Riferimento al {@link SitGroup} della mappa
-     */
     private SitGroup sitGroup;
-
-    /**
-     * Riferimento alla {@link CashDesk} della mappa
-     */
     private CashDesk cashDesk;
-
-    /**
-     * Quantit&agrave; di vino nel proprio bichiere
-     */
     private int wineGlass;
-
-    /**
-     * Variabile statica usata al fine di dare un {@link Customer#id} differente ad ogni {@code Customer}
-     */
     private static int generateId = 0;
-
-    /**
-     * Id del {@code Customer}
-     */
     private int id;
-
-    /**
-     * palla
-     */
     private CustomerInfo customerInfo;
 
     public Customer(LocalTail localTail, EntryDoor entryDoor, Owner owner,  CashDesk cashDesk, Counter counter, CounterTail counterTail, SitGroup sitGroup) {
