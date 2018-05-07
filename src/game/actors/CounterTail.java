@@ -38,10 +38,9 @@ public class CounterTail extends Tail {
     }
 
     @ActionCallable(name = "counter-dequeue-customer")
-    public Customer counterDequeueCustomer(String actionAfterUpdateQueueLocation, int i) {
-        Customer c = dequeueCustomer(actionAfterUpdateQueueLocation);
-        c.servingBarman = i;
-        return c;
+    public void counterDequeueCustomer(String actionAfterUpdateQueueLocation, int i, Counter counter) {
+        Customer customer = dequeueCustomer(actionAfterUpdateQueueLocation);
+        actionCall(counter, "counter-dequeue-customer", customer, i);
     }
 
     @ActionCallable(name = "counter-enqueue-customer")
