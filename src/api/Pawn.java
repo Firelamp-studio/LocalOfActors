@@ -28,34 +28,34 @@ public class Pawn extends Actor {
 		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
 		Vector dist = getLocation().distance(location);
-		
+
 		if(diff.equals(new Vector())) {
 			return;
 		}
 
 		argsAfterMoveTo = args;
-		
+
 		int xIncr = diff.x > 0 ? -1 : 1;
 		int yIncr = diff.y > 0 ? -1 : 1;
-	
+
 		int longLength = dist.x > dist.y ? dist.x : dist.y;
 		int shortLength = dist.x < dist.y ? dist.x : dist.y;
-	
+
 		int shortModule;
-		
+
 		xSteps = dist.x;
 		ySteps = dist.y;
-		
+
 		if(shortLength != 0) {
 			shortModule = longLength / shortLength;
 
 		} else {
 			shortModule = -1;
 		}
-		
+
 		int xModule =  dist.x < dist.y ? shortModule : 1;
 		int yModule =  dist.x > dist.y ? shortModule : 1;
-		
+
 
 		moveTimer.execute(actionCaller, location, xModule, yModule, xIncr, yIncr);
 	}
