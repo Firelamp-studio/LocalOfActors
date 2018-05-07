@@ -27,9 +27,9 @@ public class Barrel extends Actor {
         spilling = false;
         tickEnabled = true;
 
-        mlWine = new AtomicInteger(10000);
+        mlWine = new AtomicInteger(100000);
 
-        barrelInfo = new BarrelInfo(new Vector(110, 45), mlWine);
+        barrelInfo = new BarrelInfo(new Vector(110, 30), mlWine);
     }
 
     @Override
@@ -45,15 +45,13 @@ public class Barrel extends Actor {
         super.tick(deltaTime);
         if(!spilling && getNumOfNotifyActions() > 0){
             spilling = true;
-            barrelInfo.setLocked(true);
             notifyNextAction();
         }
     }
 
     public void refill(){
-        mlWine.set(10000);
+        mlWine.set(100000);
         spilling = false;
-        barrelInfo.setLocked(false);
     }
 
     @ActionCallable(name = "start-spilling-wine")
@@ -71,7 +69,6 @@ public class Barrel extends Actor {
         mlWine.addAndGet(-250);
         barrelInfo.updateWineValue();
         spilling = false;
-        barrelInfo.setLocked(false);
         barman.moveTo(barman.getStartPosition(), "give-wine-to-customer", hasRedWine);
     }
 }
