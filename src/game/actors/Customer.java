@@ -62,7 +62,7 @@ public class Customer extends Pawn {
 
         //moveTo(sitGroup.getArmchairLocation(sitGroup.getFreeSitIndex()));
         actionCallResponse(localTail, "local-enqueue-customer", this);
-        addRelativeComponent(customerInfo, new Vector(0, 80),100);
+        addRelativeComponent(customerInfo, new Vector(0, 70),100);
         customerInfo.setIntention("Vado in coda all'entrata");
     }
 

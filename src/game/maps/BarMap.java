@@ -57,7 +57,7 @@ public class BarMap extends Map {
         addActor(barmanLeft, new Vector(850, 175));
         addActor(barmanCenter, new Vector(1000, 175));
         addActor(barmanRight, new Vector(1150, 175));
-        addActor(entryDoor, new Vector(200, 700));
+        addActor(entryDoor, new Vector(201, 701));
         addActor(counter, new Vector(1000, 240));
         addActor(sitGroup, new Vector(300, 650));
         addActor(cashDesk, new Vector(165, 300));
