@@ -69,8 +69,8 @@ public class EntryDoor extends Actor {
     @ActionCallable(name = "spawn-customer-iterator")
     public void spawnCustomerIterator() {
         if (enteredPeople > 0) {
-            enteredPeople--;
             if(localTail.getTailSize() < 30){
+                enteredPeople--;
                 new TimerAction((long)(Math.random() * 150 * map.getGameSpeed()), this, "spawn-customer").execute();
             }
         } else {
