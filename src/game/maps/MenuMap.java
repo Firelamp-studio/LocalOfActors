@@ -67,7 +67,7 @@ public class MenuMap extends Map {
 		bottomMenu.add(text2, gbc);
 
 		JSpinner maxLocalCustumers = new JSpinner();
-		maxLocalCustumers.setValue(20);
+		maxLocalCustumers.setValue(30);
 		gbc.gridx = 2;
 		gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.EAST;
@@ -80,7 +80,7 @@ public class MenuMap extends Map {
 		bottomMenu.add(text3, gbc);
 
 		JSpinner gameSpeed = new JSpinner();
-		gameSpeed.setValue(4);
+		gameSpeed.setValue(3);
 		gbc.gridx = 2;
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.EAST;

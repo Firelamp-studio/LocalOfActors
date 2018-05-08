@@ -10,7 +10,7 @@ import game.maps.BarMap;
 
 public class Owner extends Pawn {
     private CashDesk cashDesk;
-    private Vector startPosiotion;
+    private Vector startPosition;
     private int receipts;
     private BarMap map;
     public boolean isRefillingBarrel;
@@ -31,7 +31,7 @@ public class Owner extends Pawn {
     protected void beginPlay() {
         super.beginPlay();
         setRotation(180);
-        startPosiotion = new Vector(getLocation());
+        startPosition = new Vector(getLocation());
 
         if (getMap() instanceof BarMap){
             map = (BarMap) getMap();
@@ -68,7 +68,7 @@ public class Owner extends Pawn {
 
     @ActionCallable(name = "move-to-storage")
     public void moveToStorage(Barrel barrel, Barman barman) {
-        new TimerAction(200 * map.getGameSpeed(), this, "start-move-to-barrel").execute(barrel, barman);
+        new TimerAction(500 * map.getGameSpeed(), this, "start-move-to-barrel").execute(barrel, barman);
     }
 
     @ActionCallable(name = "start-move-to-barrel")
@@ -79,13 +79,13 @@ public class Owner extends Pawn {
     @ActionCallable(name = "move-to-barrel")
     public void moveToBarell(Barrel barrel, Barman barman) {
         setRotation(0);
-        new TimerAction(200 * map.getGameSpeed(), this, "end-refill-barrel").execute(barrel, barman);
+        new TimerAction(500 * map.getGameSpeed(), this, "end-refill-barrel").execute(barrel, barman);
     }
 
     @ActionCallable(name = "end-refill-barrel")
     public void startRefillBarell(Barrel barrel, Barman barman) {
         barrel.refill();
-        moveTo(startPosiotion, "arrived-to-cashdesk");
+        moveTo(startPosition, "arrived-to-cashdesk");
         actionCall(barman, "request-spilling-to-barrel", barrel);
     }
 

@@ -120,7 +120,12 @@ public class Customer extends Pawn {
     @ActionCallable(name = "do-something")
     public void doSomething() {
         double random = Math.random();
-        if (random > 0.3) {
+        if (random < 0.01) {
+            exit();
+        } else if (random < 0.3) {
+            customerInfo.setIntention("Vado a sedermi");
+            actionCallResponse(sitGroup, "sit-on-sit" );
+        } else {
             if (wineGlass > 0){
                 customerInfo.setIntention("Bevo un po di vino");
                 wineGlass -= 50;
@@ -129,11 +134,6 @@ public class Customer extends Pawn {
                 customerInfo.setIntention("Vado in coda per il vino");
                 actionCallResponse(counterTail, "counter-enqueue-customer", this);
             }
-        } else if (random > 0.05) {
-            customerInfo.setIntention("Vado a sedermi");
-            actionCallResponse(sitGroup, "sit-on-sit" );
-        } else {
-            exit();
         }
     }
 

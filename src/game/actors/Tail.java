@@ -11,7 +11,7 @@ public abstract class Tail extends Actor {
     private LinkedList<Customer> waitingCustomers;
     private boolean modifyEnabled;
     public Tail() {
-        waitingCustomers = new LinkedList();
+        waitingCustomers = new LinkedList<>();
         modifyEnabled = false;
     }
 
