@@ -40,13 +40,15 @@ public class Owner extends Pawn {
 
     @Override
     protected void tick(long deltaTime) {
-        if(!isRefillingBarrel && cashDesk.isModifyEnabled() && !cashDesk.getWaitingCustomers().isEmpty()){
-            cashDesk.setModifyEnabled(false);
-            actionCallResponse(cashDesk, "dequeue-customer", "entry-cashdesk-line-and-movement");
-        }
-        if(!isRefillingBarrel && getNumOfNotifyActions() > 0){
-            notifyNextAction();
-            isRefillingBarrel = true;
+        if(!isRefillingBarrel){
+            if(cashDesk.isModifyEnabled() && !cashDesk.getWaitingCustomers().isEmpty()){
+                cashDesk.setModifyEnabled(false);
+                actionCallResponse(cashDesk, "dequeue-customer", "entry-cashdesk-line-and-movement");
+            }
+            else if(getNumOfNotifyActions() > 0){
+                notifyNextAction();
+                isRefillingBarrel = true;
+            }
         }
     }
 
