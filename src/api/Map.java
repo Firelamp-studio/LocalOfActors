@@ -8,12 +8,15 @@ import java.awt.*;
 public abstract class Map {
 	private JLayeredPane viewArea;
     private Vector mapSize;
+	private Object renderQuality;
 
     public Map(){
     	this.mapSize = new Vector();
     	viewArea = new JLayeredPane();
     	viewArea.setLayout(null);
-    	
+
+    	renderQuality = RenderingHints.VALUE_RENDER_QUALITY;
+
     	viewArea.setOpaque(true);
     }
     
@@ -49,6 +52,9 @@ public abstract class Map {
 	
 	public void addElement(Element element, Vector location, int zindex){
 		if(element.getSprite() != null) {
+			if(renderQuality != null)
+				element.getSprite().setRenderQuality(renderQuality);
+
 			addComponent(element.getSprite(), location, zindex);
 	        element.setLocation(location);
 		}
@@ -67,6 +73,12 @@ public abstract class Map {
 		addElement(actor, location, zindex);
 		actor.beginPlay();
 	}
-	
-	
+
+	public void setRenderQuality(Object renderQuality) {
+		this.renderQuality = renderQuality;
+	}
+
+	public Object getRenderQuality() {
+		return renderQuality;
+	}
 }

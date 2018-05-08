@@ -1,18 +1,10 @@
 package game.maps;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import api.Map;
@@ -42,8 +34,9 @@ public class MenuMap extends Map {
 		bottomMenu.setBackground(Color.getHSBColor(0.6f, 0.45f, 1));
 		
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.ipadx = 10;
+		gbc.ipadx = 5;
 		gbc.ipady = 10;
+		gbc.insets = new Insets(2, 0, 2, 0);
 		
 		getViewArea().add(bottomMenu, 1);
 		
@@ -98,7 +91,23 @@ public class MenuMap extends Map {
 		gbc.gridy = 3;
 		gbc.anchor = GridBagConstraints.EAST;
 		bottomMenu.add(maxBarrelValue, gbc);
-		
+
+		JLabel text5 = new JLabel("Qualità del rendering delle immagini in movimento:");
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.anchor = GridBagConstraints.WEST;
+		bottomMenu.add(text5, gbc);
+
+		JComboBox<String> renderQuality = new JComboBox<>();
+		maxBarrelValue.setValue(100);
+		gbc.ipady = 2;
+		gbc.gridx = 2;
+		gbc.gridy = 4;
+		gbc.anchor = GridBagConstraints.EAST;
+		bottomMenu.add(renderQuality, gbc);
+
+		renderQuality.addItem("  Alto");
+		renderQuality.addItem("  Basso");
 		
 		Dimension prefSize = bottomMenu.getPreferredSize();
 		bottomMenu.setBounds(mapCenter.x - (int)prefSize.getWidth()/2, 500, (int)prefSize.getWidth(), (int)prefSize.getHeight());
@@ -110,7 +119,7 @@ public class MenuMap extends Map {
 			public void actionPerformed(ActionEvent e) {
 				JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
 				int speed = (int)gameSpeed.getValue();
-				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue(), speed > 0 ? speed : 1, (int)maxBarrelValue.getValue() * 1000));
+				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue(), speed > 0 ? speed : 1, (int)maxBarrelValue.getValue() * 1000, renderQuality.getSelectedItem().toString()));
 				currentFrame.dispose();
 			}
 		});

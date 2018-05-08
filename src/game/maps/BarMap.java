@@ -1,6 +1,6 @@
 package game.maps;
 
-import java.awt.Dimension;
+import java.awt.*;
 
 import api.components.Sprite;
 import api.Map;
@@ -14,8 +14,14 @@ public class BarMap extends Map {
     private int gameSpeed;
     private int maxBarrelValue;
 
-    public BarMap(int totalPeople, int maxLocalPeople, int gameSpeed, int maxBarrelValue) {
+    public BarMap(int totalPeople, int maxLocalPeople, int gameSpeed, int maxBarrelValue, String renderQuality) {
         setMapSize(new Dimension(1500, 864));
+
+        if(renderQuality.trim().equals("Alto")){
+            setRenderQuality(RenderingHints.VALUE_RENDER_QUALITY);
+        } else if (renderQuality.trim().equals("Basso")){
+            setRenderQuality(RenderingHints.VALUE_RENDER_SPEED);
+        }
 
         this.totalPeople = totalPeople;
         this.maxLocalPeople = maxLocalPeople;

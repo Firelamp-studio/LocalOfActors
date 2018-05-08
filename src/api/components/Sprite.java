@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.geom.IllegalPathStateException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class Sprite extends JLabel{
 	private double scale;
 	private Rotator rotator;
 	private int viewSize;
+	private Object renderQuality;
 
 	public Sprite(){
 		this(null);
@@ -24,6 +26,7 @@ public class Sprite extends JLabel{
     	rotator = new Rotator();
     	this.scale = scale;
 
+    	renderQuality = RenderingHints.VALUE_RENDER_DEFAULT;
 
 	    try {
 	    	if(imageFile != null && !imageFile.isEmpty())
@@ -31,7 +34,7 @@ public class Sprite extends JLabel{
 	    	else
 				image = ImageIO.read(new File("assets/textures/null.png"));
 	     } catch (IOException ex) {
-	          // handle exception...
+	        throw new IllegalPathStateException("Sprite non trovata");
 	     }
 	    viewSize = image.getWidth() > image.getHeight() ? (int)(image.getWidth()*scale) : (int)(image.getHeight()*scale);
 	    setSize(viewSize, viewSize);
@@ -42,20 +45,18 @@ public class Sprite extends JLabel{
     public Sprite(String imageFile) {
     	this(imageFile, 1);
     }
-    
+
+    public void setRenderQuality(Object renderQuality){
+		this.renderQuality = renderQuality;
+	}
+
     @Override
     protected void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	
     	Graphics2D g2d = (Graphics2D)g;
-    	
-    	g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-    	
-    	//g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    	//g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-    	//g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-    	//g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-    	//g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+
+    	g2d.setRenderingHint(RenderingHints.KEY_RENDERING, renderQuality);
 
     	g2d.rotate(Math.toRadians(rotator.getRotation()), viewSize/2, viewSize/2);
     	g2d.scale(scale, scale);

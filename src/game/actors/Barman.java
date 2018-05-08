@@ -7,6 +7,8 @@ import api.utility.TimerAction;
 import api.utility.Vector;
 import game.maps.BarMap;
 
+import java.sql.Time;
+
 public class Barman extends Pawn {
     private boolean free;
     private Vector startPosition;
@@ -79,9 +81,9 @@ public class Barman extends Pawn {
         setRotation(180);
         if(customerToServe.getDrinkCard().hasComsumation()){
             customerToServe.getDrinkCard().useConsumation(isRedWine);
-            actionCall(customerToServe, "receive-wine-glass");
+            new TimerAction( 10, customerToServe, "receive-wine-glass").execute();
         } else {
-            actionCall(customerToServe, "exit");
+            new TimerAction(10, customerToServe, "exit").execute();
         }
 
     }
