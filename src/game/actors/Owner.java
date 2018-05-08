@@ -46,8 +46,8 @@ public class Owner extends Pawn {
                 actionCallResponse(cashDesk, "dequeue-customer", "entry-cashdesk-line-and-movement");
             }
             else if(getNumOfNotifyActions() > 0){
-                notifyNextAction();
                 isRefillingBarrel = true;
+                notifyNextAction();
             }
         }
     }

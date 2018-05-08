@@ -27,11 +27,10 @@ public class Counter extends Actor {
 
                 if (barmans[i].isFree()) {
                     barmans[i].setFree(false);
-
-                    actionCall(counterTail, "counter-dequeue-customer", "entry-counter-line-and-movement", i, this);
-
                     counterTail.setModifyEnabled(false);
                     isSearchingFreeBarman = false;
+
+                    actionCall(counterTail, "counter-dequeue-customer", "entry-counter-line-and-movement", i, this);
                 }
             }
         }

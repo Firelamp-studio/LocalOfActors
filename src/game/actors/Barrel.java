@@ -60,6 +60,7 @@ public class Barrel extends Actor {
 
     public void refill(){
         mlWine.set(capacity);
+        barrelInfo.updateWineValue();
         spilling = false;
     }
 

@@ -62,10 +62,15 @@ public class Barman extends Pawn {
     public void orderWine(boolean wantRedWine, Customer customer){
         customerToServe = customer;
 
-        if(wantRedWine){
-            requestSpillingToBarrel(redWineBarrel);
+        if(customer.getDrinkCard().hasComsumation()){
+            if(wantRedWine){
+                requestSpillingToBarrel(redWineBarrel);
+            } else {
+                requestSpillingToBarrel(whiteWineBarrel);
+            }
         } else {
-            requestSpillingToBarrel(whiteWineBarrel);
+            actionCall(customerToServe, "exit-from-local");
+            free = true;
         }
     }
 
@@ -78,12 +83,8 @@ public class Barman extends Pawn {
     @ActionCallable(name = "give-wine-to-customer")
     public void giveWineToCustomer(boolean isRedWine){
         setRotation(180);
-        if(customerToServe.getDrinkCard().hasComsumation()){
-            customerToServe.getDrinkCard().useConsumation(isRedWine);
-            actionCall(customerToServe, "receive-wine-glass");
-        } else {
-            actionCall(customerToServe, "exit");
-        }
+        customerToServe.getDrinkCard().useConsumation(isRedWine);
+        actionCall(customerToServe, "receive-wine-glass");
         free = true;
     }
 

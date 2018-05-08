@@ -198,8 +198,8 @@ public class Customer extends Pawn {
         customerInfo.setIntention("Scelgo cosa fare");
     }
 
-    @ActionCallable(name = "exit")
-    private void exit() {
+    @ActionCallable(name = "exit-from-local")
+    public void exit() {
         customerInfo.setIntention("Me ne vado");
         customerInfo.setVisible(true);
         moveTo(entryDoor.getLocation().add(new Vector(-30, -50)), "open-door-and-exit");
