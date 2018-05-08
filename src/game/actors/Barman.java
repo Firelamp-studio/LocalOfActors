@@ -77,15 +77,14 @@ public class Barman extends Pawn {
 
     @ActionCallable(name = "give-wine-to-customer")
     public void giveWineToCustomer(boolean isRedWine){
-        free = true;
         setRotation(180);
         if(customerToServe.getDrinkCard().hasComsumation()){
             customerToServe.getDrinkCard().useConsumation(isRedWine);
-            new TimerAction( 10, customerToServe, "receive-wine-glass").execute();
+            actionCall(customerToServe, "receive-wine-glass");
         } else {
-            new TimerAction(10, customerToServe, "exit").execute();
+            actionCall(customerToServe, "exit");
         }
-
+        free = true;
     }
 
 
