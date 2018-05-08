@@ -4,10 +4,12 @@ import api.Actor;
 import api.annotations.ActionCallable;
 import api.utility.Vector;
 import game.gui.BarrelInfo;
+import game.maps.BarMap;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Barrel extends Actor {
+    private int capacity;
     private final boolean hasRedWine;
     private boolean spilling;
     private AtomicInteger mlWine;
@@ -27,7 +29,7 @@ public class Barrel extends Actor {
         spilling = false;
         tickEnabled = true;
 
-        mlWine = new AtomicInteger(100000);
+        mlWine = new AtomicInteger();
 
         barrelInfo = new BarrelInfo(new Vector(110, 30), mlWine);
     }
@@ -35,6 +37,13 @@ public class Barrel extends Actor {
     @Override
     protected void beginPlay() {
         super.beginPlay();
+
+        capacity = 100000;
+        if (getMap() instanceof BarMap){
+            capacity = ((BarMap)getMap()).getMaxBarrelValue();
+        }
+
+        mlWine.set(capacity);
 
         addRelativeComponent(barrelInfo, new Vector(hasRedWine ? -100 : 100, 30), 5);
         barrelInfo.updateWineValue();
@@ -50,7 +59,7 @@ public class Barrel extends Actor {
     }
 
     public void refill(){
-        mlWine.set(100000);
+        mlWine.set(capacity);
         spilling = false;
     }
 

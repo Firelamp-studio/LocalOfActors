@@ -12,13 +12,15 @@ public class BarMap extends Map {
     private int totalPeople;
     private int maxLocalPeople;
     private int gameSpeed;
+    private int maxBarrelValue;
 
-    public BarMap(int totalPeople, int maxLocalPeople, int gameSpeed) {
+    public BarMap(int totalPeople, int maxLocalPeople, int gameSpeed, int maxBarrelValue) {
         setMapSize(new Dimension(1500, 1029));
 
         this.totalPeople = totalPeople;
         this.maxLocalPeople = maxLocalPeople;
         this.gameSpeed = gameSpeed;
+        this.maxBarrelValue = maxBarrelValue;
 
         Sprite background = new Sprite("local.jpg");
         addComponent(background, getMapCenter(), -10);
@@ -65,5 +67,9 @@ public class BarMap extends Map {
 
     public int getGameSpeed() {
         return gameSpeed;
+    }
+
+    public int getMaxBarrelValue() {
+        return maxBarrelValue;
     }
 }

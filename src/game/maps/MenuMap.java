@@ -85,6 +85,19 @@ public class MenuMap extends Map {
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.EAST;
 		bottomMenu.add(gameSpeed, gbc);
+
+		JLabel text4 = new JLabel("Capienza in litri delle botti di vino:");
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.anchor = GridBagConstraints.WEST;
+		bottomMenu.add(text4, gbc);
+
+		JSpinner maxBarrelValue = new JSpinner();
+		maxBarrelValue.setValue(100);
+		gbc.gridx = 2;
+		gbc.gridy = 3;
+		gbc.anchor = GridBagConstraints.EAST;
+		bottomMenu.add(maxBarrelValue, gbc);
 		
 		
 		Dimension prefSize = bottomMenu.getPreferredSize();
@@ -97,7 +110,7 @@ public class MenuMap extends Map {
 			public void actionPerformed(ActionEvent e) {
 				JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
 				int speed = (int)gameSpeed.getValue();
-				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue(), speed > 0 ? speed : 1));
+				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue(), speed > 0 ? speed : 1, (int)maxBarrelValue.getValue() * 1000));
 				currentFrame.dispose();
 			}
 		});
