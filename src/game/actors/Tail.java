@@ -124,7 +124,8 @@ public abstract class Tail extends Actor {
      * Azione chiamata da {@link Customer#entryLocalLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
      * {@link Customer#entryCounterLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
      * {@link Customer#entryCashdeskLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement}.
-     * Quando arriva un {@code Customer}, imposta la variabile {@link #modifyEnabled} vera se la coda non &egrave; vuota e se il {@code Customer}
+     *
+     * <p>Quando arriva un {@code Customer}, imposta la variabile {@link #modifyEnabled} vera se la coda non &egrave; vuota e se il {@code Customer}
      * &egrave; il primo in coda
      *
      * @param customer {@code Customer} da controllare che sia il primo in coda
