@@ -129,7 +129,7 @@ public class MenuMap extends Map {
 		startGame.addActionListener((e) -> {
 			JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
 
-			new Window(new BarMap((int)customersTotModel.getValue(), (int)maxLocalCustumersModel.getValue(), (int)gameSpeedModel.getValue(), (int)maxBarrelValueModel.getValue(), renderQuality.getSelectedItem().toString()));
+			new Window(new BarMap((int)customersTotModel.getValue(), (int)maxLocalCustumersModel.getValue(), (int)gameSpeedModel.getValue(), (int)maxBarrelValueModel.getValue()*1000, renderQuality.getSelectedItem().toString()));
 			currentFrame.dispose();
 		});
 	}
