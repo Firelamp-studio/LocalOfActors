@@ -85,7 +85,7 @@ public class EntryDoor extends Actor {
 
     @ActionCallable(name = "customer-exit")
     public void customerExit(Customer customer) {
-        customer.moveTo(new Vector(165, 1200), "destroy-customer-on-exit");
+        customer.moveTo(new Vector(165, 1000), "destroy-customer-on-exit");
         numPeopleInside--;
         setRotation(90);
         new TimerAction(120 * map.getGameSpeed(), this, "close-door").execute();

@@ -201,13 +201,13 @@ public class Customer extends Pawn {
     @ActionCallable(name = "exit")
     private void exit() {
         customerInfo.setIntention("Me ne vado");
+        customerInfo.setVisible(true);
         moveTo(entryDoor.getLocation().add(new Vector(-30, -50)), "open-door-and-exit");
     }
 
     @ActionCallable(name = "open-door-and-exit")
     public void opernDoorAndEntry(){
         actionCall(entryDoor, "customer-exit", this);
-        customerInfo.setVisible(true);
     }
 
     @ActionCallable(name = "destroy-customer-on-exit")

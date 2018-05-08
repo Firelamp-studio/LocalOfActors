@@ -15,7 +15,7 @@ public class BarMap extends Map {
     private int maxBarrelValue;
 
     public BarMap(int totalPeople, int maxLocalPeople, int gameSpeed, int maxBarrelValue) {
-        setMapSize(new Dimension(1500, 1029));
+        setMapSize(new Dimension(1500, 864));
 
         this.totalPeople = totalPeople;
         this.maxLocalPeople = maxLocalPeople;
