@@ -45,13 +45,16 @@ public class MenuMap extends Map {
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.WEST;
 		bottomMenu.add(text1, gbc);
-		
-		JSpinner custumersTot = new JSpinner();
-		custumersTot.setValue(100);
+
+		SpinnerNumberModel customersTotModel = new SpinnerNumberModel();
+		customersTotModel.setMinimum(1);
+		customersTotModel.setValue(100);
+		JSpinner customersTotSpinner = new JSpinner(customersTotModel);
+		customersTotSpinner.setPreferredSize(new Dimension(50, customersTotSpinner.getPreferredSize().height));
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.EAST;
-		bottomMenu.add(custumersTot, gbc);
+		bottomMenu.add(customersTotSpinner, gbc);
 
 		JLabel text2 = new JLabel("Massimo numero di persone che possono stare dentro al locale:");
 		gbc.gridx = 0;
@@ -59,25 +62,32 @@ public class MenuMap extends Map {
 		gbc.anchor = GridBagConstraints.WEST;
 		bottomMenu.add(text2, gbc);
 
-		JSpinner maxLocalCustumers = new JSpinner();
-		maxLocalCustumers.setValue(30);
+		SpinnerNumberModel maxLocalCustumersModel = new SpinnerNumberModel();
+		maxLocalCustumersModel.setMinimum(1);
+		maxLocalCustumersModel.setValue(30);
+		JSpinner maxLocalCustumersSpinner = new JSpinner(maxLocalCustumersModel);
+		maxLocalCustumersSpinner.setPreferredSize(new Dimension(50, customersTotSpinner.getPreferredSize().height));
 		gbc.gridx = 2;
 		gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.EAST;
-		bottomMenu.add(maxLocalCustumers, gbc);
+		bottomMenu.add(maxLocalCustumersSpinner, gbc);
 
-		JLabel text3 = new JLabel("Incremento rallentamento velocità serata:");
+		JLabel text3 = new JLabel("Incremento del rallentamento della velocità della serata:");
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.WEST;
 		bottomMenu.add(text3, gbc);
 
-		JSpinner gameSpeed = new JSpinner();
-		gameSpeed.setValue(3);
+		SpinnerNumberModel gameSpeedModel = new SpinnerNumberModel();
+		gameSpeedModel.setMinimum(1);
+		gameSpeedModel.setMaximum(20);
+		gameSpeedModel.setValue(3);
+		JSpinner gameSpeedSpinner = new JSpinner(gameSpeedModel);
+		gameSpeedSpinner.setPreferredSize(new Dimension(50, customersTotSpinner.getPreferredSize().height));
 		gbc.gridx = 2;
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.EAST;
-		bottomMenu.add(gameSpeed, gbc);
+		bottomMenu.add(gameSpeedSpinner, gbc);
 
 		JLabel text4 = new JLabel("Capienza in litri delle botti di vino:");
 		gbc.gridx = 0;
@@ -85,12 +95,15 @@ public class MenuMap extends Map {
 		gbc.anchor = GridBagConstraints.WEST;
 		bottomMenu.add(text4, gbc);
 
-		JSpinner maxBarrelValue = new JSpinner();
-		maxBarrelValue.setValue(100);
+		SpinnerNumberModel maxBarrelValueModel = new SpinnerNumberModel();
+		maxBarrelValueModel.setMinimum(1);
+		maxBarrelValueModel.setValue(100);
+		JSpinner maxBarrelValueSpinner = new JSpinner(maxBarrelValueModel);
+		maxBarrelValueSpinner.setPreferredSize(new Dimension(50, customersTotSpinner.getPreferredSize().height));
 		gbc.gridx = 2;
 		gbc.gridy = 3;
 		gbc.anchor = GridBagConstraints.EAST;
-		bottomMenu.add(maxBarrelValue, gbc);
+		bottomMenu.add(maxBarrelValueSpinner, gbc);
 
 		JLabel text5 = new JLabel("Qualità del rendering delle immagini in movimento:");
 		gbc.gridx = 0;
@@ -99,7 +112,6 @@ public class MenuMap extends Map {
 		bottomMenu.add(text5, gbc);
 
 		JComboBox<String> renderQuality = new JComboBox<>();
-		maxBarrelValue.setValue(100);
 		gbc.ipady = 2;
 		gbc.gridx = 2;
 		gbc.gridy = 4;
@@ -114,14 +126,11 @@ public class MenuMap extends Map {
 		
 		
 		
-		startGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
-				int speed = (int)gameSpeed.getValue();
-				new Window(new BarMap((int)custumersTot.getValue(), (int)maxLocalCustumers.getValue(), speed > 0 ? speed : 1, (int)maxBarrelValue.getValue() * 1000, renderQuality.getSelectedItem().toString()));
-				currentFrame.dispose();
-			}
+		startGame.addActionListener((e) -> {
+			JFrame currentFrame = (JFrame)JFrame.getFrames()[0];
+
+			new Window(new BarMap((int)customersTotModel.getValue(), (int)maxLocalCustumersModel.getValue(), (int)gameSpeedModel.getValue(), (int)maxBarrelValueModel.getValue(), renderQuality.getSelectedItem().toString()));
+			currentFrame.dispose();
 		});
 	}
 }
