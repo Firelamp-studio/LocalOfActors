@@ -43,11 +43,8 @@ public class TimerAction implements Runnable {
     public void execute(Object... args) {
         this.args = args;
         if (actionName != null && !actionName.isEmpty()) {
-            if(timerThread != null){
-                if(timerThread.isAlive())
-                    timerThread.interrupt();
-                timerThread = null;
-            }
+            if(timerThread != null && timerThread.isAlive())
+                timerThread.interrupt();
 
             timerThread = new Thread(this);
             timerThread.start();
@@ -80,7 +77,7 @@ public class TimerAction implements Runnable {
             } catch (InterruptedException e) {
                 return;
             }
-        } while (timerThread!= null && loop && timerThread.isAlive());
+        } while (loop && timerThread.isAlive());
     }
 
     public boolean getKillRequested(){
