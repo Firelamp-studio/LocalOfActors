@@ -33,8 +33,8 @@ public class Owner extends Pawn {
         setRotation(180);
         startPosition = new Vector(getLocation());
 
-        if (getMap() instanceof BarMap){
-            map = (BarMap) getMap();
+        if (getAreaMap() instanceof BarMap){
+            map = (BarMap) getAreaMap();
         }
     }
 

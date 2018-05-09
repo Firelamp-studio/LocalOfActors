@@ -7,20 +7,20 @@ import api.layouts.CenterGridLayout;
 import java.awt.*;
 
 public class Window {
-    private Map map;
+    private AreaMap areaMap;
     private JFrame mapFrame;
     
 
-    public Window(Map map){
-        this.map = map;
+    public Window(AreaMap areaMap){
+        this.areaMap = areaMap;
         
         mapFrame = new JFrame("Enoteca");
 
         mapFrame.getContentPane().setLayout(new CenterGridLayout());
         
-        mapFrame.getContentPane().add(map.getViewArea());
+        mapFrame.getContentPane().add(areaMap.getViewArea());
         mapFrame.getContentPane().setBackground(Color.BLACK);
-        mapFrame.setSize(map.getMapSize());
+        mapFrame.setSize(areaMap.getMapSize());
         
         mapFrame.setLocationRelativeTo(null);
         mapFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

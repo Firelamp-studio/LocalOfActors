@@ -371,11 +371,11 @@ public abstract class Actor extends Element implements Runnable, EventManager {
         setTickStopped(true);
 
         getSprite().setVisible(false);
-        getMap().getViewArea().remove(getSprite());
+        getAreaMap().getViewArea().remove(getSprite());
 
         for(JComponent comp : getAttachedComps()){
             comp.setVisible(false);
-            getMap().getViewArea().remove(comp);
+            getAreaMap().getViewArea().remove(comp);
             comp = null;
         }
     }

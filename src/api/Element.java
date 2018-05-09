@@ -9,38 +9,73 @@ import javax.swing.JComponent;
 import api.components.Sprite;
 import api.utility.Vector;
 
+/**
+ * Classe principale che identifica la base di qualunque oggetto interagibile inseribile in una {@link AreaMap}.
+ * <p>Oggetto posizionabile con un'immagine {@link Sprite}, interagibile tramite mouse, e posizionabile.
+ * <p>&Egrave; inoltre possibile attaccare ad un {@code Element} qualunque {@code JComponent} sincronizzando cos&igrave; la posizione.
+ *
+ * @see AreaMap
+ * @see Sprite
+ * @see Vector
+ * @author Simone Russo
+ */
 public class Element implements MouseListener {
-    private Vector location;
-    private Sprite sprite;
-    private HashMap<JComponent, Vector> attachedComps;
-    private Map map;
 
+    /**
+     * La posizione nell'{@link AreaMap} in cui è stato aggiunto l'{@code Element}
+     */
+    private Vector location;
+
+    /**
+     * Immagine posizionabile e ruotabile dell'{@code Element}
+     */
+    private Sprite sprite;
+
+    /**
+     * Lista contenente tutti i {@code JComponent} relativi attaccati
+     */
+    private HashMap<JComponent, Vector> attachedComps;
+
+    /**
+     * l'{@link AreaMap} in cui è stato inserito l'{@code Element}
+     */
+    private AreaMap areaMap;
+
+    /**
+     * Costruisce un {@code Element} basandosi sull'imagine da associare alla {@link Sprite} e la scala da applicare ad essa.
+     * @param filename nome di un'immagine nella cartella {@code assets/textures/} da associare alla {@link Sprite}
+     * @param scale la scala da applicare alla {@link Sprite} associata all'{@code Element}
+     */
 	public Element(String filename, double scale) {
 		attachedComps = new HashMap<>();
 		sprite = new Sprite(filename, scale);
 		location = new Vector();
 	}
 
+    /**
+     * Costruisce un {@code Element} basandosi sull'imagine da associare alla {@link Sprite} e non applicando nessuna scala.
+     * @param filename nome di un'immagine nella cartella {@code assets/textures/} da associare alla {@link Sprite}
+     */
 	public Element(String filename) {
 		this(filename, 1);
 	}
 
-	public void Element(String filename) {
-		attachedComps = new HashMap<>();
-		sprite = new Sprite(filename);
-		location = new Vector();
-	}
-
+    /**
+     * Costruisce un {@code Element} di default con una {@link Sprite} nulla.
+     */
 	public Element() {
-		attachedComps = new HashMap<>();
-		sprite = new Sprite(null);
-		location = new Vector();
+		this(null);
 	}
 
+    /**
+     * Imposta la position dell'{@code Element}
+     * @param location posizione nell'{@link AreaMap}.
+     */
     public void setLocation(Vector location){
     	setLocation(location.x, location.y);
     }
-    
+
+
     private void updateSyncedComponentsLocation(int x, int y) {
     	attachedComps.forEach((comp, loc) -> {
     		comp.setLocation(loc.toPoint());
@@ -88,17 +123,17 @@ public class Element implements MouseListener {
 		sprite.addMouseListener(this);
 	}
 
-	public Map getMap() {
-		return map;
+	public AreaMap getAreaMap() {
+		return areaMap;
 	}
 
-	public void setMap(Map map) {
-		this.map = map;
+	public void setAreaMap(AreaMap areaMap) {
+		this.areaMap = areaMap;
 	}
     
 	public void addRelativeComponent(JComponent component, Vector relative, int zindex) {
 		attachRelativeComponent(component, relative);
-		map.addComponent(component, location.add(relative), zindex);
+		areaMap.addComponent(component, location.add(relative), zindex);
 	}
 	
 	public void addRelativeComponent(JComponent component, Vector relative) {

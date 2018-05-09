@@ -17,7 +17,7 @@ public class SitGroup extends Actor {
         super.beginPlay();
         for (int i = 0; i < armchairs.length; i++){
             armchairs[i] = new Armchair();
-            getMap().addElement(armchairs[i], getLocation().add(new Vector(100 * i, 0)));
+            getAreaMap().addElement(armchairs[i], getLocation().add(new Vector(100 * i, 0)));
         }
     }
 

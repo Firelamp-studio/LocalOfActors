@@ -18,8 +18,8 @@ public abstract class Pawn extends Actor {
 		super.beginPlay();
 
 		long delay = 4;
-		if(getMap() instanceof BarMap)
-			delay = ((BarMap)getMap()).getGameSpeed();
+		if(getAreaMap() instanceof BarMap)
+			delay = ((BarMap) getAreaMap()).getGameSpeed();
 
 		moveTimer = new TimerAction(true, delay, this, "pawn-walking-loop");
 	}

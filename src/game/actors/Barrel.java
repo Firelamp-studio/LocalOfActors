@@ -39,8 +39,8 @@ public class Barrel extends Actor {
         super.beginPlay();
 
         capacity = 100000;
-        if (getMap() instanceof BarMap){
-            capacity = ((BarMap)getMap()).getMaxBarrelValue();
+        if (getAreaMap() instanceof BarMap){
+            capacity = ((BarMap) getAreaMap()).getMaxBarrelValue();
         }
 
         mlWine.set(capacity);

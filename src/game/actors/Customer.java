@@ -3,7 +3,6 @@ package game.actors;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import api.Actor;
 import api.Pawn;
 import api.annotations.ActionCallable;
 import api.annotations.ActionResponse;
@@ -185,8 +184,8 @@ public class Customer extends Pawn {
         setRotation(0);
 
         long delay = 1000;
-        if (getMap() instanceof BarMap){
-            delay = ((BarMap)getMap()).getGameSpeed() * 100;
+        if (getAreaMap() instanceof BarMap){
+            delay = ((BarMap) getAreaMap()).getGameSpeed() * 100;
         }
         new TimerAction( (long) (Math.random() * delay*4 + delay*2), this, "wait-on-sit").execute(index);
     }

@@ -1,18 +1,16 @@
 package game.maps;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import api.Map;
+import api.AreaMap;
 import api.Window;
 import api.components.Sprite;
 import api.utility.Vector;
 
-public class MenuMap extends Map {
+public class MenuMap extends AreaMap {
 	
 	public MenuMap() {
 		setMapSize(new Dimension(1500, 900));

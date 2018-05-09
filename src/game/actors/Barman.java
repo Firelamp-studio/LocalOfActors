@@ -7,8 +7,6 @@ import api.utility.TimerAction;
 import api.utility.Vector;
 import game.maps.BarMap;
 
-import java.sql.Time;
-
 public class Barman extends Pawn {
     private boolean free;
     private Vector startPosition;
@@ -34,8 +32,8 @@ public class Barman extends Pawn {
         startPosition = new Vector(getLocation());
 
         long delay = 500;
-        if (getMap() instanceof BarMap){
-            delay = ((BarMap)getMap()).getGameSpeed() * 250;
+        if (getAreaMap() instanceof BarMap){
+            delay = ((BarMap) getAreaMap()).getGameSpeed() * 250;
         }
         spillDelay = delay;
     }

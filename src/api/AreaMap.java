@@ -5,12 +5,12 @@ import api.utility.Vector;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Map {
+public abstract class AreaMap {
 	private JLayeredPane viewArea;
     private Vector mapSize;
 	private Object renderQuality;
 
-    public Map(){
+    public AreaMap(){
     	this.mapSize = new Vector();
     	viewArea = new JLayeredPane();
     	viewArea.setLayout(null);
@@ -58,7 +58,7 @@ public abstract class Map {
 			addComponent(element.getSprite(), location, zindex);
 	        element.setLocation(location);
 		}
-		element.setMap(this);
+		element.setAreaMap(this);
     }
 	
 	public void addElement(Element element, Vector location) {

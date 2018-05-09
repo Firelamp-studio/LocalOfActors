@@ -35,8 +35,8 @@ public class EntryDoor extends Actor {
     @Override
     protected void beginPlay() {
         super.beginPlay();
-        if (getMap() instanceof BarMap){
-            map = (BarMap) getMap();
+        if (getAreaMap() instanceof BarMap){
+            map = (BarMap) getAreaMap();
             enteredPeople = map.getTotalPeople();
         }
         timerSpawnCustomer = new TimerAction(true, 250 *  map.getGameSpeed() , this, "spawn-customer-iterator" );
@@ -91,7 +91,7 @@ public class EntryDoor extends Actor {
         new TimerAction(120 * map.getGameSpeed(), this, "close-door").execute();
 
         if(numPeopleInside <= 0){
-            getMap().addComponent(new EndCard(owner.getRecessed()), getMap().getMapCenter(), 100);
+            getAreaMap().addComponent(new EndCard(owner.getRecessed()), getAreaMap().getMapCenter(), 100);
         }
     }
 

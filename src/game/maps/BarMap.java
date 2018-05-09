@@ -3,11 +3,11 @@ package game.maps;
 import java.awt.*;
 
 import api.components.Sprite;
-import api.Map;
+import api.AreaMap;
 import api.utility.Vector;
 import game.actors.*;
 
-public class BarMap extends Map {
+public class BarMap extends AreaMap {
 
     private int totalPeople;
     private int maxLocalPeople;
