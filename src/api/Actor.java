@@ -51,7 +51,7 @@ import java.util.*;
  * <p>&Egrave; facile notare come questo paradigma sia molto pi&ugrave; semplice da comprendere rispetto al classico
  * sistema a {@code Thread}, che necessita la comprensione del funzionamento a basso livello della macchina, l'utilizzo
  * di strumenti come semafori, monitor... per evitare la concorrenza. L'{@code Actor} offre un modo di ragionare molto pi&ugrave;
- * simile alla realt&agrave; semplificando, migliorando e rendendo più comprensibile il lavoro.
+ * simile alla realt&agrave; semplificando, migliorando il lavoro e rendendo il codice pi&ugrave; comprensibile e ovvio.
  *
  * @author Simone Russo
  * @see ActionCallable
