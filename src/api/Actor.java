@@ -11,6 +11,58 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+/**
+ *
+ * La classe {@code Actor} &egrave; la base di questa libreria,
+ * estenderla permette di creare oggetti che possono essere eseguiti parallelamente ad altri evitando tutti i
+ * problemi legati alla simultaneit&agrave; dei processi.
+ *
+ * <p>Facendo un paragone con la normale programmazione concorrente in Java, sono come dei {@code Thread} che per&ograve;
+ * non generano problemi di concorrenza.
+ *
+ * <p>In realt&agrave; un {@code Actor} contiene al suo interno un {@code Thread} ma non ci permette di utilizzarlo direttamente.
+ *
+ * <p>L'{@code Actor}, concettualmente, rappresenta l'attore di una scena. Noi, infatti, non possiamo ascoltare
+ * contemporaneamente pi&ugrave; persone, non possiamo formulare pi&ugrave; frasi contemporaneamente...
+ * possiamo invece interagire con esse prestando la dovuta attenzione e, una ad
+ * una, rispondere e, nel frattempo, fare qualunque altra cosa che per&ograve; non riguardi la comunicazione come:
+ * grattarci, osservarci attorno, ragionare...
+ *
+ * <p>Questo "comunicare" con altri "attori" &egrave;, all'atto pratico, una {@link ActionCallable}, ovvero una azione chiamabile
+ * <i>(annotazione da inserire prima della dichiarazione di un metodo)</i>.
+ *
+ * <p>All'interno della classe si posso definire delle {@link ActionCallable}, ovvero delle azioni che il nostro attore sa
+ * svolgere e che gli altri attori possono richiamare.
+ *
+ * <p>Fino a qu&agrave; niente di strano, il fatto &egrave; che un'{@link ActionCallable} &egrave; per&ograve; un'
+ * {@code Azione} che viene chiamata da qualcun'altro; chiamata proprio come intendevamo prima, ovvero che necessita di
+ * un dialogo fra due o pi&ugrave; attori.
+ *
+ * <strong>Facciamo un esempio:</strong>
+ * <p>Se sia Marco che Alessia mi chiedono di prestargli una bottiglietta d'acqua (e ne ho per&ograve; una),
+ * non potr&ograve; accontentarli tutte e due nello stesso istante ma dovr&ograve; prima prestarla ad uno e poi all'altra.
+ * Ecco che questa sarebbe una classica {@link ActionCallable}, ed &egrave; proprio grazie a loro che l'{@code Actor} evita
+ * la concorrenza; le {@code ActionCallable} vengono infatti chiamate una per volta, ache se due {@code Actor} hanno
+ * effettuato la richiesta in contemporanea.
+ *
+ * <p>La chiamata di una {@link ActionCallable} non mi impedir&agrave; nel frattempo di fare qualunque altra cosa.
+ * (tranne di rispondere ad un'altra chiamata d'azione ,<i>{@link #actionCall(Actor, String, Object...) actionCall()}</i>, ovviamente).
+ *
+ * <p>&Egrave; facile notare come questo paradigma sia molto pi&ugrave; semplice da comprendere rispetto al classico
+ * sistema a {@code Thread}, che necessita la comprensione del funzionamento a basso livello della macchina, l'utilizzo
+ * di strumenti come semafori, monitor... per evitare la concorrenza. L'{@code Actor} offre un modo di ragionare molto pi&ugrave;
+ * simile alla realt&agrave; semplificando, migliorando e rendendo più comprensibile il lavoro.
+ *
+ * @author Simone Russo
+ * @see ActionCallable
+ * @see ActionResponse
+ * @see BindableEvent
+ * @see AsyncMethod
+ * @see EventManager
+ * @see EventManagerTool
+ * @see Element
+ * @see Pawn
+ */
 public abstract class Actor extends Element implements Runnable, EventManager {
 
     // Action class for concurrency
