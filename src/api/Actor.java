@@ -45,8 +45,10 @@ import java.util.*;
  * la concorrenza; le {@code ActionCallable} vengono infatti chiamate una per volta, ache se due {@code Actor} hanno
  * effettuato la richiesta in contemporanea.
  *
- * <p>La chiamata di una {@link ActionCallable} non mi impedir&agrave; nel frattempo di fare qualunque altra cosa.
+ * <p>La chiamata di una {@link ActionCallable} non mi impedir&agrave; nel frattempo di fare qualunque altra cosa
  * (tranne di rispondere ad un'altra chiamata d'azione ,<i>{@link #actionCall(Actor, String, Object...) actionCall()}</i>, ovviamente).
+ *
+ * <p>...
  *
  * <p>&Egrave; facile notare come questo paradigma sia molto pi&ugrave; semplice da comprendere rispetto al classico
  * sistema a {@code Thread}, che necessita la comprensione del funzionamento a basso livello della macchina, l'utilizzo
