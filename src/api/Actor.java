@@ -36,7 +36,7 @@ import java.util.*;
  *
  * <p>Fino a qu&agrave; niente di strano, il fatto &egrave; che un'{@link ActionCallable} &egrave; per&ograve; un'
  * {@code Azione} che viene chiamata da qualcun'altro; chiamata proprio come intendevamo prima, ovvero che necessita di
- * un dialogo fra due o pi&ugrave; attori.
+ * un dialogo fra due o pi&ugrave; attori.<br>
  *
  * <strong>Facciamo un esempio:</strong>
  * <p>Se sia Marco che Alessia mi chiedono di prestargli una bottiglietta d'acqua (e ne ho per&ograve; una),
@@ -48,7 +48,50 @@ import java.util.*;
  * <p>La chiamata di una {@link ActionCallable} non mi impedir&agrave; nel frattempo di fare qualunque altra cosa
  * (tranne di rispondere ad un'altra chiamata d'azione ,<i>{@link #actionCall(Actor, String, Object...) actionCall()}</i>, ovviamente).
  *
- * <p>...
+ * <p>Definire una {@code azione chiamabile} &egrave; molto semplice, ci basta inserire
+ * {@code @ActionCallable(name = "[nome_da_dare_all'azione]")} prima di definire un metodo:
+ *
+ *     <pre>
+ *         public class Person extends Actor {
+ *              private boolean hasBottle;
+ *
+ *              public Person ( boolean hasBottle ){
+ *                  this.hasBottle = hasBottle;
+ *              }
+ *
+ *              &#064;ActionCallable(name = "passa-bottiglia")
+ *              public void passaBottiglia(){
+ *                  if(hasBottle = true){
+ *                      hasBottle = false;
+ *                      return hasBottle;
+ *                  }
+ *                  return false;
+ *              }
+ *
+ *              &#064;ActionResponse(name = "passa-bottiglia")
+ *              public void ottieniBottiglia(boolean bottle){
+ *                  hasBottle = bottle;
+ *              }
+ *
+ *              public void obtainBottleFrom(Person person){
+ *                  actionCall(person, "passa-bottiglia");
+ *              }
+ *         }
+ *
+ *         public class Main {
+ *             public static void main(String[] args){
+ *                  Person p1 = new Person(true);
+ *                  Person p2 = new Person(false);
+ *                  Person p3 = new Person(false);
+ *
+ *                  p2.obtainBottleFrom(p1); //Otterr&agrave; la bottiglia.
+ *                  p3.obtainBottleFrom(p1); //Non otterr&agrave; la bottiglia.
+ *             }
+ *         }
+ *     </pre>
+ *
+ * <p>Una {@code azione} pu&ograve; anche ottenere una risposta, che verr&agrave; eseguita dopo che quella chiamata avr&agrave;
+ * completato la sua esecuzione.
  *
  * <p>&Egrave; facile notare come questo paradigma sia molto pi&ugrave; semplice da comprendere rispetto al classico
  * sistema a {@code Thread}, che necessita la comprensione del funzionamento a basso livello della macchina, l'utilizzo
@@ -114,7 +157,6 @@ public abstract class Actor extends Element implements Runnable, EventManager {
         actionCallsToNotify = Collections.synchronizedList(new LinkedList<Action>());
         
         eventManagerTool = new EventManagerTool(this);
-
 
         for (Method method : getClass().getMethods()) {
 

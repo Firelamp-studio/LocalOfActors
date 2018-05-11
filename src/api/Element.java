@@ -20,7 +20,7 @@ import api.utility.Vector;
  * @see JComponent
  * @author Simone Russo
  */
-public class Element implements MouseListener {
+public abstract class Element implements MouseListener {
 
     /**
      * La posizione nell'{@link AreaMap} in cui &egrave; stato aggiunto l'{@code Element}.
