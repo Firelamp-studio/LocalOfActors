@@ -4,6 +4,7 @@ import api.annotations.*;
 import api.managers.EventManager;
 import api.managers.EventManagerTool;
 
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,7 +39,7 @@ import java.util.*;
  * {@code Azione} che viene chiamata da qualcun'altro; chiamata proprio come intendevamo prima, ovvero che necessita di
  * un dialogo fra due o pi&ugrave; attori.<br>
  *
- * <strong>Facciamo un esempio:</strong>
+ * <i>Facciamo un esempio:</i>
  * <p>Se sia Marco che Alessia mi chiedono di prestargli una bottiglietta d'acqua (e ne ho per&ograve; una),
  * non potr&ograve; accontentarli tutte e due nello stesso istante ma dovr&ograve; prima prestarla ad uno e poi all'altra.
  * Ecco che questa sarebbe una classica {@link ActionCallable}, ed &egrave; proprio grazie a loro che l'{@code Actor} evita
@@ -48,8 +49,52 @@ import java.util.*;
  * <p>La chiamata di una {@link ActionCallable} non mi impedir&agrave; nel frattempo di fare qualunque altra cosa
  * (tranne di rispondere ad un'altra chiamata d'azione ,<i>{@link #actionCall(Actor, String, Object...) actionCall()}</i>, ovviamente).
  *
- * <p>Definire una {@code azione chiamabile} &egrave; molto semplice, ci basta inserire
- * {@code @ActionCallable(name = "[nome_da_dare_all'azione]")} prima di definire un metodo:
+ * <p>Definire una {@code azione chiamabile} &egrave; molto semplice, basta inserire
+ * {@code @ActionCallable(name = "[nome_da_dare_all'azione]")} prima di definire un metodo.
+ *
+ * <p>Prima di portare l'esempio della bottiglia, facciamone uno pi&ugrave; semplice:<br>
+ *     Marco deve saltare ogni volta che qualcuno glielo chiede;
+ *     Alessia e Andrea effettuano la richiesta in contemporanea.
+ *     Vediamo come scrivere questo programmino utilizzando gli {@code Actor}.
+ *     <br><strong>Esempio:</strong>
+ *
+ *     <pre>
+ *         public class Person extends Actor {
+ *
+ *              &#064;ActionCallable(name = "salta")
+ *              public void salta(){
+ *                  System.out.println("Salto!");
+ *              }
+ *
+ *              public void sayToJump(Person person){
+ *                  actionCall(person, "salta");
+ *              }
+ *         }
+ *
+ *         public class Main {
+ *             public static void main(String[] args){
+ *                  Person marco = new Person();
+ *                  Person alessia = new Person();
+ *                  Person andrea = new Person();
+ *
+ *                  alessia.sayToJump(marco); //Dice a Marco di saltare.
+ *                  andrea.sayToJump(marco); //Dice a Marco di saltare.
+ *
+ *                  // Marco salter&agrave; appena potr&agrave;.
+ *             }
+ *         }
+ *     </pre>
+ *
+ * <p>Una {@code azione} pu&ograve; anche ottenere una risposta ({@link ActionResponse}), che verr&agrave; eseguita
+ * dopo che quella chiamata avr&agrave; completato la sua esecuzione.
+ *
+ * <p>Una {@code azione di risposta} si definisce cos&igrave;:<br>
+ * {@code @ActionResponse(name = "[nome_data_all'azione_che_risponder&agrave;]")} prima di definire un metodo.
+ *
+ * <p>In una {@link ActionResponse} si pu&ograve; inserire, volendo, un <strong>solo</strong> parametro, esso
+ * otterr&agrave; il valore di ritorno della {@code Azione} chiamata.
+ *
+ * <br><strong>Esempio:</strong>
  *
  *     <pre>
  *         public class Person extends Actor {
@@ -59,22 +104,27 @@ import java.util.*;
  *                  this.hasBottle = hasBottle;
  *              }
  *
- *              &#064;ActionCallable(name = "passa-bottiglia")
- *              public void passaBottiglia(){
- *                  if(hasBottle = true){
+ *              &#064;ActionCallable(name = "chiedi-usa-bottiglia")
+ *              public boolean usaBottigliaPoiRestituisci(){
+ *                  if(hasBottle){
+ *                      System.out.println("Bevo dalla bottiglia in prestito!");
  *                      hasBottle = false;
- *                      return hasBottle;
+ *                      return true;
  *                  }
  *                  return false;
  *              }
  *
- *              &#064;ActionResponse(name = "passa-bottiglia")
+ *              &#064;ActionResponse(name = "chiedi-usa-bottiglia")
  *              public void ottieniBottiglia(boolean bottle){
- *                  hasBottle = bottle;
+ *                  if(bottle){
+ *                      System.out.println("Sono riuscito a bere dalla bottiglia prestata!);
+ *                  } else {
+ *                      System.out.println("Purtroppo la persona a cui ho chiesto non aveva bottiglie!);
+ *                  }
  *              }
  *
  *              public void obtainBottleFrom(Person person){
- *                  actionCall(person, "passa-bottiglia");
+ *                  actionCall(person, "chiedi-usa-bottiglia");
  *              }
  *         }
  *
@@ -90,8 +140,73 @@ import java.util.*;
  *         }
  *     </pre>
  *
- * <p>Una {@code azione} pu&ograve; anche ottenere una risposta, che verr&agrave; eseguita dopo che quella chiamata avr&agrave;
- * completato la sua esecuzione.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *     <pre>
+ *         public class Person extends Actor {
+ *              private boolean hasBottle;
+ *
+ *              public Person ( boolean hasBottle ){
+ *                  this.hasBottle = hasBottle;
+ *              }
+ *
+ *              &#064;ActionCallable(name = "chiedi-usa-bottiglia")
+ *              public boolean usaBottigliaPoiRestituisci(){
+ *                  if(hasBottle){
+ *                      System.out.println("Bevo dalla bottiglia in prestito!");
+ *                      hasBottle = false;
+ *                      return true;
+ *                  }
+ *                  return false;
+ *              }
+ *
+ *              &#064;ActionResponse(name = "chiedi-usa-bottiglia")
+ *              public void ottieniBottiglia(boolean bottle){
+ *                  if(bottle){
+ *                      System.out.println("Sono riuscito a bere dalla bottiglia prestata!);
+ *                  } else {
+ *                      System.out.println("Purtroppo la persona a cui ho chiesto non aveva bottiglie!);
+ *                  }
+ *              }
+ *
+ *              public void obtainBottleFrom(Person person){
+ *                  actionCall(person, "chiedi-usa-bottiglia");
+ *              }
+ *         }
+ *
+ *         public class Main {
+ *             public static void main(String[] args){
+ *                  Person p1 = new Person(true);
+ *                  Person p2 = new Person(false);
+ *                  Person p3 = new Person(false);
+ *
+ *                  p2.obtainBottleFrom(p1); //Otterr&agrave; la bottiglia.
+ *                  p3.obtainBottleFrom(p1); //Non otterr&agrave; la bottiglia.
+ *             }
+ *         }
+ *     </pre>
+ *
+ * <p>In fine esiste la possibilit&agrave; di effetuare una chiamata d'azione che verr&agrave; per&ograve; eseguita
+ * soltanto quando il ricevente vorr&agrave;.
+ *
+ * <p>Questo si pu&ugrave; effetuare tramite {@link #actionCallOnNotify(Actor, String, Object...) actionCallOnNotify()}.
  *
  * <p>&Egrave; facile notare come questo paradigma sia molto pi&ugrave; semplice da comprendere rispetto al classico
  * sistema a {@code Thread}, che necessita la comprensione del funzionamento a basso livello della macchina, l'utilizzo
@@ -326,6 +441,8 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
             if(actionName.equals(actionCallable.name()) && method.getParameterCount() == args.length){
                 actorToCall.actionCalls.add( new Action(actionName, method, args,null) );
+            } else {
+                // Compile time error
             }
         }
     }
