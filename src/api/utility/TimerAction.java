@@ -102,7 +102,7 @@ public class TimerAction implements Runnable {
             } catch (InterruptedException e) {
                 return;
             }
-        } while (loop && timerThread.isAlive());
+        } while (loop && timerThread.isAlive() && !killRequested);
     }
 
     /**
