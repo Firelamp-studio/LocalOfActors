@@ -3,6 +3,13 @@ package api.utility;
 import java.awt.Dimension;
 import java.awt.Point;
 
+/**
+ * Rappresenta una coordinata su un piano bidimensionale.
+ *
+ * <p>Contiene tutti i metodi necessari per lavorare con coordinate bidimensionali.
+ *
+ * @author Simone Russo
+ */
 public class Vector {
     public int x;
     public int y;
@@ -66,7 +73,13 @@ public class Vector {
     	
     	return new Vector(ax, ay);
     }
-    
+
+    /**
+     * Controlla se questo vettore &egrave; dentro un area definita fra due punti.
+     * @param start Primo punto di confine.
+     * @param end secondo punto di confine.
+     * @return true se &egrave; dentro l'area evidenziata, false in caso contrario.
+     */
     public boolean isInsideArea(Vector start, Vector end) {
     	boolean isInsideX = x > start.x && x < end.x;
     	boolean isInsideY = y > start.y && y < end.y;
@@ -77,7 +90,10 @@ public class Vector {
     	
     	return false;
     }
-    
+
+    /**
+     * Verifica se l'oggetto passato per parametro &egrave; un vettore e se ha le stesse coordinate questo.
+     */
     @Override
     public boolean equals(Object obj) {
     	if(obj instanceof Vector) {

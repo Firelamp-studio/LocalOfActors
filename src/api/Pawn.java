@@ -6,6 +6,11 @@ import api.utility.TimerAction;
 import api.utility.Vector;
 import game.maps.BarMap;
 
+/**
+ * Un Pawn aggiunge all'Actor la capacit&agrave; di muoversi all'interno di una {@link AreaMap}.
+ *
+ * @author Simone Russo
+ */
 public abstract class Pawn extends Actor {
 	private TimerAction moveTimer;
 	private int xSteps;
@@ -24,6 +29,12 @@ public abstract class Pawn extends Actor {
 		moveTimer = new TimerAction(true, delay, this, "pawn-walking-loop");
 	}
 
+	/**
+	 * Permette di muovere il Pawn nella posizione indicata e di eseguire un'Azione appena sar&agrave; arrivato.
+	 * @param location Posizione verso cui spostarsi.
+	 * @param actionCaller Azione da eseguire una volta arrivato.
+	 * @param args Argomenti da passare all'azione.
+	 */
 	public final void moveTo(Vector location, String actionCaller, Object... args) {
 		walkingSteps = 0;
 		Vector diff = getLocation().difference(location);
@@ -72,9 +83,12 @@ public abstract class Pawn extends Actor {
 		moveTo(element, null);
 	}
 
+	/**
+	 * Calcola il prossimo spostamento che il Pawn dovr&agrave; effettuare ruotandolo verso l'obbietivo e se &egrave; arrivato a destinazione.
+	 */
 	@ActionCallable(name = "pawn-walking-loop")
 	public void pawnWalkingLoop(String actionCaller, Vector location, int xModule, int yModule, int xIncr, int yIncr) {
-		if(moveTimer == null || !moveTimer.isAlive() || moveTimer.getKillRequested())
+		if(moveTimer == null || !moveTimer.isAlive() || moveTimer.isKillRequested())
 			return;
 
 		walkingSteps++;

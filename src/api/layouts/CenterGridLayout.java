@@ -3,6 +3,11 @@ package api.layouts;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ * Un'espanzione del GridLayout che permette di aggiungere dei componenti ad una griglia potendone anche impostare i rapporto in scala.
+ *
+ * @author Simone Russo
+ */
 public class CenterGridLayout extends GridLayout implements LayoutManager2{
     HashMap<Component, GridConstraints> compTable;
 

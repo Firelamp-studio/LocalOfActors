@@ -11,7 +11,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Sprite extends JLabel{
+/**
+ * Una Sprite &egrave; un {@link JComponent} gi&agrave; pronto di un immagine ottenibile tramite path.
+ *
+ * <p> Presenta tutte le funzionalit&agrave; che possono tornare utile ad un'immagine come rotazione, sposatmento e
+ * scala; ed &egrave; direttamente posizionabile all'interno di una {@link api.AreaMap} o attacabile ad un {@link api.Element}.
+ *
+ * @author Simone Russo
+ */
+public class Sprite extends JComponent{
 	private BufferedImage image;
 	private double scale;
 	private Rotator rotator;

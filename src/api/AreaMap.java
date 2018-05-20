@@ -5,6 +5,9 @@ import api.utility.Vector;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * L'AreaMap &egrave; il luogo in cui vengono inseriti tutti gli elementi di una scena: {@link JComponent} o {@link Element}.
+ */
 public abstract class AreaMap {
 	private JLayeredPane viewArea;
     private Vector mapSize;

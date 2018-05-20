@@ -1,5 +1,10 @@
 package api.layouts;
 
+/**
+ * Constraints per il {@link CenterGridLayout}.
+ *
+ * @author Simone Russo
+ */
 public class GridConstraints {
 	
     public boolean isResizing;

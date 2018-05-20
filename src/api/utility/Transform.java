@@ -1,5 +1,10 @@
 package api.utility;
 
+/**
+ * Un aggregato di un {@link Vector} e un {@link Rotator}.
+ *
+ * @author Simone Russo
+ */
 public class Transform {
     public Vector location;
     public Rotator rotation;

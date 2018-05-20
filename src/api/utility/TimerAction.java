@@ -5,6 +5,15 @@ import api.Actor;
 
 import java.lang.reflect.Method;
 
+/**
+ * Un TimerAction non &egrave; altro che un timer che, alla fine del ritardo impostatogli, esegue un'{@link ActionCallable} ad un {@link Actor}.
+ *
+ * <p>Esso viene seguito parallemente al chiamante senza bloccare il thread principale di chi lo ha eseguito.
+ *
+ * <p>Il timer pu&ograve; essere anche un loop che chiama ripetutamente l'azione passata.
+ *
+ * @author Simone Russo
+ */
 public class TimerAction implements Runnable {
     private Thread timerThread;
     private Actor actorToCall;
@@ -15,6 +24,13 @@ public class TimerAction implements Runnable {
     private boolean killRequested;
     private Object[] args;
 
+    /**
+     * Costruisce il timer.
+     * @param loop Se deve o no essere un loop.
+     * @param delay Il ritardo prima di eseguire l'azione.
+     * @param actorToCall L'attore a cui chiamare l'azione.
+     * @param actionName Il nome dell'azione da eseguire dopo il ritardo.
+     */
     public TimerAction(boolean loop, long delay, Actor actorToCall, String actionName) {
         this.delay = delay;
         this.loop = loop;
@@ -39,7 +55,10 @@ public class TimerAction implements Runnable {
         this(false, delay, actorToCall, actionName);
     }
 
-
+    /**
+     * Esegue il timer che, dopo il ritardo, attiver&agrave; l'azione.
+     * @param args gli argomenti da passare all'azione.
+     */
     public void execute(Object... args) {
         this.args = args;
         if (actionName != null && !actionName.isEmpty()) {
@@ -52,7 +71,9 @@ public class TimerAction implements Runnable {
         }
     }
 
-
+    /**
+     * Serve soprattutto in caso in cui il timer sia un loop. ferma il timer.
+     */
     public void kill() {
         killRequested = true;
         if (timerThread != null) {
@@ -60,6 +81,10 @@ public class TimerAction implements Runnable {
         }
     }
 
+    /**
+     * Verifica se il timer &egrave; in stato di esecuzione.
+     * @return
+     */
     public boolean isAlive() {
         if(timerThread != null)
             return timerThread.isAlive();
@@ -80,7 +105,11 @@ public class TimerAction implements Runnable {
         } while (loop && timerThread.isAlive());
     }
 
-    public boolean getKillRequested(){
+    /**
+     * Controlla se &egrave; stata effettuata la richiesta di kill al timer.
+     * @return true se &egrave; stata effettuata la richiesta, false in caso contrario.
+     */
+    public boolean isKillRequested(){
         return killRequested;
     }
 }

@@ -4,7 +4,6 @@ import api.annotations.*;
 import api.managers.EventManager;
 import api.managers.EventManagerTool;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,7 +12,6 @@ import java.time.Instant;
 import java.util.*;
 
 /**
- *
  * La classe {@code Actor} &egrave; la base di questa libreria,
  * estenderla permette di creare oggetti che possono essere eseguiti parallelamente ad altri evitando tutti i
  * problemi legati alla simultaneit&agrave; dei processi.
@@ -52,44 +50,61 @@ import java.util.*;
  * <p>Definire una {@code azione chiamabile} &egrave; molto semplice, basta inserire
  * {@code @ActionCallable(name = "[nome_da_dare_all'azione]")} prima di definire un metodo.
  *
- * <p>Prima di portare l'esempio della bottiglia, facciamone uno pi&ugrave; semplice:<br>
- *     Marco deve saltare ogni volta che qualcuno glielo chiede;
- *     Alessia e Andrea effettuano la richiesta in contemporanea.
- *     Vediamo come scrivere questo programmino utilizzando gli {@code Actor}.
+ * <p>Portiamo un esempio semplice:<br>
+ *     Una classe A deve incrementare una sua variabile quando un'altra glielo chiede.
  *     <br><strong>Esempio:</strong>
  *
  *     <pre>
- *         public class Person extends Actor {
+ *         public class A extends Actor {
  *
- *              &#064;ActionCallable(name = "salta")
- *              public void salta(){
- *                  System.out.println("Salto!");
+ *              private int num;
+ *
+ *              public A(){
+ *                  num = 0;
  *              }
  *
- *              public void sayToJump(Person person){
- *                  actionCall(person, "salta");
+ *              &#064;ActionCallable(name = "incrementa")
+ *              public void incrementaCall(){
+ *                  num++;
+ *                  System.out.println("Var: " + num);
+ *              }
+ *
+ *              public void incrementaVariabileDi(Person person){
+ *                  actionCall(person, "incrementa");
  *              }
  *         }
  *
  *         public class Main {
  *             public static void main(String[] args){
- *                  Person marco = new Person();
- *                  Person alessia = new Person();
- *                  Person andrea = new Person();
+ *                  A a = new A();
+ *                  A a1 = new A();
+ *                  A a2 = new A();
  *
- *                  alessia.sayToJump(marco); //Dice a Marco di saltare.
- *                  andrea.sayToJump(marco); //Dice a Marco di saltare.
- *
- *                  // Marco salter&agrave; appena potr&agrave;.
+ *                  a1.incrementaVariabileDi(a);
+ *                  a2.incrementaVariabileDi(a);
+ *                  a1.incrementaVariabileDi(a);
  *             }
  *         }
+ *
+ *
+ *
+ *         <i>
+ *            L'ordine degli output potrebbe variare dato che stiamo parlando di piu processi.
+ *
+ *            Output:
+ *              Var: 1
+ *              Var: 2
+ *              Var: 3
+ *         </i>
+ *
+ *
  *     </pre>
  *
  * <p>Una {@code azione} pu&ograve; anche ottenere una risposta ({@link ActionResponse}), che verr&agrave; eseguita
  * dopo che quella chiamata avr&agrave; completato la sua esecuzione.
  *
  * <p>Una {@code azione di risposta} si definisce cos&igrave;:<br>
- * {@code @ActionResponse(name = "[nome_data_all'azione_che_risponder&agrave;]")} prima di definire un metodo.
+ * {@code @ActionResponse(name = "[nome_data_all'azione_che_rispondera]")} prima di definire un metodo.
  *
  * <p>In una {@link ActionResponse} si pu&ograve; inserire, volendo, un <strong>solo</strong> parametro, esso
  * otterr&agrave; il valore di ritorno della {@code Azione} chiamata.
@@ -97,116 +112,149 @@ import java.util.*;
  * <br><strong>Esempio:</strong>
  *
  *     <pre>
- *         public class Person extends Actor {
- *              private boolean hasBottle;
+ *         public class A extends Actor {
  *
- *              public Person ( boolean hasBottle ){
- *                  this.hasBottle = hasBottle;
+ *              private int num;
+ *
+ *              public A(){
+ *                  num = 0;
  *              }
  *
- *              &#064;ActionCallable(name = "chiedi-usa-bottiglia")
- *              public boolean usaBottigliaPoiRestituisci(){
- *                  if(hasBottle){
- *                      System.out.println("Bevo dalla bottiglia in prestito!");
- *                      hasBottle = false;
- *                      return true;
- *                  }
- *                  return false;
+ *              &#064;ActionCallable(name = "incrementa")
+ *              public int incrementaCall(){
+ *                  // Visualizzia il valore prima che venga incrementato
+ *                  System.out.println("Var: " + num);
+ *
+ *                  num++;
+ *                  return num;
  *              }
  *
- *              &#064;ActionResponse(name = "chiedi-usa-bottiglia")
- *              public void ottieniBottiglia(boolean bottle){
- *                  if(bottle){
- *                      System.out.println("Sono riuscito a bere dalla bottiglia prestata!);
- *                  } else {
- *                      System.out.println("Purtroppo la persona a cui ho chiesto non aveva bottiglie!);
- *                  }
+ *              &#064;ActionResponse(name = "incrementa")
+ *              public void incrementaResp(int val){
+ *                  // Visualizzia il valore presente dopo la modifica
+ *                  System.out.println("Ottenuto: " + val);
  *              }
  *
- *              public void obtainBottleFrom(Person person){
- *                  actionCall(person, "chiedi-usa-bottiglia");
+ *              public void incrementaVariabileDi(Person person){
+ *                  actionCall(person, "incrementa");
  *              }
  *         }
  *
  *         public class Main {
  *             public static void main(String[] args){
- *                  Person p1 = new Person(true);
- *                  Person p2 = new Person(false);
- *                  Person p3 = new Person(false);
+ *                  A a = new A();
+ *                  A a1 = new A();
+ *                  A a2 = new A();
  *
- *                  p2.obtainBottleFrom(p1); //Otterr&agrave; la bottiglia.
- *                  p3.obtainBottleFrom(p1); //Non otterr&agrave; la bottiglia.
+ *                  a1.incrementaVariabileDi(a);
+ *                  a2.incrementaVariabileDi(a);
+ *                  a1.incrementaVariabileDi(a);
  *             }
  *         }
- *     </pre>
  *
  *
  *
+ *         <i>
+ *            L'ordine degli output potrebbe variare dato che stiamo parlando di piu processi.
+ *
+ *            Output:
+ *              Var: 0
+ *              Ottenuto: 1
+ *              Var: 1
+ *              Ottenuto: 2
+ *              Var: 2
+ *              Ottenuto: 3
+ *         </i>
  *
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *     <pre>
- *         public class Person extends Actor {
- *              private boolean hasBottle;
- *
- *              public Person ( boolean hasBottle ){
- *                  this.hasBottle = hasBottle;
- *              }
- *
- *              &#064;ActionCallable(name = "chiedi-usa-bottiglia")
- *              public boolean usaBottigliaPoiRestituisci(){
- *                  if(hasBottle){
- *                      System.out.println("Bevo dalla bottiglia in prestito!");
- *                      hasBottle = false;
- *                      return true;
- *                  }
- *                  return false;
- *              }
- *
- *              &#064;ActionResponse(name = "chiedi-usa-bottiglia")
- *              public void ottieniBottiglia(boolean bottle){
- *                  if(bottle){
- *                      System.out.println("Sono riuscito a bere dalla bottiglia prestata!);
- *                  } else {
- *                      System.out.println("Purtroppo la persona a cui ho chiesto non aveva bottiglie!);
- *                  }
- *              }
- *
- *              public void obtainBottleFrom(Person person){
- *                  actionCall(person, "chiedi-usa-bottiglia");
- *              }
- *         }
- *
- *         public class Main {
- *             public static void main(String[] args){
- *                  Person p1 = new Person(true);
- *                  Person p2 = new Person(false);
- *                  Person p3 = new Person(false);
- *
- *                  p2.obtainBottleFrom(p1); //Otterr&agrave; la bottiglia.
- *                  p3.obtainBottleFrom(p1); //Non otterr&agrave; la bottiglia.
- *             }
- *         }
  *     </pre>
  *
  * <p>In fine esiste la possibilit&agrave; di effetuare una chiamata d'azione che verr&agrave; per&ograve; eseguita
  * soltanto quando il ricevente vorr&agrave;.
  *
- * <p>Questo si pu&ugrave; effetuare tramite {@link #actionCallOnNotify(Actor, String, Object...) actionCallOnNotify()}.
+ * <p>Questo si pu&ograve; effetuare tramite {@link #actionCallOnNotify(Actor, String, Object...) actionCallOnNotify()}.
+ *
+ * <p>Anche in questo esmpio incrementeremo la variabile di una classe ad una richiesta. Questa sar&agrave; per&ograve;
+ * incrementata soltanto quando gli verr&agrave; esplicitamente detto di eseguire la prossima Azione.
+ * <br><strong>Esempio:</strong>
+ *
+ *
+ *     <pre>
+ *         public class A extends Actor {
+ *
+ *              private int num;
+ *              private String nome;
+ *
+ *              public A(String nome){
+ *                  this.nome = nome;
+ *
+ *                  num = 0;
+ *              }
+ *
+ *              &#064;ActionCallable(name = "incrementa")
+ *              public int incrementaCall(){
+ *                  System.out.println(nome + " - var: " + num);
+ *
+ *                  num++;
+ *                  return num;
+ *              }
+ *
+ *              &#064;ActionResponse(name = "incrementa")
+ *              public void incrementaResp(int val){
+ *                  System.out.println(nome + " - ottenuto: " + val);
+ *              }
+ *
+ *              public void incrementaVariabileDi(Person person){
+ *                  // Al posto di una normale "actionCall()" viene eseguita una "actionCallOnNotify()" che aggiunge l'azione in una sorta di lista di attesa.
+ *                  actionCallOnNotify(person, "incrementa");
+ *              }
+ *
+ *              public void eseguiProssimaRichiesta(){
+ *                  // Eseguira la prossima azione di nome "incrementa".
+ *                   notifyNextAction("incrementa");
+ *
+ *                   // Avremmo anche potuto utilizzare notifyNextAction() senza indicare il nome dell'azione dato che, tranne "incrementa", non ci sono altre azioni che potrebbero essere notificate.
+ *              }
+ *         }
+ *
+ *         public class Main {
+ *             public static void main(String[] args){
+ *                  A a = new A("A");
+ *                  A a1 = new A("A1");
+ *                  A a2 = new A("A2");
+ *
+ *                  a.incrementaVariabileDi(a1);
+ *                  a1.incrementaVariabileDi(a2);
+ *                  a2.incrementaVariabileDi(a);
+ *                  a1.incrementaVariabileDi(a);
+ *
+ *                  a.eseguiProssimaRichiesta();
+ *                  a1.eseguiProssimaRichiesta();
+ *                  a2.eseguiProssimaRichiesta();
+ *                  a.eseguiProssimaRichiesta();
+ *             }
+ *         }
+ *
+ *
+ *
+ *         <i>
+ *            L'ordine degli output potrebbe variare dato che stiamo parlando di piu processi.
+ *
+ *            Output:
+ *              A - var: 0
+ *              A2 - ottenuto: 1
+ *              A1 - var: 0
+ *              A - ottenuto: 1
+ *              A2 - var: 0
+ *              A1 - ottenuto: 1
+ *              A - var: 1
+ *              A1 - ottenuto: 2
+ *         </i>
+ *
+ *
+ *     </pre>
+ *
+ * <p>Quest'ultimo esempio &egrave; da analizzare molto attentamente in modo da capire tutte le funzionalit&agrave; base degli Actor.
  *
  * <p>&Egrave; facile notare come questo paradigma sia molto pi&ugrave; semplice da comprendere rispetto al classico
  * sistema a {@code Thread}, che necessita la comprensione del funzionamento a basso livello della macchina, l'utilizzo
@@ -570,7 +618,10 @@ public abstract class Actor extends Element implements Runnable, EventManager {
     protected void tick(long deltaTime){
 
     }
-    
+
+    /**
+     * Viene eseguito appena l'Actor &egrave; stato aggiunto con successo ad una {@link AreaMap}.
+     */
     protected void beginPlay(){
 
     }
@@ -579,6 +630,9 @@ public abstract class Actor extends Element implements Runnable, EventManager {
 
     }
 
+    /**
+     * "Distrugge" tutto quello che &egrave; associato a questo actor.
+     */
     public void disposeActor(){
         setActionsStopped(true);
         setTickStopped(true);
@@ -586,10 +640,11 @@ public abstract class Actor extends Element implements Runnable, EventManager {
         getSprite().setVisible(false);
         getAreaMap().getViewArea().remove(getSprite());
 
-        for(JComponent comp : getAttachedComps()){
-            comp.setVisible(false);
-            getAreaMap().getViewArea().remove(comp);
-            comp = null;
+        JComponent[] attachedComps = getAttachedComps();
+        for(int i = 0; i < attachedComps.length; i++){
+            attachedComps[i].setVisible(false);
+            getAreaMap().getViewArea().remove(attachedComps[i]);
+            attachedComps[i] = null;
         }
     }
 }

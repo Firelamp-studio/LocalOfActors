@@ -10,6 +10,13 @@ import java.util.Set;
 
 import api.annotations.BindableEvent;
 
+/**
+ * Se si implementa ad una classe l'interfaccia {@link EventManager}, bisogna inserire anche questo componente che
+ * permette di creare dei delegate method che eseguiranno le funzioni di questa classe.
+ *
+ * @author Simone Russo
+ * @see EventManager
+ */
 public class EventManagerTool {
 	private final List<Method> bindableMethods;
 	private Set<EventManager> eventManagers;

@@ -6,11 +6,20 @@ import api.layouts.CenterGridLayout;
 
 import java.awt.*;
 
+/**
+ * Un JFrame creato apposta per inserire al suo interno un'{@link AreaMap}.
+ *
+ * @author Simone Russo
+ */
 public class Window {
     private AreaMap areaMap;
     private JFrame mapFrame;
-    
 
+
+    /**
+     * Costruisce il JFrame posizionando la Mappa perfettamndo al centro dell'area.
+     * @param areaMap
+     */
     public Window(AreaMap areaMap){
         this.areaMap = areaMap;
         
