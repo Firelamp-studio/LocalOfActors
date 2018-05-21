@@ -34,6 +34,10 @@ public class Barrel extends Actor {
         barrelInfo = new BarrelInfo(new Vector(110, 30), mlWine);
     }
 
+
+
+    
+
     @Override
     protected void beginPlay() {
         super.beginPlay();
