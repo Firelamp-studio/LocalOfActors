@@ -130,8 +130,8 @@ import api.utility.Transform;
      * {@link Customer#entryCounterLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
      * {@link Customer#entryCashdeskLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement}.
      *
-     * <p>Quando arriva un {@code Customer}, imposta la variabile {@link #modifyEnabled} vera se la coda non &egrave; vuota e se il {@code Customer}
-     * &egrave; il primo in coda
+     * <p>Quando arriva un {@code Customer}, imposta la variabile {@link #modifyEnabled} vera se la coda non &egrave;
+     * vuota e se il {@code Customer} &egrave; il primo in coda
      *
      * @param customer {@code Customer} da controllare che sia il primo in coda
      */
@@ -143,11 +143,17 @@ import api.utility.Transform;
     }
 
     /**
-     * Azione chiamata da {}.
-     * TODO
+     * Azione chiamata da {@link EntryDoor#tick(long) EntryDoor.tick}, {@link Counter#tick(long) Counter.tick}.
      *
-     * @param actionAfterUpdateQueueLocation TODO
-     * @return TODO
+     * <p>Ogni tick {@link EntryDoor} e {@link Counter} chiamano la coda e se possibile manda un {@link Customer} alla
+     * posizione successiva.
+     *
+     * <p>Una volta che il {@link Customer} sarà arrivato chiamerà l'azione che è stata passata come parametro a questa
+     * funzione e quest'ultima restituirà il {@link Customer} che ha lasciato la coda.
+     *
+     * @param actionAfterUpdateQueueLocation azione che deve essere chiamata quando il {@link Customer} sarà arrivato
+     *                                       a destinazione
+     * @return il customer che ha lasciato la coda
      */
     @ActionCallable(name = "dequeue-customer")
     public Customer dequeueCustomer(String actionAfterUpdateQueueLocation) {
@@ -176,11 +182,13 @@ import api.utility.Transform;
     }
 
     /**
-     * Azione chiamata da {}.
-     * TODO
+     * Metodo astratto che ha la funzione di restituire il {@link Transform} di un {@link Customer} nella coda.
      *
-     * @param customer TODO
-     * @return TODO
+     * <p>Siccome le code potrebbero avere diversi tipi di disposizione, qualsiasi classe estenda questa (Come
+     * {@link LocalTail} e {@link CounterTail}) definiranno questo metodo
+     *
+     * @param customer il {@link Customer} di cui dovranno trovare la posizione
+     * @return il {@link Transform} del {@link Customer} passato
      */
     protected abstract Transform getPersonTransformInQueue(Customer customer);
 }
