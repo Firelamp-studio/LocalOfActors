@@ -9,10 +9,15 @@ import api.utility.Transform;
 
 
 /**
- * Questa &egrave; la classe astratta coda, che si occupa di gestire una lista di
- * {@link Customer} nel posizionamento logico e grafico.
+ * La classe {@code Tail} &egrave; la classe generale che permette di gestire tutte le code.4
  *
- * <p>Questa classe &egrave; derivata di {@link Actor}.
+ * <p>Estenderla permette di creare una coda che raccolga {@link game.actors.Customer Customer}, e che si possa
+ * interfacciare con altri {@link api.Actor Actor} al fine di passargli in gestione i {@link game.actors.Customer Customer}
+ * che contiene.
+ *
+ * <p>{@code Tail} si occupa anche di gestire l'aspetto grafico di una coda.
+ *
+ * <p>Questa classe &egrave; derivata di {@link api.Actor Actor}.
  *
  * @author  Lorenzo Pecchio
  * @see     Actor
@@ -21,7 +26,7 @@ import api.utility.Transform;
  * @see     CashDesk
  * @since 1.0
  */
-public abstract class Tail extends Actor {
+ public abstract class Tail extends Actor {
     /**
      * Lista di persone in coda.
      */
