@@ -126,7 +126,7 @@ import api.utility.Transform;
     }
 
     /**
-     * Azione chiamata da {@link Customer#entryLocalLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
+     * {@link ActionCallable} chiamata da {@link Customer#entryLocalLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
      * {@link Customer#entryCounterLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement},
      * {@link Customer#entryCashdeskLineEndMovement(Rotator) Customer.entryCashdeskLineEndMovement}.
      *
