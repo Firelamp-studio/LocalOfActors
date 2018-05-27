@@ -143,7 +143,7 @@ import api.utility.Transform;
     }
 
     /**
-     * Azione chiamata da {@link EntryDoor#tick(long) EntryDoor.tick}, {@link Counter#tick(long) Counter.tick}.
+     * {@link ActionCallable} chiamata da {@link EntryDoor#tick(long) EntryDoor.tick}, {@link Counter#tick(long) Counter.tick}.
      *
      * <p>Ogni tick {@link EntryDoor} e {@link Counter} chiamano la coda e se possibile manda un {@link Customer} alla
      * posizione successiva.
@@ -169,7 +169,7 @@ import api.utility.Transform;
     }
 
     /**
-     * Azione chiamata da {}.
+     * {@link ActionCallable} chiamata da {}.
      * TODO
      *
      * @param customer TODO
