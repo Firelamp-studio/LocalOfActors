@@ -169,13 +169,12 @@ import api.utility.Transform;
     }
 
     /**
-     * {@link ActionCallable} chiamata da {}.
-     * TODO
+     * Metodo usato dalle figlie che inserisce il {@link Customer} nella coda e gli ritorna la posizione a cui si
+     * deve posizionare.
      *
-     * @param customer TODO
-     * @return TODO
+     * @param customer {@link Customer} da inserire
+     * @return posizione nel quale andare
      */
-    @ActionCallable(name = "enqueue-customer")
     protected final Transform enqueueCustomer(Customer customer) {
         addToTail(customer);
         return getPersonTransformInQueue(customer);
